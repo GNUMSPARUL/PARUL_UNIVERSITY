@@ -5,8 +5,19 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <title>Semester 3 Detail | Elite Portal</title>
 
+  <!-- PWA Manifest -->
+  <link rel="manifest" href="manifest.json">
+
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+
+  <!-- Secure Hardware Back-Button Interception -->
+  <script>
+    window.history.pushState({ noBackExitsApp: true }, '');
+    window.addEventListener('popstate', function(event) {
+        window.location.replace('dashboard.html'); 
+    });
+  </script>
 
   <style>
     :root {
@@ -216,6 +227,21 @@
 
     </div>
   </div>
+
+  <!-- Service Worker Registration for PWA Installability -->
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('sw.js')
+          .then((registration) => {
+            console.log('Service Worker registration successful with scope: ', registration.scope);
+          })
+          .catch((err) => {
+            console.error('Service Worker registration failed: ', err);
+          });
+      });
+    }
+  </script>
 
 </body>
 </html>
