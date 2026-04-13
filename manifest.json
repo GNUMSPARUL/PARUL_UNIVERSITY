@@ -1,7 +1,7 @@
 {
   "name": "PNUMS Elite Student Portal",
   "short_name": "PNUMS",
-  "start_url": "index.html", 
+  "start_url": "index.html",
   "display": "standalone",
   "orientation": "portrait",
   "background_color": "#f8fafc",
