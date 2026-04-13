@@ -5,13 +5,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <title>Attendance | Elite Portal</title>
   
-  <!-- PWA Manifest -->
-  <link rel="manifest" href="manifest.json">
+  <link rel="manifest" href="../manifest.json">
 
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
 
-  <!-- Secure Hardware Back-Button Interception -->
   <script>
     window.history.pushState({ noBackExitsApp: true }, '');
     window.addEventListener('popstate', function(event) {
@@ -44,7 +42,6 @@
       -webkit-font-smoothing: antialiased;
     }
 
-    /* --- NAV --- */
     nav {
       position: sticky; top: 0; z-index: 1000;
       background: var(--glass); backdrop-filter: blur(15px);
@@ -61,7 +58,6 @@
 
     .nav-title { font-weight: 800; font-size: 1.1rem; letter-spacing: -0.5px; }
 
-    /* --- CONTENT --- */
     .container { padding: 20px 5%; max-width: 900px; margin: 0 auto; }
 
     .att-card {
@@ -83,7 +79,6 @@
     .stat-tile label { display: block; font-size: 0.6rem; font-weight: 800; text-transform: uppercase; margin-bottom: 4px; }
     .stat-tile span { font-weight: 700; font-size: 1.1rem; }
 
-    /* --- TOGGLE --- */
     .toggle-buttons { display: flex; gap: 10px; margin-bottom: 20px; }
     .toggle-btn {
       flex: 1; padding: 14px; border-radius: 20px; border: 1px solid var(--glass-border);
@@ -95,7 +90,6 @@
       background: var(--text-main); color: white; border-color: var(--text-main);
     }
 
-    /* --- TABLE (DAY WISE) --- */
     #daySection {
       background: var(--glass); backdrop-filter: blur(10px);
       border: 1px solid var(--glass-border); border-radius: 28px;
@@ -125,7 +119,6 @@
     .pill-a { background: #fee2e2; color: var(--danger); }
     .pill-n { background: #f1f5f9; color: var(--text-muted); opacity: 0.4; }
 
-    /* --- SUBJECT GRID (SUBJECT WISE) --- */
     .subject-grid { 
       display: none; 
       grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); 
@@ -203,7 +196,6 @@ const attendanceData = {
   "2026-03-09": ["P","P","P","P","P"],
   "2026-03-06": ["A","A","A","A","A"],
   "2026-03-05": ["A","P","P","P","-"],
-  "2026-03-02": ["A","A","A","A","-"],
   "2026-03-02": ["P","A","A","A","-"],
   "2026-02-28": ["P","P","P","P","-"],
   "2026-02-27": ["P","P","P","P","-"],
@@ -260,7 +252,6 @@ const attendanceData = {
   "2025-11-24": ["P","P","P","-","-"]
 };
 
-// EXPLICIT SUBJECT LIST: LECTURES & LABS
 const subjectsData = [
   { name: "Operating Systems", type: "Lecture", p: 27, t: 35 },
   { name: "Operating Systems Lab", type: "Laboratory", p: 8, t: 10 },
@@ -280,7 +271,6 @@ function calculateAndRender() {
     let p = 0, total = 0;
     const body = document.getElementById('tableBody');
     
-    // Process Day Wise
     Object.entries(attendanceData).forEach(([date, slots]) => {
         const d = new Date(date);
         const row = document.createElement('div');
@@ -299,7 +289,6 @@ function calculateAndRender() {
     document.getElementById('presentCount').innerText = p;
     document.getElementById('absentCount').innerText = total - p;
 
-    // Process Subject Wise
     const subGrid = document.getElementById('subSection');
     subjectsData.forEach(item => {
         const pct = ((item.p / item.t) * 100).toFixed(1);
@@ -332,17 +321,15 @@ function toggleView(v) {
 }
 
 calculateAndRender();
-<script>
-  if ('serviceWorker' in navigator) {
-    window.addEventListener('load', () => {
-      // Step out of the student/ folder to find sw.js in the root
-      navigator.serviceWorker.register('../sw.js', { scope: '../' })
-        .then((reg) => {
-          console.log('PWA linked successfully from sub-page:', reg.scope);
-        })
-        .catch((err) => {
-          console.error('PWA link failed from sub-page:', err);
-        });
-    });
-  }
+
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('../sw.js', { scope: '../' })
+      .then((reg) => console.log('SW linked from Attendance:', reg.scope))
+      .catch((err) => console.error('SW link failed:', err));
+  });
+}
 </script>
+
+</body>
+</html>
