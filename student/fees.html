@@ -2,9 +2,8 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdn.jsdelivr.net; font-src https://fonts.gstatic.com https://cdn.jsdelivr.net; script-src 'self' 'unsafe-inline';">
-  <title>Executive Fee Dashboard | ERP</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fee Ledger | Executive View</title>
   
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -15,7 +14,6 @@
       --brand-primary: #4f46e5;
       --brand-dark: #0f172a;
       --bg-slate: #f8fafc;
-      --glass-white: rgba(255, 255, 255, 0.9);
       --success: #10b981;
       --border-color: #e2e8f0;
       --text-main: #1e293b;
@@ -31,7 +29,6 @@
       -webkit-font-smoothing: antialiased;
     }
 
-    /* --- PREMIUM TOP NAV --- */
     .topbar {
       background: var(--brand-dark);
       padding: 0 20px;
@@ -41,15 +38,13 @@
       position: sticky;
       top: 0;
       z-index: 1000;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
     }
 
-    .btn-back { color: white; font-size: 1.5rem; margin-right: 15px; text-decoration: none; }
     .page-title { color: white; font-weight: 700; font-size: 1.1rem; letter-spacing: -0.5px; }
 
-    .container { max-width: 1100px; margin: 0 auto; padding: 25px 15px; }
+    .container { max-width: 900px; margin: 0 auto; padding: 25px 15px; }
 
-    /* --- EXECUTIVE SUMMARY CARD --- */
+    /* --- TOP SUMMARY CARD --- */
     .summary-card {
       background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
       border-radius: 24px;
@@ -57,45 +52,36 @@
       color: white;
       margin-bottom: 35px;
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 30px;
-      position: relative;
-      overflow: hidden;
-      box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1);
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 20px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.1);
     }
 
-    .summary-card::after {
-      content: ""; position: absolute; right: -50px; bottom: -50px;
-      width: 200px; height: 200px; background: rgba(79, 70, 229, 0.2);
-      filter: blur(60px); border-radius: 50%;
-    }
-
-    .stat-box .label { font-size: 0.75rem; text-transform: uppercase; opacity: 0.7; letter-spacing: 1px; margin-bottom: 8px; display: block; }
-    .stat-box .value { font-size: 1.75rem; font-weight: 800; }
+    .stat-box .label { font-size: 0.7rem; text-transform: uppercase; opacity: 0.7; letter-spacing: 1px; margin-bottom: 5px; display: block; }
+    .stat-box .value { font-size: 1.5rem; font-weight: 800; }
     .stat-box .value.success { color: #34d399; }
 
-    /* --- NAVIGATION TABS --- */
-    .premium-tabs {
+    /* --- SECTION TABS --- */
+    .tabs {
       display: flex;
       gap: 10px;
       background: #e2e8f0;
-      padding: 6px;
-      border-radius: 14px;
+      padding: 5px;
+      border-radius: 12px;
       margin-bottom: 25px;
-      width: fit-content;
     }
 
     .tab-btn {
-      padding: 10px 24px;
+      flex: 1;
+      padding: 12px;
       border: none;
       background: transparent;
       font-family: inherit;
       font-weight: 700;
-      font-size: 0.9rem;
       cursor: pointer;
-      border-radius: 10px;
+      border-radius: 9px;
       color: var(--text-muted);
-      transition: all 0.3s ease;
+      transition: 0.2s;
     }
 
     .tab-btn.active {
@@ -104,240 +90,189 @@
       box-shadow: 0 4px 10px rgba(0,0,0,0.05);
     }
 
-    /* --- TRANSACTION BLOCKS --- */
-    .view-section { display: none; animation: fadeIn 0.4s ease forwards; }
+    /* --- CONTENT AREA --- */
+    .view-section { display: none; }
     .view-section.active { display: block; }
+
+    .year-label {
+      font-size: 0.8rem;
+      font-weight: 800;
+      color: var(--text-muted);
+      margin: 25px 0 15px 5px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .year-label::after { content: ""; flex: 1; height: 1px; background: var(--border-color); }
 
     .fee-card {
       background: white;
       border: 1px solid var(--border-color);
-      border-radius: 20px;
-      padding: 24px;
-      margin-bottom: 20px;
-      transition: transform 0.2s ease;
+      border-radius: 16px;
+      padding: 20px;
+      margin-bottom: 15px;
     }
-
-    .fee-card:hover { transform: translateY(-2px); border-color: var(--brand-primary); }
 
     .card-head {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 20px;
-      padding-bottom: 15px;
-      border-bottom: 1px solid var(--bg-slate);
+      margin-bottom: 15px;
     }
 
-    .card-head h3 { font-size: 1.1rem; font-weight: 700; color: var(--brand-dark); }
+    .card-head h3 { font-size: 1rem; font-weight: 700; }
 
-    .badge-premium {
+    .badge {
       background: #ecfdf5;
       color: var(--success);
-      padding: 6px 12px;
-      border-radius: 8px;
-      font-size: 0.7rem;
+      padding: 4px 10px;
+      border-radius: 6px;
+      font-size: 0.65rem;
       font-weight: 800;
       text-transform: uppercase;
-      border: 1px solid #d1fae5;
     }
 
-    .details-grid {
+    .details {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 20px;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 15px;
     }
 
-    .detail-item {
+    .d-item { display: flex; flex-direction: column; gap: 4px; }
+    .d-label { font-size: 0.6rem; color: var(--text-muted); text-transform: uppercase; font-weight: 700; }
+    .d-value { font-size: 0.85rem; font-weight: 600; }
+    .mono { font-family: monospace; color: var(--brand-primary); font-size: 0.8rem; }
+
+    /* --- TOTAL ROWS --- */
+    .year-total {
+      background: #f1f5f9;
+      padding: 15px 20px;
+      border-radius: 12px;
       display: flex;
-      flex-direction: column;
-      gap: 4px;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 30px;
+      border-left: 4px solid var(--brand-primary);
     }
 
-    .d-label { font-size: 0.65rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; }
-    .d-value { font-size: 0.9rem; font-weight: 600; color: var(--text-main); }
-    .d-value.mono { font-family: 'JetBrains Mono', monospace; font-size: 0.85rem; word-break: break-all; color: var(--brand-primary); }
-
-    @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-
-    @media (max-width: 600px) {
-      .summary-card { padding: 20px; gap: 20px; }
-      .stat-box .value { font-size: 1.4rem; }
-      .premium-tabs { width: 100%; }
-      .tab-btn { flex: 1; padding: 10px 5px; }
-    }
+    .total-label { font-size: 0.75rem; font-weight: 700; color: var(--text-main); }
+    .total-value { font-size: 1.1rem; font-weight: 800; color: var(--brand-dark); }
   </style>
 </head>
 <body>
 
   <nav class="topbar">
-    <a href="dashboard.html" class="btn-back"><i class="bi bi-arrow-left-short"></i></a>
-    <span class="page-title">FEES & TREASURY</span>
+    <span class="page-title">EXECUTIVE FEE DASHBOARD</span>
   </nav>
 
   <main class="container">
     
     <section class="summary-card">
       <div class="stat-box">
-        <span class="label">Aggregate Payable</span>
+        <span class="label">Total Payable</span>
         <div class="value">₹ 6,63,100</div>
       </div>
       <div class="stat-box">
-        <span class="label">Confirmed Paid</span>
+        <span class="label">Total Paid</span>
         <div class="value success">₹ 6,63,100</div>
       </div>
       <div class="stat-box">
-        <span class="label">Dues Outstanding</span>
+        <span class="label">Outstanding</span>
         <div class="value">₹ 0</div>
-      </div>
-      <div class="stat-box">
-        <span class="label">Status</span>
-        <div class="value" style="font-size: 1rem; color: #93c5fd;">ACCOUNTS SETTLED</div>
       </div>
     </section>
 
-    <div class="premium-tabs">
-      <button class="tab-btn active" onclick="showTab('college')">College Fees</button>
-      <button class="tab-btn" onclick="showTab('hostel')">Hostel Fees</button>
+    <div class="tabs">
+      <button class="tab-btn active" onclick="showTab('college', event)">College Fees</button>
+      <button class="tab-btn" onclick="showTab('hostel', event)">Hostel Fees</button>
     </div>
 
     <div id="college" class="view-section active">
+      <div class="year-label">ACADEMIC YEAR 2024-25</div>
+      
       <div class="fee-card">
-        <div class="card-head">
-          <h3>Semester 1 - Institutional</h3>
-          <span class="badge-premium">Settled</span>
-        </div>
-        <div class="details-grid">
-          <div class="detail-item">
-            <span class="d-label">Amount Paid</span>
-            <span class="d-value" style="font-size: 1.1rem; color: var(--brand-primary);">₹ 1,75,000</span>
-          </div>
-          <div class="detail-item">
-            <span class="d-label">UTR Number</span>
-            <span class="d-value mono">E2505300GV1JZK</span>
-          </div>
-          <div class="detail-item">
-            <span class="d-label">Method / Bank</span>
-            <span class="d-value">INTERNET BANKING (BANK OF BARODA)</span>
-          </div>
-          <div class="detail-item">
-            <span class="d-label">Gateway</span>
-            <span class="d-value">Easebuzz Secure</span>
-          </div>
+        <div class="card-head"><h3>Semester 1</h3><span class="badge">Settled</span></div>
+        <div class="details">
+          <div class="d-item"><span class="d-label">Paid</span><span class="d-value">₹ 1,75,000</span></div>
+          <div class="d-item"><span class="d-label">UTR</span><span class="d-value mono">E2505300GV1JZK</span></div>
+          <div class="d-item"><span class="d-label">Bank</span><span class="d-value">Bank of Baroda</span></div>
         </div>
       </div>
 
       <div class="fee-card">
-        <div class="card-head">
-          <h3>Semester 2 - Institutional</h3>
-          <span class="badge-premium">Settled</span>
+        <div class="card-head"><h3>Semester 2</h3><span class="badge">Settled</span></div>
+        <div class="details">
+          <div class="d-item"><span class="d-label">Paid</span><span class="d-value">₹ 1,75,000</span></div>
+          <div class="d-item"><span class="d-label">UTR</span><span class="d-value mono">YESB42053831238</span></div>
+          <div class="d-item"><span class="d-label">Bank</span><span class="d-value">Kotak Mahindra</span></div>
         </div>
-        <div class="details-grid">
-          <div class="detail-item">
-            <span class="d-label">Amount Paid</span>
-            <span class="d-value" style="font-size: 1.1rem; color: var(--brand-primary);">₹ 1,75,000</span>
-          </div>
-          <div class="detail-item">
-            <span class="d-label">UTR Number</span>
-            <span class="d-value mono">YESB42053831238</span>
-          </div>
-          <div class="detail-item">
-            <span class="d-label">Method / Bank</span>
-            <span class="d-value">NET BANKING (KOTAK MAHINDRA)</span>
-          </div>
-          <div class="detail-item">
-            <span class="d-label">Gateway</span>
-            <span class="d-value">Easebuzz Secure</span>
-          </div>
-        </div>
+      </div>
+
+      <div class="year-total">
+        <span class="total-label">YEAR TOTAL (2024-25)</span>
+        <span class="total-value">₹ 3,50,000</span>
       </div>
     </div>
 
     <div id="hostel" class="view-section">
+      
+      <div class="year-label">ACADEMIC YEAR 2024-25</div>
       <div class="fee-card">
-        <div class="card-head">
-          <h3>Tagore Bhawan - A (2024-25)</h3>
-          <span class="badge-premium">Settled</span>
+        <div class="card-head"><h3>Tagore Bhawan - A</h3><span class="badge">Settled</span></div>
+        <div class="details">
+          <div class="d-item"><span class="d-label">Paid</span><span class="d-value">₹ 1,19,500</span></div>
+          <div class="d-item"><span class="d-label">UTR</span><span class="d-value mono">413620336745</span></div>
         </div>
-        <div class="details-grid">
-          <div class="detail-item">
-            <span class="d-label">Mess & Room Total</span>
-            <span class="d-value">₹ 1,19,500</span>
-          </div>
-          <div class="detail-item">
-            <span class="d-label">UTR Reference</span>
-            <span class="d-value mono">413620336745</span>
-          </div>
-          <div class="detail-item">
-            <span class="d-label">Method / Bank</span>
-            <span class="d-value">UPI (BANK OF BARODA)</span>
-          </div>
-          <div class="detail-item">
-            <span class="d-label">Service Provider</span>
-            <span class="d-value">Easebuzz</span>
-          </div>
+      </div>
+      <div class="fee-card">
+        <div class="card-head"><h3>Security Deposit</h3><span class="badge">Settled</span></div>
+        <div class="details">
+          <div class="d-item"><span class="d-label">Paid</span><span class="d-value">₹ 5,000</span></div>
+          <div class="d-item"><span class="d-label">UTR</span><span class="d-value mono">E2506040568465N0</span></div>
         </div>
+      </div>
+      <div class="year-total">
+        <span class="total-label">YEAR TOTAL (2024-25)</span>
+        <span class="total-value">₹ 1,24,500</span>
       </div>
 
+      <div class="year-label">ACADEMIC YEAR 2025-26</div>
       <div class="fee-card">
-        <div class="card-head">
-          <h3>Tagore Bhawan - C (2025-26)</h3>
-          <span class="badge-premium">Settled</span>
+        <div class="card-head"><h3>Tagore Bhawan - C</h3><span class="badge">Settled</span></div>
+        <div class="details">
+          <div class="d-item"><span class="d-label">Paid</span><span class="d-value">₹ 1,27,000</span></div>
+          <div class="d-item"><span class="d-label">UTR</span><span class="d-value mono">E2506040H4G1TN</span></div>
         </div>
-        <div class="details-grid">
-          <div class="detail-item">
-            <span class="d-label">Mess & Room Total</span>
-            <span class="d-value">₹ 1,24,000</span>
-          </div>
-          <div class="detail-item">
-            <span class="d-label">UTR Reference</span>
-            <span class="d-value mono">E2506040H4G1TN</span>
-          </div>
-          <div class="detail-item">
-            <span class="d-label">Method / Bank</span>
-            <span class="d-value">NET BANKING (KOTAK MAHINDRA BANK)</span>
-          </div>
-          <div class="detail-item">
-            <span class="d-label">Service Provider</span>
-            <span class="d-value">Easebuzz</span>
-          </div>
-        </div>
+      </div>
+      <div class="year-total">
+        <span class="total-label">YEAR TOTAL (2025-26)</span>
+        <span class="total-value">₹ 1,27,000</span>
       </div>
 
+      <div class="year-label">ACADEMIC YEAR 2026-27</div>
       <div class="fee-card">
-        <div class="card-head">
-          <h3>Tagore Bhawan - C (2026-27)</h3>
-          <span class="badge-premium">Settled</span>
-        </div>
-        <div class="details-grid">
-          <div class="detail-item">
-            <span class="d-label">Mess & Room Total</span>
-            <span class="d-value">₹ 69,600</span>
-          </div>
-          <div class="detail-item">
-            <span class="d-label">UTR Reference</span>
-            <span class="d-value mono">E2603190VKTMRL</span>
-          </div>
-          <div class="detail-item">
-            <span class="d-label">Method / Bank</span>
-            <span class="d-value">UPI (INDIAN BANK)</span>
-          </div>
-          <div class="detail-item">
-            <span class="d-label">Finalized Date</span>
-            <span class="d-value">19-03-2026</span>
-          </div>
+        <div class="card-head"><h3>Tagore Bhawan - C</h3><span class="badge" style="background:#fef3c7; color:#92400e;">Partial</span></div>
+        <div class="details">
+          <div class="d-item"><span class="d-label">Paid</span><span class="d-value">₹ 61,600</span></div>
+          <div class="d-item"><span class="d-label">UTR</span><span class="d-value mono">E2603190VKTMRL</span></div>
         </div>
       </div>
+      <div class="year-total">
+        <span class="total-label">YEAR TOTAL (2026-27)</span>
+        <span class="total-value">₹ 61,600</span>
+      </div>
+
     </div>
-
   </main>
 
   <script>
-    function showTab(tabId) {
-      // Manage Buttons
+    function showTab(tabId, event) {
+      // Toggle Buttons
       document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
       event.currentTarget.classList.add('active');
 
-      // Manage Sections
+      // Toggle Sections
       document.querySelectorAll('.view-section').forEach(sec => sec.classList.remove('active'));
       document.getElementById(tabId).classList.add('active');
     }
