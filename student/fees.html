@@ -2,12 +2,14 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>Fee Ledger | Executive View</title>
   
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+
+  <script src="https://cdn.jsdelivr.net/npm/pinch-zoom-js@2.3.4/dist/pinch-zoom.min.js"></script>
 
   <style>
     :root {
@@ -129,16 +131,6 @@
       cursor: pointer; display: flex; align-items: center; gap: 6px; border: 1px solid #ddd6fe;
     }
 
-    .badge {
-      background: #ecfdf5;
-      color: var(--success);
-      padding: 4px 10px;
-      border-radius: 6px;
-      font-size: 0.65rem;
-      font-weight: 800;
-      text-transform: uppercase;
-    }
-
     .details {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
@@ -165,14 +157,27 @@
     .total-label { font-size: 0.75rem; font-weight: 700; color: var(--text-main); }
     .total-value { font-size: 1.1rem; font-weight: 800; color: var(--brand-dark); }
 
-    /* --- MODAL --- */
+    /* --- MODAL (Finger Zoom Support) --- */
     .modal-overlay {
       position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-      background: rgba(15, 23, 42, 0.9); display: none; justify-content: center; align-items: center; z-index: 2000;
+      background: rgba(15, 23, 42, 0.95); display: none; z-index: 2000;
+      overflow: hidden;
     }
-    .modal-content { background: white; padding: 15px; border-radius: 16px; max-width: 90%; max-height: 90vh; overflow-y: auto; position: relative; }
-    .close-modal { position: absolute; top: 10px; right: 15px; font-size: 1.8rem; cursor: pointer; color: var(--brand-dark); }
-    .modal-content img { width: 100%; height: auto; border-radius: 8px; }
+    .modal-content {
+      width: 100%; height: 100%;
+      display: flex; justify-content: center; align-items: center;
+      position: relative;
+    }
+    .modal-content img {
+      max-width: 90%; max-height: 85vh;
+      border-radius: 12px;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+    }
+    .close-modal {
+      position: fixed; top: 20px; right: 20px;
+      font-size: 2.2rem; cursor: pointer; color: white;
+      z-index: 2001; line-height: 1;
+    }
   </style>
 </head>
 <body>
@@ -304,18 +309,19 @@
         <span class="total-label">YEAR TOTAL (2026-27)</span>
         <span class="total-value">₹1,40,000</span>
       </div>
-
     </div>
   </main>
 
-  <div id="receiptModal" class="modal-overlay" onclick="closeReceipt()">
-    <div class="modal-content" onclick="event.stopPropagation()">
-      <span class="close-modal" onclick="closeReceipt()">&times;</span>
-      <img id="receiptImg" src="" alt="Fee Receipt">
+  <div id="receiptModal" class="modal-overlay">
+    <span class="close-modal" onclick="closeReceipt()">&times;</span>
+    <div id="zoomContainer" class="modal-content" onclick="closeReceipt()">
+      <img id="receiptImg" src="" alt="Fee Receipt" onclick="event.stopPropagation()">
     </div>
   </div>
 
   <script>
+    let pzInstance = null;
+
     function showTab(tabId, event) {
       document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
       event.currentTarget.classList.add('active');
@@ -326,15 +332,30 @@
     function openReceipt(path) {
       const modal = document.getElementById('receiptModal');
       const img = document.getElementById('receiptImg');
+      const container = document.getElementById('zoomContainer');
+      
       img.src = path;
-      modal.style.display = 'flex';
+      modal.style.display = 'block';
       document.body.style.overflow = 'hidden'; 
+
+      // Initialize PinchZoom
+      if (!pzInstance) {
+        pzInstance = new PinchZoom(container, {
+          draggable: true,
+          maxZoom: 4,
+          minZoom: 1,
+        });
+      } else {
+        // Reset zoom state if already exists
+        pzInstance.setTransform(0, 0, 1);
+      }
     }
 
     function closeReceipt() {
       const modal = document.getElementById('receiptModal');
       modal.style.display = 'none';
       document.body.style.overflow = 'auto';
+      if (pzInstance) pzInstance.setTransform(0, 0, 1);
     }
   </script>
 </body>
