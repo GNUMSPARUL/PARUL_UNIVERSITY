@@ -332,22 +332,17 @@ function toggleView(v) {
 }
 
 calculateAndRender();
-</script>
-
-<!-- Service Worker Registration for PWA Installability -->
 <script>
   if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => {
-      navigator.serviceWorker.register('sw.js')
-        .then((registration) => {
-          console.log('Service Worker registration successful with scope: ', registration.scope);
+      // Step out of the student/ folder to find sw.js in the root
+      navigator.serviceWorker.register('../sw.js', { scope: '../' })
+        .then((reg) => {
+          console.log('PWA linked successfully from sub-page:', reg.scope);
         })
         .catch((err) => {
-          console.error('Service Worker registration failed: ', err);
+          console.error('PWA link failed from sub-page:', err);
         });
     });
   }
 </script>
-
-</body>
-</html>
