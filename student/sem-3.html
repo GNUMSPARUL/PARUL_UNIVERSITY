@@ -1,17 +1,22 @@
+I have updated your Semester 3 transcript page to include the premium **Photo View** toggle with the finger-zoom (pinch-to-zoom) capability, maintaining the exact same look and feel as your Semester 1 and 2 pages.
+
+I have linked the view button to your `../assets/images/3rd-sem-result.jpg` file.
+
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
   <title>Semester 3 Detail | Elite Portal</title>
 
-  <!-- PWA Manifest -->
   <link rel="manifest" href="manifest.json">
 
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
 
-  <!-- Secure Hardware Back-Button Interception -->
+  <script src="https://cdn.jsdelivr.net/npm/pinch-zoom-js@2.3.4/dist/pinch-zoom.min.js"></script>
+
   <script>
     window.history.pushState({ noBackExitsApp: true }, '');
     window.addEventListener('popstate', function(event) {
@@ -68,7 +73,19 @@
       animation: fadeInUp 0.6s ease;
     }
 
-    /* --- CLEAR SUMMARY GRID --- */
+    /* --- HEADER SECTION --- */
+    .result-header {
+      display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;
+    }
+
+    .view-doc-btn {
+      font-size: 0.7rem; font-weight: 800; color: var(--primary); background: rgba(99, 102, 241, 0.1);
+      padding: 8px 14px; border-radius: 12px; cursor: pointer; text-transform: uppercase;
+      border: 1px solid rgba(99, 102, 241, 0.2); transition: 0.2s; display: flex; align-items: center; gap: 6px;
+    }
+    .view-doc-btn:hover { background: var(--primary); color: white; }
+
+    /* --- SUMMARY GRID --- */
     .summary-grid {
       display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-bottom: 25px;
     }
@@ -86,10 +103,10 @@
     .summary-item.highlight span { color: var(--primary); }
     .summary-item.success span { color: var(--success); }
 
-    /* --- SUBJECT TABLE STYLE --- */
+    /* --- SUBJECT TABLE --- */
     .section-title {
       font-size: 0.75rem; font-weight: 800; color: var(--text-muted);
-      text-transform: uppercase; letter-spacing: 1px; margin: 20px 0 10px 5px;
+      text-transform: uppercase; letter-spacing: 1px; margin: 5px 0 10px 5px;
     }
 
     .subject-row {
@@ -109,12 +126,11 @@
       font-weight: 800; font-size: 1rem; color: white;
     }
 
-    /* Grade Colors */
     .g-a { background: var(--success); }
     .g-b { background: #3b82f6; }
     .g-p { background: #94a3b8; }
 
-    /* --- FINAL VERDICT --- */
+    /* --- VERDICT --- */
     .verdict-box {
       background: rgba(16, 185, 129, 0.1); border: 1.5px solid var(--success);
       padding: 18px; border-radius: 22px; text-align: center; margin-top: 25px;
@@ -131,6 +147,15 @@
     }
     .dl-btn:hover { background: var(--primary); transform: scale(1.05); }
 
+    /* --- MODAL (Finger Zoom Support) --- */
+    .modal-overlay {
+      position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(15, 23, 42, 0.98); display: none; z-index: 2000; overflow: hidden; 
+    }
+    .modal-content { width: 100%; height: 100%; display: flex; justify-content: center; align-items: center; position: relative; }
+    .modal-content img { max-width: 95%; max-height: 90vh; border-radius: 8px; box-shadow: 0 10px 40px rgba(0,0,0,0.5); }
+    .close-modal { position: fixed; top: 20px; right: 20px; color: white; font-size: 2.2rem; cursor: pointer; z-index: 2001; }
+
     @keyframes fadeInUp { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
 
   </style>
@@ -145,23 +170,18 @@
   <div class="container">
     <div class="premium-card">
       
+      <div class="result-header">
+        <div class="section-title">Summary</div>
+        <div class="view-doc-btn" onclick="openResult('../assets/images/3rd-sem-result.jpg')">
+            <i class="bi bi-file-earmark-image"></i> View Photo
+        </div>
+      </div>
+
       <div class="summary-grid">
-        <div class="summary-item">
-          <label>Seat Number</label>
-          <span>AF33858</span>
-        </div>
-        <div class="summary-item highlight">
-          <label>SGPA</label>
-          <span>6.73</span>
-        </div>
-        <div class="summary-item highlight">
-          <label>CGPA</label>
-          <span>6.04</span>
-        </div>
-        <div class="summary-item success">
-          <label>Total Backlogs</label>
-          <span>0</span>
-        </div>
+        <div class="summary-item"><label>Seat Number</label><span>AF33858</span></div>
+        <div class="summary-item highlight"><label>SGPA</label><span>6.73</span></div>
+        <div class="summary-item highlight"><label>CGPA</label><span>6.04</span></div>
+        <div class="summary-item success"><label>Total Backlogs</label><span>0</span></div>
       </div>
 
       <div class="section-title">Detailed Subject Grades</div>
@@ -220,7 +240,7 @@
       </div>
 
       <div class="dl-area">
-        <a href="assets/images/3rd-sem-result.jpg" download class="dl-btn">
+        <a href="../assets/images/3rd-sem-result.jpg" download class="dl-btn">
           <i class="bi bi-cloud-arrow-down-fill"></i> Download Result Image
         </a>
       </div>
@@ -228,20 +248,50 @@
     </div>
   </div>
 
-  <!-- Service Worker Registration for PWA Installability -->
+  <div id="resultModal" class="modal-overlay">
+    <span class="close-modal" onclick="closeResult()">&times;</span>
+    <div id="zoomContainer" class="modal-content">
+      <img id="resultImg" src="" alt="Semester Result Photo">
+    </div>
+  </div>
+
   <script>
+    let pzInstance = null;
+
+    function openResult(path) {
+      const modal = document.getElementById('resultModal');
+      const img = document.getElementById('resultImg');
+      const container = document.getElementById('zoomContainer');
+      
+      img.src = path;
+      modal.style.display = 'block';
+      document.body.style.overflow = 'hidden'; 
+
+      if (!pzInstance) {
+        pzInstance = new PinchZoom(container, {
+          draggable: true,
+          maxZoom: 4,
+          minZoom: 1,
+        });
+      } else {
+        pzInstance.setTransform(0, 0, 1);
+      }
+    }
+
+    function closeResult() {
+      const modal = document.getElementById('resultModal');
+      modal.style.display = 'none';
+      document.body.style.overflow = 'auto'; 
+      if (pzInstance) pzInstance.setTransform(0, 0, 1);
+    }
+
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => {
-        navigator.serviceWorker.register('sw.js')
-          .then((registration) => {
-            console.log('Service Worker registration successful with scope: ', registration.scope);
-          })
-          .catch((err) => {
-            console.error('Service Worker registration failed: ', err);
-          });
+        navigator.serviceWorker.register('sw.js');
       });
     }
   </script>
 
 </body>
 </html>
+```
