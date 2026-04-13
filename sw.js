@@ -1,18 +1,20 @@
 const CACHE_NAME = 'pnums-v1';
 
+// Basic installation
 self.addEventListener('install', (event) => {
   self.skipWaiting();
 });
 
+// Activation
 self.addEventListener('activate', (event) => {
   event.waitUntil(clients.claim());
 });
 
-// Mandatory fetch listener for PWA installability
+// REQUIRED: Fetch handler for installability
 self.addEventListener('fetch', (event) => {
-  // For student projects, we keep this simple. 
-  // It allows the app to be installed without complex offline caching.
-  event.respondWith(fetch(event.request).catch(() => {
-    return caches.match(event.request);
-  }));
+  event.respondWith(
+    fetch(event.request).catch(() => {
+      return caches.match(event.request);
+    })
+  );
 });
