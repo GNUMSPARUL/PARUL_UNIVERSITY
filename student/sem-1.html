@@ -5,13 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <title>Sem-1 Result | Elite Portal</title>
 
-  <!-- PWA Manifest -->
   <link rel="manifest" href="manifest.json">
-
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
 
-  <!-- Secure Hardware Back-Button Interception -->
   <script>
     window.history.pushState({ noBackExitsApp: true }, '');
     window.addEventListener('popstate', function(event) {
@@ -43,7 +40,6 @@
       padding-bottom: 50px;
     }
 
-    /* --- NAV --- */
     nav {
       position: sticky; top: 0; z-index: 1000;
       background: var(--glass); backdrop-filter: blur(15px);
@@ -58,7 +54,6 @@
     }
     .back-btn:hover { background: var(--primary); color: white; transform: translateX(-3px); }
 
-    /* --- CONTAINER --- */
     .container { max-width: 650px; margin: 20px auto; padding: 0 5%; }
 
     .premium-card {
@@ -68,62 +63,54 @@
       animation: fadeInUp 0.6s ease;
     }
 
-    /* --- SUMMARY GRID --- */
-    .summary-grid {
-      display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-bottom: 25px;
+    /* --- RESULT IMAGE TRIGGER --- */
+    .result-header {
+      display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;
     }
+    .view-doc-btn {
+      font-size: 0.7rem; font-weight: 800; color: var(--primary); background: rgba(99, 102, 241, 0.1);
+      padding: 8px 14px; border-radius: 12px; cursor: pointer; text-transform: uppercase;
+      border: 1px solid rgba(99, 102, 241, 0.2); transition: 0.2s;
+    }
+    .view-doc-btn:hover { background: var(--primary); color: white; }
 
-    .summary-item {
-      background: white; padding: 16px; border-radius: 20px;
-      border: 1px solid rgba(0,0,0,0.03); text-align: center;
-    }
-
-    .summary-item label { 
-      display: block; font-size: 0.65rem; font-weight: 800; 
-      color: var(--text-muted); text-transform: uppercase; margin-bottom: 4px; 
-    }
+    .summary-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-bottom: 25px; }
+    .summary-item { background: white; padding: 16px; border-radius: 20px; border: 1px solid rgba(0,0,0,0.03); text-align: center; }
+    .summary-item label { display: block; font-size: 0.65rem; font-weight: 800; color: var(--text-muted); text-transform: uppercase; margin-bottom: 4px; }
     .summary-item span { font-size: 1.2rem; font-weight: 800; color: var(--text-main); }
     .summary-item.fail-text span { color: var(--danger); }
 
-    .section-title {
-      font-size: 0.75rem; font-weight: 800; color: var(--text-muted);
-      text-transform: uppercase; letter-spacing: 1px; margin: 20px 0 10px 5px;
-    }
+    .section-title { font-size: 0.75rem; font-weight: 800; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; margin: 20px 0 10px 5px; }
 
-    /* --- SUBJECT ROW --- */
-    .subject-row {
-      background: white; border-radius: 18px; padding: 14px 18px;
-      margin-bottom: 10px; display: flex; justify-content: space-between;
-      align-items: center; border: 1px solid transparent; transition: 0.2s;
-    }
+    .subject-row { background: white; border-radius: 18px; padding: 14px 18px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; border: 1px solid transparent; }
     .subject-row.has-fail { border-left: 4px solid var(--danger); }
-
-    .sub-details { flex: 1; }
     .sub-name { font-weight: 700; font-size: 0.85rem; display: block; margin-bottom: 2px; }
     .sub-meta { font-size: 0.65rem; color: var(--text-muted); font-weight: 600; }
 
-    .grade-circle {
-      width: 38px; height: 38px; border-radius: 12px;
-      display: flex; align-items: center; justify-content: center;
-      font-weight: 800; font-size: 1rem; color: white;
-    }
-
+    .grade-circle { width: 38px; height: 38px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 1rem; color: white; }
     .g-a { background: var(--success); }
     .g-bplus { background: #3b82f6; }
     .g-b { background: #6366f1; }
     .g-p { background: #94a3b8; }
     .g-f { background: var(--danger); box-shadow: 0 4px 12px rgba(239, 68, 68, 0.2); }
 
-    /* --- VERDICT BOX --- */
-    .verdict-box {
-      background: rgba(99, 102, 241, 0.05); border: 1.5px solid var(--primary);
-      padding: 18px; border-radius: 22px; text-align: center; margin-top: 25px;
-    }
+    .verdict-box { background: rgba(99, 102, 241, 0.05); border: 1.5px solid var(--primary); padding: 18px; border-radius: 22px; text-align: center; margin-top: 25px; }
     .verdict-box h4 { color: var(--primary); font-weight: 800; font-size: 0.9rem; margin-bottom: 4px; }
     .verdict-box p { font-size: 0.75rem; font-weight: 600; color: var(--text-main); opacity: 0.8; }
 
-    @keyframes fadeInUp { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
+    /* --- MODAL STYLES --- */
+    .modal-overlay {
+      position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(15, 23, 42, 0.95); display: none; justify-content: center;
+      align-items: center; z-index: 2000; padding: 20px;
+    }
+    .modal-content { position: relative; max-width: 100%; max-height: 90vh; }
+    .modal-content img { width: 100%; border-radius: 12px; box-shadow: 0 20px 50px rgba(0,0,0,0.5); }
+    .close-modal {
+      position: absolute; top: -50px; right: 0; color: white; font-size: 2rem; cursor: pointer;
+    }
 
+    @keyframes fadeInUp { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
   </style>
 </head>
 <body>
@@ -136,72 +123,49 @@
   <div class="container">
     <div class="premium-card">
       
+      <div class="result-header">
+        <div class="section-title" style="margin: 0;">Summary</div>
+        <div class="view-doc-btn" onclick="openResult('../assets/images/3rd-sem-result.jpg')">
+            <i class="bi bi-file-earmark-image"></i> Original Result
+        </div>
+      </div>
+
       <div class="summary-grid">
-        <div class="summary-item">
-          <label>Seat Number</label>
-          <span>AF16223</span>
-        </div>
-        <div class="summary-item fail-text">
-          <label>Current Backlogs</label>
-          <span>2</span>
-        </div>
-        <div class="summary-item highlight">
-          <label>SGPA</label>
-          <span style="color: var(--primary);">2.88</span>
-        </div>
-        <div class="summary-item">
-          <label>CGPA</label>
-          <span>2.88</span>
-        </div>
+        <div class="summary-item"><label>Seat Number</label><span>AF16223</span></div>
+        <div class="summary-item fail-text"><label>Current Backlogs</label><span>2</span></div>
+        <div class="summary-item highlight"><label>SGPA</label><span style="color: var(--primary);">2.88</span></div>
+        <div class="summary-item"><label>CGPA</label><span>2.88</span></div>
       </div>
 
       <div class="section-title">Academic record</div>
 
       <div class="subject-row">
-        <div class="sub-details">
-          <span class="sub-name">Environmental Science</span>
-          <span class="sub-meta">Code: 303104105 • Credit: 0.00</span>
-        </div>
+        <div class="sub-details"><span class="sub-name">Environmental Science</span><span class="sub-meta">Code: 303104105 • Credit: 0.00</span></div>
         <div class="grade-circle g-a">A</div>
       </div>
 
       <div class="subject-row has-fail">
-        <div class="sub-details">
-          <span class="sub-name">Computational Thinking for Structured Design-1</span>
-          <span class="sub-meta">Code: 303105104 • Credit: 4.00</span>
-        </div>
+        <div class="sub-details"><span class="sub-name">Computational Thinking for Structured Design-1</span><span class="sub-meta">Code: 303105104 • Credit: 4.00</span></div>
         <div class="grade-circle g-f">F2</div>
       </div>
 
       <div class="subject-row">
-        <div class="sub-details">
-          <span class="sub-name">Fundamentals of Information Security</span>
-          <span class="sub-meta">Code: 303105105 • Credit: 2.00</span>
-        </div>
+        <div class="sub-details"><span class="sub-name">Fundamentals of Information Security</span><span class="sub-meta">Code: 303105105 • Credit: 2.00</span></div>
         <div class="grade-circle g-b">B</div>
       </div>
 
       <div class="subject-row">
-        <div class="sub-details">
-          <span class="sub-name">Electrical and Electronics Engineering</span>
-          <span class="sub-meta">Code: 303106103 • Credit: 4.00</span>
-        </div>
+        <div class="sub-details"><span class="sub-name">Electrical and Electronics Engineering</span><span class="sub-meta">Code: 303106103 • Credit: 4.00</span></div>
         <div class="grade-circle g-p">P</div>
       </div>
 
       <div class="subject-row has-fail">
-        <div class="sub-details">
-          <span class="sub-name">Mathematics-I</span>
-          <span class="sub-meta">Code: 303191101 • Credit: 4.00</span>
-        </div>
+        <div class="sub-details"><span class="sub-name">Mathematics-I</span><span class="sub-meta">Code: 303191101 • Credit: 4.00</span></div>
         <div class="grade-circle g-f">F2</div>
       </div>
 
       <div class="subject-row">
-        <div class="sub-details">
-          <span class="sub-name">Communication Skills</span>
-          <span class="sub-meta">Code: 303193103 • Credit: 2.00</span>
-        </div>
+        <div class="sub-details"><span class="sub-name">Communication Skills</span><span class="sub-meta">Code: 303193103 • Credit: 2.00</span></div>
         <div class="grade-circle g-bplus">B+</div>
       </div>
 
@@ -209,24 +173,33 @@
         <h4>PROMOTED TO 2ND SEMESTER</h4>
         <p>Eligibility confirmed with 2 active backlogs.</p>
       </div>
-
     </div>
   </div>
 
-  <!-- Service Worker Registration for PWA Installability -->
+  <div id="resultModal" class="modal-overlay" onclick="closeResult()">
+    <div class="modal-content" onclick="event.stopPropagation()">
+      <span class="close-modal" onclick="closeResult()">&times;</span>
+      <img id="resultImg" src="" alt="Original Result">
+    </div>
+  </div>
+
   <script>
+    function openResult(path) {
+      document.getElementById('resultImg').src = path;
+      document.getElementById('resultModal').style.display = 'flex';
+      document.body.style.overflow = 'hidden'; 
+    }
+
+    function closeResult() {
+      document.getElementById('resultModal').style.display = 'none';
+      document.body.style.overflow = 'auto';
+    }
+
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => {
-        navigator.serviceWorker.register('sw.js')
-          .then((registration) => {
-            console.log('Service Worker registration successful with scope: ', registration.scope);
-          })
-          .catch((err) => {
-            console.error('Service Worker registration failed: ', err);
-          });
+        navigator.serviceWorker.register('sw.js');
       });
     }
   </script>
-
 </body>
 </html>
