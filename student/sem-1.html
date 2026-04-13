@@ -2,12 +2,14 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
   <title>Sem-1 Result | Elite Portal</title>
 
   <link rel="manifest" href="manifest.json">
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+
+  <script src="https://cdn.jsdelivr.net/npm/pinch-zoom-js@2.3.4/dist/pinch-zoom.min.js"></script>
 
   <script>
     window.history.pushState({ noBackExitsApp: true }, '');
@@ -63,7 +65,6 @@
       animation: fadeInUp 0.6s ease;
     }
 
-    /* --- RESULT IMAGE TRIGGER --- */
     .result-header {
       display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;
     }
@@ -98,16 +99,36 @@
     .verdict-box h4 { color: var(--primary); font-weight: 800; font-size: 0.9rem; margin-bottom: 4px; }
     .verdict-box p { font-size: 0.75rem; font-weight: 600; color: var(--text-main); opacity: 0.8; }
 
-    /* --- MODAL STYLES --- */
+    /* --- MODAL STYLES (Adjusted for Zooming) --- */
     .modal-overlay {
       position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-      background: rgba(15, 23, 42, 0.95); display: none; justify-content: center;
-      align-items: center; z-index: 2000; padding: 20px;
+      background: rgba(15, 23, 42, 0.98); display: none;
+      z-index: 2000;
+      /* Crucial: Hide overflow on overlay so zoomed image doesn't bleed out */
+      overflow: hidden; 
     }
-    .modal-content { position: relative; max-width: 100%; max-height: 90vh; }
-    .modal-content img { width: 100%; border-radius: 12px; box-shadow: 0 20px 50px rgba(0,0,0,0.5); }
+    
+    /* The container where the image lives and zooms */
+    .modal-content {
+      width: 100%; height: 100%;
+      display: flex; justify-content: center; align-items: center;
+      position: relative;
+    }
+    
+    .modal-content img {
+      max-width: 95%; max-height: 90vh;
+      border-radius: 8px;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+      /* Prevent image from bleeding out during zoom */
+      backface-visibility: hidden;
+    }
+
+    /* Fixed Close Button (Must be outside the zooming container) */
     .close-modal {
-      position: absolute; top: -50px; right: 0; color: white; font-size: 2rem; cursor: pointer;
+      position: fixed; top: 20px; right: 20px;
+      color: white; font-size: 2.2rem; cursor: pointer;
+      z-index: 2001; /* Above the image */
+      line-height: 1;
     }
 
     @keyframes fadeInUp { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
@@ -126,7 +147,7 @@
       <div class="result-header">
         <div class="section-title" style="margin: 0;">Summary</div>
         <div class="view-doc-btn" onclick="openResult('../assets/images/3rd-sem-result.jpg')">
-            <i class="bi bi-file-earmark-image"></i> Original Result
+            <i class="bi bi-file-earmark-image"></i> Result Image
         </div>
       </div>
 
@@ -176,23 +197,48 @@
     </div>
   </div>
 
-  <div id="resultModal" class="modal-overlay" onclick="closeResult()">
-    <div class="modal-content" onclick="event.stopPropagation()">
-      <span class="close-modal" onclick="closeResult()">&times;</span>
+  <div id="resultModal" class="modal-overlay">
+    <span class="close-modal" onclick="closeResult()">&times;</span>
+    
+    <div id="zoomContainer" class="modal-content">
       <img id="resultImg" src="" alt="Original Result">
     </div>
   </div>
 
   <script>
+    let pzInstance = null; // Store the PinchZoom instance
+
     function openResult(path) {
-      document.getElementById('resultImg').src = path;
-      document.getElementById('resultModal').style.display = 'flex';
-      document.body.style.overflow = 'hidden'; 
+      const modal = document.getElementById('resultModal');
+      const img = document.getElementById('resultImg');
+      const container = document.getElementById('zoomContainer');
+      
+      img.src = path;
+      modal.style.display = 'block'; // Block display for correct library initialization
+      document.body.style.overflow = 'hidden'; // Prevent background scrolling
+
+      // Initialize or reuse PinchZoom instance
+      if (!pzInstance) {
+        pzInstance = new PinchZoom(container, {
+          draggable: true,
+          maxZoom: 4, // Allow up to 4x zoom
+          minZoom: 1, // Don't allow zooming smaller than original
+        });
+      } else {
+        // If reusing, reset any previous zoom/pan
+        pzInstance.setTransform(0, 0, 1);
+      }
     }
 
     function closeResult() {
-      document.getElementById('resultModal').style.display = 'none';
-      document.body.style.overflow = 'auto';
+      const modal = document.getElementById('resultModal');
+      modal.style.display = 'none';
+      document.body.style.overflow = 'auto'; // Re-enable background scrolling
+      
+      // Safety reset of transform when closing
+      if (pzInstance) {
+        pzInstance.setTransform(0, 0, 1);
+      }
     }
 
     if ('serviceWorker' in navigator) {
