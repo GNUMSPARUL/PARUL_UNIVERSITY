@@ -4,236 +4,342 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdn.jsdelivr.net; font-src https://fonts.gstatic.com https://cdn.jsdelivr.net; script-src 'self' 'unsafe-inline';">
-  <title>Student Self-Service | Fee Ledger</title>
+  <title>Executive Fee Dashboard | ERP</title>
   
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
 
   <style>
     :root {
-      --sidebar-width: 260px;
-      --erp-blue: #0f172a;
-      --erp-accent: #3b82f6;
-      --erp-bg: #f1f5f9;
-      --erp-card: #ffffff;
-      --text-dark: #1e293b;
-      --text-light: #64748b;
-      --border-gray: #cbd5e1;
-      --success: #059669;
+      --brand-primary: #4f46e5;
+      --brand-dark: #0f172a;
+      --bg-slate: #f8fafc;
+      --glass-white: rgba(255, 255, 255, 0.9);
+      --success: #10b981;
+      --border-color: #e2e8f0;
+      --text-main: #1e293b;
+      --text-muted: #64748b;
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
-    body { font-family: 'Inter', sans-serif; background-color: var(--erp-bg); color: var(--text-dark); display: flex; min-height: 100vh; }
 
-    /* --- SIDEBAR --- */
-    .sidebar {
-      width: var(--sidebar-width);
-      background-color: var(--erp-blue);
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background-color: var(--bg-slate);
+      color: var(--text-main);
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* --- PREMIUM TOP NAV --- */
+    .topbar {
+      background: var(--brand-dark);
+      padding: 0 20px;
+      display: flex;
+      align-items: center;
+      height: 70px;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+
+    .btn-back { color: white; font-size: 1.5rem; margin-right: 15px; text-decoration: none; }
+    .page-title { color: white; font-weight: 700; font-size: 1.1rem; letter-spacing: -0.5px; }
+
+    .container { max-width: 1100px; margin: 0 auto; padding: 25px 15px; }
+
+    /* --- EXECUTIVE SUMMARY CARD --- */
+    .summary-card {
+      background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
+      border-radius: 24px;
+      padding: 30px;
       color: white;
+      margin-bottom: 35px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 30px;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1);
+    }
+
+    .summary-card::after {
+      content: ""; position: absolute; right: -50px; bottom: -50px;
+      width: 200px; height: 200px; background: rgba(79, 70, 229, 0.2);
+      filter: blur(60px); border-radius: 50%;
+    }
+
+    .stat-box .label { font-size: 0.75rem; text-transform: uppercase; opacity: 0.7; letter-spacing: 1px; margin-bottom: 8px; display: block; }
+    .stat-box .value { font-size: 1.75rem; font-weight: 800; }
+    .stat-box .value.success { color: #34d399; }
+
+    /* --- NAVIGATION TABS --- */
+    .premium-tabs {
+      display: flex;
+      gap: 10px;
+      background: #e2e8f0;
+      padding: 6px;
+      border-radius: 14px;
+      margin-bottom: 25px;
+      width: fit-content;
+    }
+
+    .tab-btn {
+      padding: 10px 24px;
+      border: none;
+      background: transparent;
+      font-family: inherit;
+      font-weight: 700;
+      font-size: 0.9rem;
+      cursor: pointer;
+      border-radius: 10px;
+      color: var(--text-muted);
+      transition: all 0.3s ease;
+    }
+
+    .tab-btn.active {
+      background: white;
+      color: var(--brand-primary);
+      box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+    }
+
+    /* --- TRANSACTION BLOCKS --- */
+    .view-section { display: none; animation: fadeIn 0.4s ease forwards; }
+    .view-section.active { display: block; }
+
+    .fee-card {
+      background: white;
+      border: 1px solid var(--border-color);
+      border-radius: 20px;
+      padding: 24px;
+      margin-bottom: 20px;
+      transition: transform 0.2s ease;
+    }
+
+    .fee-card:hover { transform: translateY(-2px); border-color: var(--brand-primary); }
+
+    .card-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+      padding-bottom: 15px;
+      border-bottom: 1px solid var(--bg-slate);
+    }
+
+    .card-head h3 { font-size: 1.1rem; font-weight: 700; color: var(--brand-dark); }
+
+    .badge-premium {
+      background: #ecfdf5;
+      color: var(--success);
+      padding: 6px 12px;
+      border-radius: 8px;
+      font-size: 0.7rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      border: 1px solid #d1fae5;
+    }
+
+    .details-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 20px;
+    }
+
+    .detail-item {
       display: flex;
       flex-direction: column;
-      position: fixed;
-      height: 100vh;
-      z-index: 1000;
+      gap: 4px;
     }
 
-    .sidebar-header { padding: 20px; font-weight: 700; font-size: 1.2rem; border-bottom: 1px solid #334155; display: flex; align-items: center; gap: 10px; }
-    .sidebar-nav { flex-grow: 1; padding: 20px 0; }
-    .nav-item { 
-      padding: 12px 24px; display: flex; align-items: center; gap: 12px; 
-      text-decoration: none; color: #94a3b8; font-size: 0.9rem; transition: 0.2s;
-    }
-    .nav-item:hover, .nav-item.active { background: #1e293b; color: white; border-left: 4px solid var(--erp-accent); }
+    .d-label { font-size: 0.65rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; }
+    .d-value { font-size: 0.9rem; font-weight: 600; color: var(--text-main); }
+    .d-value.mono { font-family: 'JetBrains Mono', monospace; font-size: 0.85rem; word-break: break-all; color: var(--brand-primary); }
 
-    /* --- MAIN CONTENT --- */
-    .main-wrapper { margin-left: var(--sidebar-width); width: 100%; display: flex; flex-direction: column; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-    /* TOP NAVBAR */
-    .top-nav {
-      background: white; height: 64px; display: flex; align-items: center; 
-      justify-content: space-between; padding: 0 30px; border-bottom: 1px solid var(--border-gray);
-      position: sticky; top: 0; z-index: 900;
-    }
-
-    .breadcrumb { font-size: 0.85rem; color: var(--text-light); }
-    .user-profile { display: flex; align-items: center; gap: 10px; font-size: 0.9rem; font-weight: 500; cursor: pointer; }
-    .avatar { width: 32px; height: 32px; background: var(--erp-accent); color: white; border-radius: 50%; display: grid; place-items: center; font-weight: bold; }
-
-    /* PAGE CONTENT */
-    .content-area { padding: 30px; max-width: 1200px; margin: 0 auto; width: 100%; }
-
-    .page-header { margin-bottom: 25px; }
-    .page-header h1 { font-size: 1.5rem; font-weight: 700; color: var(--erp-blue); }
-    .student-info-bar { 
-        background: #fff; border: 1px solid var(--border-gray); padding: 15px 20px; 
-        border-radius: 8px; margin-bottom: 20px; display: flex; gap: 40px; font-size: 0.85rem;
-    }
-    .info-group span { display: block; color: var(--text-light); font-size: 0.75rem; text-transform: uppercase; }
-    .info-group strong { color: var(--text-dark); }
-
-    /* LEDGER GRID */
-    .stats-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin-bottom: 30px; }
-    .stat-card { background: white; padding: 20px; border-radius: 8px; border: 1px solid var(--border-gray); border-top: 4px solid var(--erp-accent); }
-    .stat-label { font-size: 0.8rem; color: var(--text-light); font-weight: 600; margin-bottom: 5px; }
-    .stat-value { font-size: 1.4rem; font-weight: 800; }
-
-    /* TAB SYSTEM */
-    .tabs-wrapper { background: white; border-radius: 8px; border: 1px solid var(--border-gray); overflow: hidden; }
-    .tab-nav { display: flex; background: #f8fafc; border-bottom: 1px solid var(--border-gray); }
-    .tab-btn { 
-        padding: 15px 25px; border: none; background: none; cursor: pointer; 
-        font-weight: 600; font-size: 0.9rem; color: var(--text-light);
-    }
-    .tab-btn.active { background: white; color: var(--erp-accent); border-bottom: 2px solid var(--erp-accent); }
-
-    /* TRANSACTION TABLE-STYLE LIST */
-    .tab-content { padding: 20px; display: none; }
-    .tab-content.active { display: block; }
-    
-    .fee-row {
-        border: 1px solid var(--border-gray); border-radius: 6px; margin-bottom: 15px; overflow: hidden;
-    }
-    .fee-row-header {
-        background: #f8fafc; padding: 12px 20px; display: flex; justify-content: space-between;
-        align-items: center; border-bottom: 1px solid var(--border-gray);
-    }
-    .fee-row-body { padding: 20px; display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 20px; }
-    
-    .data-item label { display: block; font-size: 0.7rem; color: var(--text-light); text-transform: uppercase; margin-bottom: 4px; }
-    .data-item p { font-size: 0.85rem; font-weight: 600; font-family: 'Monaco', monospace; }
-
-    .btn-receipt {
-        padding: 6px 12px; border: 1px solid var(--erp-accent); color: var(--erp-accent);
-        border-radius: 4px; font-size: 0.8rem; text-decoration: none; font-weight: 600;
-        transition: 0.3s; cursor: pointer;
-    }
-    .btn-receipt:hover { background: var(--erp-accent); color: white; }
-
-    /* RESPONSIVE */
-    @media (max-width: 992px) {
-      .sidebar { display: none; }
-      .main-wrapper { margin-left: 0; }
-      .top-nav { padding: 0 15px; }
+    @media (max-width: 600px) {
+      .summary-card { padding: 20px; gap: 20px; }
+      .stat-box .value { font-size: 1.4rem; }
+      .premium-tabs { width: 100%; }
+      .tab-btn { flex: 1; padding: 10px 5px; }
     }
   </style>
 </head>
 <body>
 
-  <aside class="sidebar">
-    <div class="sidebar-header">
-      <i class="bi bi-mortarboard-fill"></i> ERP PORTAL
+  <nav class="topbar">
+    <a href="dashboard.html" class="btn-back"><i class="bi bi-arrow-left-short"></i></a>
+    <span class="page-title">FEES & TREASURY</span>
+  </nav>
+
+  <main class="container">
+    
+    <section class="summary-card">
+      <div class="stat-box">
+        <span class="label">Aggregate Payable</span>
+        <div class="value">₹ 6,63,100</div>
+      </div>
+      <div class="stat-box">
+        <span class="label">Confirmed Paid</span>
+        <div class="value success">₹ 6,63,100</div>
+      </div>
+      <div class="stat-box">
+        <span class="label">Dues Outstanding</span>
+        <div class="value">₹ 0</div>
+      </div>
+      <div class="stat-box">
+        <span class="label">Status</span>
+        <div class="value" style="font-size: 1rem; color: #93c5fd;">ACCOUNTS SETTLED</div>
+      </div>
+    </section>
+
+    <div class="premium-tabs">
+      <button class="tab-btn active" onclick="showTab('college')">College Fees</button>
+      <button class="tab-btn" onclick="showTab('hostel')">Hostel Fees</button>
     </div>
-    <nav class="sidebar-nav">
-      <a href="#" class="nav-item"><i class="bi bi-speedometer2"></i> Dashboard</a>
-      <a href="#" class="nav-item"><i class="bi bi-person-badge"></i> My Profile</a>
-      <a href="#" class="nav-item"><i class="bi bi-journal-text"></i> Academics</a>
-      <a href="#" class="nav-item active"><i class="bi bi-wallet2"></i> Fee Management</a>
-      <a href="#" class="nav-item"><i class="bi bi-calendar-check"></i> Attendance</a>
-      <a href="#" class="nav-item"><i class="bi bi-file-earmark-bar-graph"></i> Exam Results</a>
-    </nav>
-  </aside>
 
-  <main class="main-wrapper">
-    <header class="top-nav">
-      <div class="breadcrumb">
-        Student Self-Service / <strong>Finance Ledger</strong>
-      </div>
-      <div class="user-profile">
-        <div class="avatar">JD</div>
-        <span>John Doe (2024CS101)</span>
-        <i class="bi bi-chevron-down"></i>
-      </div>
-    </header>
-
-    <div class="content-area">
-      <section class="page-header">
-        <h1>Fee Account Statement</h1>
-      </section>
-
-      <div class="student-info-bar">
-        <div class="info-group">
-          <span>Program</span>
-          <strong>B.Tech Cybersecurity</strong>
+    <div id="college" class="view-section active">
+      <div class="fee-card">
+        <div class="card-head">
+          <h3>Semester 1 - Institutional</h3>
+          <span class="badge-premium">Settled</span>
         </div>
-        <div class="info-group">
-          <span>Academic Year</span>
-          <strong>2024-2028</strong>
-        </div>
-        <div class="info-group">
-          <span>Semester</span>
-          <strong>IV (Spring 2026)</strong>
-        </div>
-      </div>
-
-      <div class="stats-container">
-        <div class="stat-card">
-          <div class="stat-label">TOTAL ASSESSED</div>
-          <div class="stat-value">₹ 6,63,100</div>
-        </div>
-        <div class="stat-card" style="border-top-color: var(--success);">
-          <div class="stat-label">TOTAL PAID</div>
-          <div class="stat-value" style="color: var(--success);">₹ 6,63,100</div>
-        </div>
-        <div class="stat-card" style="border-top-color: #ef4444;">
-          <div class="stat-label">BALANCE DUE</div>
-          <div class="stat-value" style="color: #ef4444;">₹ 0</div>
-        </div>
-      </div>
-
-      <div class="tabs-wrapper">
-        <div class="tab-nav">
-          <button class="tab-btn active" onclick="openTab(event, 'academic')">Academic Fees</button>
-          <button class="tab-btn" onclick="openTab(event, 'hostel')">Hostel & Mess</button>
-        </div>
-
-        <div id="academic" class="tab-content active">
-          <div class="fee-row">
-            <div class="fee-row-header">
-              <strong>B.TECH SEMESTER I - TUITION</strong>
-              <span class="btn-receipt"><i class="bi bi-printer"></i> Print Receipt</span>
-            </div>
-            <div class="fee-row-body">
-              <div class="data-item"><label>Amount</label><p>₹ 1,75,000</p></div>
-              <div class="data-item"><label>UTR Number</label><p>E2505300GV1JZK</p></div>
-              <div class="data-item"><label>Date</label><p>15-Aug-2024</p></div>
-              <div class="data-item"><label>Status</label><p style="color:var(--success)">PAID</p></div>
-            </div>
+        <div class="details-grid">
+          <div class="detail-item">
+            <span class="d-label">Amount Paid</span>
+            <span class="d-value" style="font-size: 1.1rem; color: var(--brand-primary);">₹ 1,75,000</span>
           </div>
+          <div class="detail-item">
+            <span class="d-label">UTR Number</span>
+            <span class="d-value mono">E2505300GV1JZK</span>
           </div>
+          <div class="detail-item">
+            <span class="d-label">Method / Bank</span>
+            <span class="d-value">INTERNET BANKING (BANK OF BARODA)</span>
+          </div>
+          <div class="detail-item">
+            <span class="d-label">Gateway</span>
+            <span class="d-value">Easebuzz Secure</span>
+          </div>
+        </div>
+      </div>
 
-        <div id="hostel" class="tab-content">
-          <div class="fee-row">
-            <div class="fee-row-header">
-              <strong>TAGORE BHAWAN - C (AC)</strong>
-              <span class="btn-receipt"><i class="bi bi-printer"></i> Print Receipt</span>
-            </div>
-            <div class="fee-row-body">
-              <div class="data-item"><label>Amount</label><p>₹ 69,600</p></div>
-              <div class="data-item"><label>UTR Number</label><p>E2603190VKTMRL</p></div>
-              <div class="data-item"><label>Payment Mode</label><p>UPI (Easebuzz)</p></div>
-              <div class="data-item"><label>Status</label><p style="color:var(--success)">PAID</p></div>
-            </div>
+      <div class="fee-card">
+        <div class="card-head">
+          <h3>Semester 2 - Institutional</h3>
+          <span class="badge-premium">Settled</span>
+        </div>
+        <div class="details-grid">
+          <div class="detail-item">
+            <span class="d-label">Amount Paid</span>
+            <span class="d-value" style="font-size: 1.1rem; color: var(--brand-primary);">₹ 1,75,000</span>
+          </div>
+          <div class="detail-item">
+            <span class="d-label">UTR Number</span>
+            <span class="d-value mono">YESB42053831238</span>
+          </div>
+          <div class="detail-item">
+            <span class="d-label">Method / Bank</span>
+            <span class="d-value">NET BANKING (KOTAK MAHINDRA)</span>
+          </div>
+          <div class="detail-item">
+            <span class="d-label">Gateway</span>
+            <span class="d-value">Easebuzz Secure</span>
           </div>
         </div>
       </div>
     </div>
+
+    <div id="hostel" class="view-section">
+      <div class="fee-card">
+        <div class="card-head">
+          <h3>Tagore Bhawan - A (2024-25)</h3>
+          <span class="badge-premium">Settled</span>
+        </div>
+        <div class="details-grid">
+          <div class="detail-item">
+            <span class="d-label">Mess & Room Total</span>
+            <span class="d-value">₹ 1,19,500</span>
+          </div>
+          <div class="detail-item">
+            <span class="d-label">UTR Reference</span>
+            <span class="d-value mono">413620336745</span>
+          </div>
+          <div class="detail-item">
+            <span class="d-label">Method / Bank</span>
+            <span class="d-value">UPI (BANK OF BARODA)</span>
+          </div>
+          <div class="detail-item">
+            <span class="d-label">Service Provider</span>
+            <span class="d-value">Easebuzz</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="fee-card">
+        <div class="card-head">
+          <h3>Tagore Bhawan - C (2025-26)</h3>
+          <span class="badge-premium">Settled</span>
+        </div>
+        <div class="details-grid">
+          <div class="detail-item">
+            <span class="d-label">Mess & Room Total</span>
+            <span class="d-value">₹ 1,24,000</span>
+          </div>
+          <div class="detail-item">
+            <span class="d-label">UTR Reference</span>
+            <span class="d-value mono">E2506040H4G1TN</span>
+          </div>
+          <div class="detail-item">
+            <span class="d-label">Method / Bank</span>
+            <span class="d-value">NET BANKING (KOTAK MAHINDRA BANK)</span>
+          </div>
+          <div class="detail-item">
+            <span class="d-label">Service Provider</span>
+            <span class="d-value">Easebuzz</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="fee-card">
+        <div class="card-head">
+          <h3>Tagore Bhawan - C (2026-27)</h3>
+          <span class="badge-premium">Settled</span>
+        </div>
+        <div class="details-grid">
+          <div class="detail-item">
+            <span class="d-label">Mess & Room Total</span>
+            <span class="d-value">₹ 69,600</span>
+          </div>
+          <div class="detail-item">
+            <span class="d-label">UTR Reference</span>
+            <span class="d-value mono">E2603190VKTMRL</span>
+          </div>
+          <div class="detail-item">
+            <span class="d-label">Method / Bank</span>
+            <span class="d-value">UPI (INDIAN BANK)</span>
+          </div>
+          <div class="detail-item">
+            <span class="d-label">Finalized Date</span>
+            <span class="d-value">19-03-2026</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
   </main>
 
   <script>
-    function openTab(evt, tabName) {
-      var i, tabcontent, tablinks;
-      tabcontent = document.getElementsByClassName("tab-content");
-      for (i = 0; i < tabcontent.length; i++) {
-        tabcontent[i].classList.remove("active");
-      }
-      tablinks = document.getElementsByClassName("tab-btn");
-      for (i = 0; i < tablinks.length; i++) {
-        tablinks[i].classList.remove("active");
-      }
-      document.getElementById(tabName).classList.add("active");
-      evt.currentTarget.classList.add("active");
+    function showTab(tabId) {
+      // Manage Buttons
+      document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+      event.currentTarget.classList.add('active');
+
+      // Manage Sections
+      document.querySelectorAll('.view-section').forEach(sec => sec.classList.remove('active'));
+      document.getElementById(tabId).classList.add('active');
     }
   </script>
 </body>
