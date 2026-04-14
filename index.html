@@ -31,7 +31,6 @@
     body {
       min-height: 100vh;
       display: flex;
-      flex-direction: column;
       justify-content: center;
       align-items: center;
       text-align: center;
@@ -64,31 +63,28 @@
     .logo {
       font-size: 32px;
       font-weight: 800;
-      letter-spacing: -1px;
       margin-bottom: 4px;
       background: linear-gradient(to bottom, #ffffff, #94a3b8);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
-      animation: revealDown 1s cubic-bezier(0.23, 1, 0.32, 1) forwards;
+      animation: revealDown 1s forwards;
     }
 
     .tagline {
       font-size: 14px;
-      font-weight: 600;
       letter-spacing: 4px;
       color: var(--primary);
-      text-transform: uppercase;
       opacity: 0;
-      animation: revealUp 1s cubic-bezier(0.23, 1, 0.32, 1) 0.3s forwards;
+      animation: revealUp 1s 0.3s forwards;
     }
 
     .loader-container {
-      width: 200px;
-      height: 4px;
+      width: 220px;
+      height: 5px;
       background: var(--glass);
       border-radius: 10px;
       overflow: hidden;
-      margin: 20px auto;
+      margin: 25px auto;
       border: 1px solid var(--glass-border);
     }
 
@@ -96,17 +92,16 @@
       width: 0%;
       height: 100%;
       background: var(--primary);
-      box-shadow: 0 0 15px var(--primary);
-      animation: progressLoad 2s ease-in-out forwards;
+      box-shadow: 0 0 20px var(--primary);
+      animation: progressLoad 7s linear forwards; /* 🔥 7 sec */
     }
 
     .loading-text {
       font-size: 12px;
       font-weight: 700;
-      text-transform: uppercase;
       letter-spacing: 1px;
-      opacity: 0.6;
-      animation: pulse 1.5s infinite;
+      opacity: 0.7;
+      transition: 0.3s;
     }
 
     @keyframes revealDown {
@@ -120,18 +115,13 @@
     }
 
     @keyframes progressLoad {
-      0% { width: 0%; }
-      100% { width: 100%; }
-    }
-
-    @keyframes pulse {
-      0%, 100% { opacity: 0.4; }
-      50% { opacity: 0.8; }
+      from { width: 0%; }
+      to { width: 100%; }
     }
 
     .fade-out {
       opacity: 0;
-      transition: opacity 0.5s ease;
+      transition: opacity 0.7s ease;
     }
   </style>
 </head>
@@ -147,27 +137,49 @@
     <div class="loader-container">
       <div class="progress-bar"></div>
     </div>
+
     <div class="loading-text">Initializing Secure Session...</div>
   </div>
 
   <script>
-    // ✅ SERVICE WORKER (PWA CORE)
+    // ✅ SERVICE WORKER
     if ('serviceWorker' in navigator) {
       navigator.serviceWorker.register('./sw.js')
         .then(() => console.log('✅ SW Registered'))
         .catch(err => console.log('❌ SW Error:', err));
     }
 
-    // ✅ SPLASH → DASHBOARD REDIRECT
+    // ✅ DYNAMIC LOADING TEXT (REALISTIC FEEL)
+    const messages = [
+      "Initializing Secure Session...",
+      "Verifying Credentials...",
+      "Fetching Student Data...",
+      "Loading Dashboard Modules...",
+      "Finalizing Setup..."
+    ];
+
+    let i = 0;
+    const textEl = document.querySelector(".loading-text");
+
+    const interval = setInterval(() => {
+      i++;
+      if (i < messages.length) {
+        textEl.textContent = messages[i];
+      } else {
+        clearInterval(interval);
+      }
+    }, 1400); // spreads across ~7 sec
+
+    // ✅ REDIRECT AFTER 7s
     window.onload = function() {
       setTimeout(function() {
         document.body.classList.add('fade-out');
 
         setTimeout(function() {
           window.location.replace("./student/dashboard.html");
-        }, 500);
+        }, 700);
 
-      }, 2200);
+      }, 7000); // 🔥 7 seconds
     };
   </script>
 
