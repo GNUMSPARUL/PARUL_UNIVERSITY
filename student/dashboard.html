@@ -1,0 +1,154 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <title>Student Dashboard | Elite Portal</title>
+
+  <!-- ✅ PWA FIXED PATHS -->
+  <link rel="manifest" href="./manifest.json">
+  <link rel="icon" type="image/png" href="./icon-192x192.png">
+  <link rel="apple-touch-icon" href="./icon-192x192.png">
+  <meta name="theme-color" content="#6366f1">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+
+  <!-- Fonts & Icons -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+
+  <style>
+    :root {
+      --primary: #6366f1;
+      --glass: rgba(255, 255, 255, 0.75);
+      --text-main: #0f172a;
+      --text-muted: #64748b;
+      --bg-mesh: radial-gradient(at 0% 0%, rgba(99, 102, 241, 0.15) 0, transparent 50%), 
+                 radial-gradient(at 100% 100%, rgba(244, 63, 94, 0.1) 0, transparent 50%);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background-color: #f8fafc;
+      background-image: var(--bg-mesh);
+      color: var(--text-main);
+      min-height: 100vh;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .dashboard-header {
+      background: linear-gradient(135deg, var(--primary) 0%, #4f46e5 100%);
+      padding: 30px 5% 60px;
+      border-bottom-left-radius: 40px;
+      border-bottom-right-radius: 40px;
+      box-shadow: 0 20px 40px rgba(99, 102, 241, 0.2);
+      text-align: center;
+      color: white;
+    }
+
+    .profile-img-container { width: 110px; height: 110px; margin: 0 auto 15px; position: relative; }
+    .dash-profile-pic { width: 100%; height: 100%; border-radius: 35px; border: 4px solid white; object-fit: cover; }
+    
+    .result-note {
+      margin: -25px 5% 25px; background: var(--glass); backdrop-filter: blur(20px);
+      border-radius: 20px; padding: 15px 20px; display: flex; align-items: center; gap: 15px; font-size: 0.85rem;
+    }
+
+    .main-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; padding: 0 5% 40px; }
+    .elite-card {
+      background: var(--glass); border-radius: 28px; padding: 24px 15px;
+      text-decoration: none; color: var(--text-main); display: flex;
+      flex-direction: column; align-items: center; gap: 10px; transition: 0.3s;
+    }
+    .elite-card:hover { transform: translateY(-5px); background: white; }
+    
+    .icon-box { width: 55px; height: 55px; border-radius: 18px; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; }
+    .c1 { background: rgba(99,102,241,0.1); color:#6366f1; }
+    .c5 { background: rgba(245,158,11,0.1); color:#f59e0b; }
+    .c6 { background: rgba(59,130,246,0.1); color:#3b82f6; }
+    .c7 { background: rgba(239,68,68,0.1); color:#ef4444; }
+
+    .version-footer { text-align: center; padding: 20px; font-size: 0.7rem; color: var(--text-muted); font-weight: 700; }
+  </style>
+</head>
+
+<body>
+
+<header class="dashboard-header">
+  <div style="display: flex; justify-content: space-between; margin-bottom: 20px;">
+    <span style="font-weight: 800;">PU ERP</span>
+    <a href="./signout.html" style="color:white; text-decoration:none; font-size:0.8rem;">Sign Out</a>
+  </div>
+
+  <div class="profile-img-container">
+    <img src="./assets/images/profile.jpg" class="dash-profile-pic" alt="Profile">
+  </div>
+
+  <h1 style="font-size: 1.5rem; font-weight: 800;">Sri Krishna Vardan</h1>
+</header>
+
+<section class="result-note">
+  <i class="bi bi-patch-check-fill" style="color: var(--primary);"></i>
+  <span><strong>Important:</strong> Sem-4 exam preponed to 30/04. Check admit card.</span>
+</section>
+
+<main class="main-grid">
+  <a href="./student/profile.html" class="elite-card">
+    <div class="icon-box c1"><i class="bi bi-person"></i></div>
+    <span>Profile</span>
+  </a>
+
+  <a href="./student/results.html" class="elite-card">
+    <div class="icon-box c5"><i class="bi bi-award"></i></div>
+    <span>Results</span>
+  </a>
+
+  <a href="./student/fees.html" class="elite-card">
+    <div class="icon-box c6"><i class="bi bi-wallet2"></i></div>
+    <span>Fees</span>
+  </a>
+
+  <a href="./student/hostel.html" class="elite-card">
+    <div class="icon-box c7"><i class="bi bi-building"></i></div>
+    <span>Hostel</span>
+  </a>
+</main>
+
+<footer class="version-footer">
+  GNUMS PORTAL • VERSION 2.1.0
+</footer>
+
+<!-- ✅ PWA + BACK BUTTON SCRIPT -->
+<script>
+  // 🔥 SERVICE WORKER REGISTRATION
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('./sw.js')
+        .then(reg => console.log('✅ SW Registered:', reg.scope))
+        .catch(err => console.log('❌ SW Error:', err));
+    });
+  }
+
+  // 🔥 ANDROID BACK BUTTON CONTROL
+  history.pushState(null, "", location.href);
+
+  window.addEventListener("popstate", function () {
+    if (
+      location.pathname.endsWith("index.html") ||
+      location.pathname === "/" ||
+      location.pathname.endsWith("/")
+    ) {
+      // Allow exit
+    } else {
+      location.href = "./index.html";
+    }
+  });
+</script>
+
+</body>
+</html>
