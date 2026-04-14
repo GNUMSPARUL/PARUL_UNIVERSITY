@@ -93,7 +93,7 @@
       height: 100%;
       background: var(--primary);
       box-shadow: 0 0 20px var(--primary);
-      animation: progressLoad 7s linear forwards; /* 🔥 7 sec */
+      animation: progressLoad 15s linear forwards; /* 🔥 15 sec */
     }
 
     .loading-text {
@@ -149,12 +149,14 @@
         .catch(err => console.log('❌ SW Error:', err));
     }
 
-    // ✅ DYNAMIC LOADING TEXT (REALISTIC FEEL)
+    // ✅ DYNAMIC LOADING TEXT (SYNCED WITH 15s)
     const messages = [
       "Initializing Secure Session...",
       "Verifying Credentials...",
       "Fetching Student Data...",
       "Loading Dashboard Modules...",
+      "Applying Security Policies...",
+      "Optimizing Performance...",
       "Finalizing Setup..."
     ];
 
@@ -168,9 +170,9 @@
       } else {
         clearInterval(interval);
       }
-    }, 1400); // spreads across ~7 sec
+    }, 2000); // spreads across ~14s
 
-    // ✅ REDIRECT AFTER 7s
+    // ✅ REDIRECT AFTER 15s
     window.onload = function() {
       setTimeout(function() {
         document.body.classList.add('fade-out');
@@ -179,7 +181,7 @@
           window.location.replace("./student/dashboard.html");
         }, 700);
 
-      }, 7000); // 🔥 7 seconds
+      }, 15000); // 🔥 15 seconds exact
     };
   </script>
 
