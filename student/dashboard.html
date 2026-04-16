@@ -22,7 +22,6 @@
                  radial-gradient(at 100% 100%, rgba(244, 63, 94, 0.1) 0, transparent 50%);
     }
 
-    /* CSS Reset Improvement */
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     body {
@@ -31,14 +30,14 @@
       background-image: var(--bg-mesh);
       color: var(--text-main);
       min-height: 100vh;
-      line-height: 1.5; /* Better readability */
+      line-height: 1.5;
       -webkit-font-smoothing: antialiased;
     }
 
     /* --- PREMIUM HEADER --- */
     .dashboard-header {
       background: linear-gradient(135deg, var(--primary) 0%, #4f46e5 100%);
-      padding: 30px 5% 60px; /* Increased bottom padding */
+      padding: 30px 5% 60px;
       border-bottom-left-radius: 40px;
       border-bottom-right-radius: 40px;
       box-shadow: 0 20px 40px rgba(99, 102, 241, 0.2);
@@ -46,7 +45,6 @@
       overflow: hidden;
     }
 
-    /* SVG Pattern Overlay */
     .dashboard-header::after {
       content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
       background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4z' fill='%23fff' fill-opacity='0.05'/%3E%3C/svg%3E");
@@ -62,7 +60,7 @@
 
     .logout-btn {
       background: rgba(255, 255, 255, 0.15); backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px); /* Safari Support */
+      -webkit-backdrop-filter: blur(10px);
       border: 1px solid rgba(255, 255, 255, 0.3); border-radius: 14px;
       padding: 10px 18px; color: white; text-decoration: none;
       font-size: 0.85rem; font-weight: 700; transition: 0.3s ease;
@@ -140,7 +138,6 @@
       font-size: 1.6rem; transition: 0.3s;
     }
 
-    /* Icon Color Schemes */
     .c1 { background: rgba(99, 102, 241, 0.1); color: #6366f1; }
     .c2 { background: rgba(139, 92, 246, 0.1); color: #8b5cf6; }
     .c3 { background: rgba(236, 72, 153, 0.1); color: #ec4899; }
@@ -162,7 +159,6 @@
       to { opacity: 1; transform: translateY(0); }
     }
 
-    /* Staggered load logic */
     .elite-card:nth-child(1) { animation-delay: 0.1s; }
     .elite-card:nth-child(2) { animation-delay: 0.15s; }
     .elite-card:nth-child(3) { animation-delay: 0.2s; }
@@ -171,6 +167,7 @@
     .elite-card:nth-child(6) { animation-delay: 0.35s; }
     .elite-card:nth-child(7) { animation-delay: 0.4s; }
     .elite-card:nth-child(8) { animation-delay: 0.45s; }
+    .elite-card:nth-child(9) { animation-delay: 0.5s; }
   </style>
 </head>
 <body>
@@ -192,7 +189,7 @@
 
   <section class="result-note" role="alert">
     <i class="bi bi-patch-check-fill" aria-hidden="true"></i>
-    <span><strong>Important Update:</strong Last subject of Sem-4 examination is preponed from 06/05 to 30/04. Students are instructed to check newely released Admit Card.</span>
+    <span><strong>Important Update:</strong> Last subject of Sem-4 examination is preponed from 06/05 to 30/04. Students are instructed to check the newly released Admit Card.</span>
   </section>
 
   <main class="main-grid">
@@ -237,7 +234,7 @@
     </a>
 
     <a href="exam.html" class="elite-card">
-      <div class="icon-box c1" style="background: rgba(99, 102, 241, 0.1); color: #6366f1;"><i class="bi bi-file-earmark-text-fill"></i></div>
+      <div class="icon-box c1"><i class="bi bi-file-earmark-text-fill"></i></div>
       <span>Exams</span>
     </a>
   </main>
@@ -248,11 +245,3 @@
 
 </body>
 </html>
-
-
-
-
-
-
-
-
