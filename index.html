@@ -5,13 +5,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Welcome | Elite Portal</title>
 
-  <!-- ✅ PWA META -->
   <link rel="manifest" href="./manifest.json">
   <meta name="theme-color" content="#6366f1">
   <link rel="icon" href="./icon-192x192.png">
   <link rel="apple-touch-icon" href="./icon-192x192.png">
 
-  <!-- Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 
   <style>
@@ -93,7 +91,8 @@
       height: 100%;
       background: var(--primary);
       box-shadow: 0 0 20px var(--primary);
-      animation: progressLoad 30s linear forwards; /* 🔥 30 sec */
+      /* 🔥 CHANGED TO 17s */
+      animation: progressLoad 17s linear forwards; 
     }
 
     .loading-text {
@@ -149,7 +148,7 @@
         .catch(err => console.log('❌ SW Error:', err));
     }
 
-    // ✅ TEXT FLOW (SYNCED WITH 30s)
+    // ✅ TEXT FLOW (SYNCED WITH 17s)
     const messages = [
       "Initializing Secure Session...",
       "Verifying Credentials...",
@@ -165,6 +164,7 @@
     let i = 0;
     const textEl = document.querySelector(".loading-text");
 
+    // 🔥 17000ms / 9 messages = ~1888ms per message
     const interval = setInterval(() => {
       i++;
       if (i < messages.length) {
@@ -172,9 +172,9 @@
       } else {
         clearInterval(interval);
       }
-    }, 3000); // 🔥 spreads across 30 sec
+    }, 1888); 
 
-    // ✅ REDIRECT AFTER 30s
+    // ✅ REDIRECT AFTER 17s
     window.onload = function() {
       setTimeout(function() {
         document.body.classList.add('fade-out');
@@ -183,7 +183,7 @@
           window.location.replace("./student/dashboard.html");
         }, 700);
 
-      }, 30000); // 🔥 30 seconds
+      }, 17000); // 🔥 CHANGED TO 17 seconds
     };
   </script>
 
