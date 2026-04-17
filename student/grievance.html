@@ -34,7 +34,7 @@
 
     /* --- HEADER --- */
     .header {
-      background: #000; /* Matching the black header in screenshot */
+      background: #000;
       color: white;
       padding: 20px 5%;
       display: flex;
@@ -81,11 +81,18 @@
     .modal-overlay {
       position: fixed;
       inset: 0;
-      background: rgba(0,0,0,0.5);
-      display: flex; /* Shown for demo, toggle with JS */
+      background: rgba(0,0,0,0.6);
+      backdrop-filter: blur(4px);
+      display: none; /* Hidden by default */
       align-items: flex-end;
       z-index: 1000;
-      transition: 0.3s ease;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .modal-overlay.active {
+      display: flex;
+      opacity: 1;
     }
 
     .bottom-sheet {
@@ -97,7 +104,12 @@
       max-height: 90vh;
       overflow-y: auto;
       position: relative;
-      animation: slideUp 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      transform: translateY(100%);
+      transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.1);
+    }
+
+    .modal-overlay.active .bottom-sheet {
+      transform: translateY(0);
     }
 
     .drag-handle {
@@ -112,8 +124,8 @@
     .sheet-header h2 { font-size: 1.4rem; font-weight: 800; }
     .close-btn { 
         background: #111; color: white; border-radius: 50%; 
-        width: 28px; height: 28px; display: flex; align-items: center; 
-        justify-content: center; cursor: pointer;
+        width: 32px; height: 32px; display: flex; align-items: center; 
+        justify-content: center; cursor: pointer; border: none;
     }
 
     /* --- FORM STYLING --- */
@@ -123,6 +135,7 @@
       position: absolute; top: -10px; left: 15px;
       background: white; padding: 0 5px;
       font-size: 0.75rem; font-weight: 600; color: var(--text-muted);
+      z-index: 5;
     }
     .form-label span { color: #ef4444; }
 
@@ -135,25 +148,25 @@
       font-size: 0.95rem;
       color: var(--text-main);
       outline: none;
-      transition: 0.2s;
+      background: #fff;
     }
-    .form-control:focus { border-color: var(--primary); box-shadow: 0 0 0 4px var(--primary-glow); }
+    .form-control:focus { border-color: #111; }
 
-    textarea.form-control { min-height: 120px; resize: none; }
+    textarea.form-control { min-height: 100px; resize: none; }
 
     /* --- UPLOAD BOX --- */
     .upload-area {
       border: 2px dashed #cbd5e1;
       border-radius: 16px;
-      padding: 30px;
+      padding: 25px;
       text-align: center;
       cursor: pointer;
       background: #f8fafc;
       margin-bottom: 30px;
     }
-    .upload-area i { font-size: 2rem; color: var(--text-muted); display: block; margin-bottom: 10px; }
+    .upload-area i { font-size: 1.8rem; color: var(--text-muted); display: block; margin-bottom: 8px; }
     .upload-area p { font-size: 0.9rem; font-weight: 700; color: #111; }
-    .upload-area span { font-size: 0.75rem; color: var(--text-muted); font-weight: 500; }
+    .upload-area span { font-size: 0.7rem; color: var(--text-muted); font-weight: 500; }
 
     /* --- BUTTONS --- */
     .btn-group { display: grid; grid-template-columns: 1fr 1.2fr; gap: 12px; }
@@ -164,12 +177,8 @@
     }
     .btn-cancel { background: white; border: 1.5px solid #111; color: #111; }
     .btn-submit { background: #111; color: white; }
-    .btn:active { transform: scale(0.98); }
+    .btn:active { transform: scale(0.96); }
 
-    @keyframes slideUp {
-      from { transform: translateY(100%); }
-      to { transform: translateY(0); }
-    }
   </style>
 </head>
 <body>
@@ -179,7 +188,7 @@
       <i class="bi bi-arrow-left" onclick="window.history.back()"></i>
       <span class="header-title">Grievance</span>
     </div>
-    <i class="bi bi-plus-lg" style="font-size: 1.4rem;"></i>
+    <i class="bi bi-plus-lg" id="openModalBtn" style="font-size: 1.4rem; cursor: pointer;"></i>
   </header>
 
   <main class="content-area">
@@ -190,39 +199,40 @@
     </div>
 
     <div class="empty-state">
+      <i class="bi bi-inbox" style="font-size: 3rem; display: block; margin-bottom: 10px; opacity: 0.3;"></i>
       No grievance requests found.
     </div>
   </main>
 
-  <div class="modal-overlay">
+  <div class="modal-overlay" id="modalOverlay">
     <div class="bottom-sheet">
       <div class="drag-handle"></div>
       
       <div class="sheet-header">
         <h2>Add Grievance Request</h2>
-        <div class="close-btn"><i class="bi bi-x"></i></div>
+        <button class="close-btn" id="xCloseBtn"><i class="bi bi-x-lg"></i></button>
       </div>
 
-      <form action="#">
+      <form id="grievanceForm">
         <div class="form-group">
           <label class="form-label">Grievance Type<span>*</span></label>
-          <select class="form-control">
-            <option selected disabled>Select Grievance Type</option>
-            <option>Academic</option>
-            <option>Hostel</option>
-            <option>Transport</option>
+          <select class="form-control" required>
+            <option value="" selected disabled>Select Grievance Type</option>
+            <option>Academic Issues</option>
+            <option>Hostel/Facility</option>
+            <option>Fees & Finance</option>
             <option>Other</option>
           </select>
         </div>
 
         <div class="form-group">
           <label class="form-label">Grievance Title<span>*</span></label>
-          <input type="text" class="form-control" placeholder="Grievance Title">
+          <input type="text" class="form-control" placeholder="Enter title" required>
         </div>
 
         <div class="form-group">
           <label class="form-label">Grievance Description<span>*</span></label>
-          <textarea class="form-control" placeholder="Grievance Description"></textarea>
+          <textarea class="form-control" placeholder="Describe your issue..." required></textarea>
         </div>
 
         <div class="upload-area">
@@ -232,12 +242,53 @@
         </div>
 
         <div class="btn-group">
-          <button type="button" class="btn btn-cancel">Cancel</button>
+          <button type="button" class="btn btn-cancel" id="cancelBtn">Cancel</button>
           <button type="submit" class="btn btn-submit">Submit</button>
         </div>
       </form>
     </div>
   </div>
+
+  <script>
+    // Elements
+    const modal = document.getElementById('modalOverlay');
+    const openBtn = document.getElementById('openModalBtn');
+    const xBtn = document.getElementById('xCloseBtn');
+    const cancelBtn = document.getElementById('cancelBtn');
+    const form = document.getElementById('grievanceForm');
+
+    // Function to Open Modal
+    function openModal() {
+      modal.classList.add('active');
+      document.body.style.overflow = 'hidden'; // Stop background scrolling
+    }
+
+    // Function to Close Modal
+    function closeModal() {
+      modal.classList.remove('active');
+      document.body.style.overflow = 'auto'; // Re-enable scrolling
+    }
+
+    // Event Listeners
+    openBtn.addEventListener('click', openModal);
+    xBtn.addEventListener('click', closeModal);
+    cancelBtn.addEventListener('click', closeModal);
+
+    // Close when clicking on the dark background overlay
+    modal.addEventListener('click', (e) => {
+      if (e.target === modal) {
+        closeModal();
+      }
+    });
+
+    // Handle Form Submission
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      alert('Grievance Request Submitted Successfully!');
+      closeModal();
+      form.reset();
+    });
+  </script>
 
 </body>
 </html>
