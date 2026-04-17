@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Feedback | Elite Portal</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+
+  <style>
+    :root {
+      --primary: #6366f1;
+      --bg-light: #f1f5f9;
+      --text-main: #0f172a;
+      --text-muted: #64748b;
+      --danger: #ef4444;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background-color: var(--bg-light);
+      color: var(--text-main);
+      min-height: 100vh;
+    }
+
+    /* --- HEADER --- */
+    .header {
+      background: #000;
+      color: white;
+      padding: 18px 5%;
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    .header i { font-size: 1.2rem; cursor: pointer; }
+    .header-title { font-size: 1.2rem; font-weight: 700; }
+
+    /* --- TABS SECTION --- */
+    .tabs-container {
+      background: #f8fafc;
+      padding: 15px 5% 5px;
+      display: flex;
+      gap: 30px;
+    }
+    .tab {
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: #94a3b8;
+      padding-bottom: 8px;
+      cursor: pointer;
+      position: relative;
+    }
+    .tab.active {
+      color: #000;
+    }
+    .tab.active::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0;
+      width: 100%; height: 3px;
+      background: #000;
+      border-radius: 10px;
+    }
+
+    /* --- SUB-FILTERS (PILLS) --- */
+    .pill-container {
+      padding: 20px 5%;
+      display: flex;
+      gap: 12px;
+    }
+    .pill {
+      padding: 8px 20px;
+      border-radius: 25px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      border: 1px solid #cbd5e1;
+      background: #fff;
+      color: var(--text-muted);
+      cursor: pointer;
+      transition: 0.2s;
+    }
+    .pill.active {
+      background: #e0e7ff;
+      color: #4338ca;
+      border-color: #4338ca;
+    }
+
+    /* --- MAIN LIST AREA --- */
+    .content-list { padding: 0 5% 40px; }
+
+    /* Info Banner */
+    .info-banner {
+      background: #fff;
+      border-radius: 12px;
+      padding: 15px;
+      display: flex;
+      gap: 12px;
+      margin-bottom: 20px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.02);
+    }
+    .info-banner .icon-circle {
+      min-width: 24px; height: 24px;
+      background: var(--danger);
+      color: white;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.8rem;
+    }
+    .info-banner p {
+      font-size: 0.8rem;
+      font-weight: 700;
+      line-height: 1.4;
+      color: #1e293b;
+    }
+
+    /* Feedback Cards */
+    .feedback-card {
+      background: #fff;
+      border-radius: 16px;
+      padding: 20px;
+      margin-bottom: 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      border: 1px solid rgba(0,0,0,0.03);
+    }
+    .subject-code { font-size: 0.9rem; font-weight: 800; color: #1e293b; }
+    
+    .card-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+    }
+
+    .badge-expired {
+      border: 1px solid var(--danger);
+      color: var(--danger);
+      padding: 4px 12px;
+      border-radius: 8px;
+      font-size: 0.75rem;
+      font-weight: 700;
+    }
+
+    .due-date { text-align: right; }
+    .due-date label { display: block; font-size: 0.65rem; color: #111; font-weight: 700; margin-bottom: 2px;}
+    .due-date span { font-size: 0.85rem; font-weight: 800; color: var(--danger); }
+
+  </style>
+</head>
+<body>
+
+  <header class="header">
+    <i class="bi bi-arrow-left" onclick="window.history.back()"></i>
+    <span class="header-title">Feedback</span>
+  </header>
+
+  <div class="tabs-container">
+    <div class="tab">Current</div>
+    <div class="tab active">Past</div>
+  </div>
+
+  <div class="pill-container">
+    <div class="pill active">Academic</div>
+    <div class="pill">Overall</div>
+  </div>
+
+  <main class="content-list">
+    
+    <div class="info-banner">
+      <div class="icon-circle"><i class="bi bi-exclamation"></i></div>
+      <p>
+        2025-26 - Even (Active) | Student | Subject | Student Feedback on Curriculum | 
+        Parul University (24-11-2025 To 15-04-2026)
+      </p>
+      <i class="bi bi-chevron-up" style="margin-left: auto;"></i>
+    </div>
+
+    <div id="feedbackItems">
+      <div class="feedback-card">
+        <div class="subject-code">303105251-Operating System-</div>
+        <div class="card-footer">
+          <div class="badge-expired">Expired</div>
+          <div class="due-date">
+            <label>Due Date</label>
+            <span>15 Apr 26</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="feedback-card">
+        <div class="subject-code">303105251-Operating System-</div>
+        <div class="card-footer">
+          <div class="badge-expired">Expired</div>
+          <div class="due-date">
+            <label>Due Date</label>
+            <span>15 Apr 26</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="feedback-card">
+        <div class="subject-code">303105252-Operating System Laboratory-</div>
+        <div class="card-footer">
+          <div class="badge-expired">Expired</div>
+          <div class="due-date">
+            <label>Due Date</label>
+            <span>15 Apr 26</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="feedback-card">
+        <div class="subject-code">303105253-Software Engineering-</div>
+        <div class="card-footer">
+          <div class="badge-expired">Expired</div>
+          <div class="due-date">
+            <label>Due Date</label>
+            <span>15 Apr 26</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="feedback-card">
+        <div class="subject-code">303105254-Software Engineering Laboratory-</div>
+        <div class="card-footer">
+          <div class="badge-expired">Expired</div>
+          <div class="due-date">
+            <label>Due Date</label>
+            <span>15 Apr 26</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <script>
+    // Tab Switching Logic
+    const tabs = document.querySelectorAll('.tab');
+    tabs.forEach(tab => {
+      tab.addEventListener('click', () => {
+        tabs.forEach(t => t.classList.remove('active'));
+        tab.classList.add('active');
+      });
+    });
+
+    // Pill Switching Logic
+    const pills = document.querySelectorAll('.pill');
+    pills.forEach(pill => {
+      pill.addEventListener('click', () => {
+        pills.forEach(p => p.classList.remove('active'));
+        pill.classList.add('active');
+      });
+    });
+  </script>
+
+</body>
+</html>
