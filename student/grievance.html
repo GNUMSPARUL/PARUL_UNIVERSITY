@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Grievance | Elite Portal</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+
+  <style>
+    :root {
+      --primary: #6366f1;
+      --glass: rgba(255, 255, 255, 0.75);
+      --glass-border: rgba(255, 255, 255, 0.5);
+      --text-main: #0f172a;
+      --text-muted: #64748b;
+      --bg-mesh: radial-gradient(at 0% 0%, rgba(99, 102, 241, 0.15) 0, transparent 50%), 
+                 radial-gradient(at 100% 100%, rgba(244, 63, 94, 0.1) 0, transparent 50%);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background-color: #f8fafc;
+      background-image: var(--bg-mesh);
+      color: var(--text-main);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* --- HEADER --- */
+    .header {
+      background: #000; /* Matching the black header in screenshot */
+      color: white;
+      padding: 20px 5%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .header-left { display: flex; align-items: center; gap: 15px; }
+    .header-left i { font-size: 1.2rem; cursor: pointer; }
+    .header-title { font-size: 1.1rem; font-weight: 700; }
+
+    /* --- SEARCH & LIST AREA --- */
+    .content-area { padding: 20px 5%; }
+    
+    .search-bar {
+      background: rgba(255,255,255,0.8);
+      border: 1px solid #e2e8f0;
+      border-radius: 12px;
+      padding: 12px 15px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+    .search-bar input {
+      border: none;
+      background: transparent;
+      outline: none;
+      width: 100%;
+      font-family: inherit;
+    }
+
+    .empty-state {
+      text-align: center;
+      margin-top: 100px;
+      color: var(--text-muted);
+      font-weight: 500;
+    }
+
+    /* --- BOTTOM SHEET MODAL --- */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.5);
+      display: flex; /* Shown for demo, toggle with JS */
+      align-items: flex-end;
+      z-index: 1000;
+      transition: 0.3s ease;
+    }
+
+    .bottom-sheet {
+      background: white;
+      width: 100%;
+      border-top-left-radius: 30px;
+      border-top-right-radius: 30px;
+      padding: 30px 5% 40px;
+      max-height: 90vh;
+      overflow-y: auto;
+      position: relative;
+      animation: slideUp 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    .drag-handle {
+      width: 40px; height: 4px; background: #e2e8f0;
+      border-radius: 10px; margin: -15px auto 20px;
+    }
+
+    .sheet-header {
+      display: flex; justify-content: space-between; align-items: center;
+      margin-bottom: 25px;
+    }
+    .sheet-header h2 { font-size: 1.4rem; font-weight: 800; }
+    .close-btn { 
+        background: #111; color: white; border-radius: 50%; 
+        width: 28px; height: 28px; display: flex; align-items: center; 
+        justify-content: center; cursor: pointer;
+    }
+
+    /* --- FORM STYLING --- */
+    .form-group { position: relative; margin-bottom: 20px; }
+    
+    .form-label {
+      position: absolute; top: -10px; left: 15px;
+      background: white; padding: 0 5px;
+      font-size: 0.75rem; font-weight: 600; color: var(--text-muted);
+    }
+    .form-label span { color: #ef4444; }
+
+    .form-control {
+      width: 100%;
+      padding: 14px 18px;
+      border: 1px solid #cbd5e1;
+      border-radius: 14px;
+      font-family: inherit;
+      font-size: 0.95rem;
+      color: var(--text-main);
+      outline: none;
+      transition: 0.2s;
+    }
+    .form-control:focus { border-color: var(--primary); box-shadow: 0 0 0 4px var(--primary-glow); }
+
+    textarea.form-control { min-height: 120px; resize: none; }
+
+    /* --- UPLOAD BOX --- */
+    .upload-area {
+      border: 2px dashed #cbd5e1;
+      border-radius: 16px;
+      padding: 30px;
+      text-align: center;
+      cursor: pointer;
+      background: #f8fafc;
+      margin-bottom: 30px;
+    }
+    .upload-area i { font-size: 2rem; color: var(--text-muted); display: block; margin-bottom: 10px; }
+    .upload-area p { font-size: 0.9rem; font-weight: 700; color: #111; }
+    .upload-area span { font-size: 0.75rem; color: var(--text-muted); font-weight: 500; }
+
+    /* --- BUTTONS --- */
+    .btn-group { display: grid; grid-template-columns: 1fr 1.2fr; gap: 12px; }
+    
+    .btn {
+      padding: 16px; border-radius: 12px; font-weight: 700; font-size: 0.95rem;
+      cursor: pointer; transition: 0.2s; text-align: center; border: none;
+    }
+    .btn-cancel { background: white; border: 1.5px solid #111; color: #111; }
+    .btn-submit { background: #111; color: white; }
+    .btn:active { transform: scale(0.98); }
+
+    @keyframes slideUp {
+      from { transform: translateY(100%); }
+      to { transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+
+  <header class="header">
+    <div class="header-left">
+      <i class="bi bi-arrow-left" onclick="window.history.back()"></i>
+      <span class="header-title">Grievance</span>
+    </div>
+    <i class="bi bi-plus-lg" style="font-size: 1.4rem;"></i>
+  </header>
+
+  <main class="content-area">
+    <div class="search-bar">
+      <i class="bi bi-search text-muted"></i>
+      <input type="text" placeholder="Search">
+      <i class="bi bi-filter-right"></i>
+    </div>
+
+    <div class="empty-state">
+      No grievance requests found.
+    </div>
+  </main>
+
+  <div class="modal-overlay">
+    <div class="bottom-sheet">
+      <div class="drag-handle"></div>
+      
+      <div class="sheet-header">
+        <h2>Add Grievance Request</h2>
+        <div class="close-btn"><i class="bi bi-x"></i></div>
+      </div>
+
+      <form action="#">
+        <div class="form-group">
+          <label class="form-label">Grievance Type<span>*</span></label>
+          <select class="form-control">
+            <option selected disabled>Select Grievance Type</option>
+            <option>Academic</option>
+            <option>Hostel</option>
+            <option>Transport</option>
+            <option>Other</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Grievance Title<span>*</span></label>
+          <input type="text" class="form-control" placeholder="Grievance Title">
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Grievance Description<span>*</span></label>
+          <textarea class="form-control" placeholder="Grievance Description"></textarea>
+        </div>
+
+        <div class="upload-area">
+          <i class="bi bi-cloud-arrow-up"></i>
+          <p>Click to Upload or Capture Document</p>
+          <span>( Max. File size: 1 MB )</span>
+        </div>
+
+        <div class="btn-group">
+          <button type="button" class="btn btn-cancel">Cancel</button>
+          <button type="submit" class="btn btn-submit">Submit</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+</body>
+</html>
