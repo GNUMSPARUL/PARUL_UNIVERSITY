@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Student Ledger</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         :root {
             --primary-text: #1a1a1a;
@@ -26,7 +26,6 @@
             -webkit-font-smoothing: antialiased;
         }
 
-        /* Header Navigation */
         header {
             background: white;
             padding: 15px 20px;
@@ -36,17 +35,8 @@
             box-shadow: 0 2px 4px rgba(0,0,0,0.02);
         }
 
-        .back-icon { 
-            font-size: 20px; 
-            margin-right: 20px; 
-            cursor: pointer; 
-            color: var(--primary-blue);
-        }
-        .page-title { 
-            font-size: 18px; 
-            font-weight: 700; 
-            color: var(--primary-blue);
-        }
+        .back-icon { font-size: 20px; margin-right: 20px; cursor: pointer; color: var(--primary-blue); }
+        .page-title { font-size: 18px; font-weight: 700; color: var(--primary-blue); }
 
         .tabs-nav {
             display: flex;
@@ -54,6 +44,7 @@
             padding: 10px 20px;
             gap: 25px;
             border-bottom: 1px solid var(--border-light);
+            overflow-x: auto;
         }
 
         .tab-link {
@@ -64,36 +55,21 @@
             padding-bottom: 8px;
             position: relative;
             cursor: pointer;
-            transition: color 0.2s;
+            white-space: nowrap;
         }
 
-        .tab-link:hover {
-            color: var(--primary-blue);
-        }
-
-        .tab-link.active {
-            color: var(--primary-blue);
-        }
-
+        .tab-link.active { color: var(--primary-blue); }
         .tab-link.active::after {
             content: '';
             position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            height: 3px;
+            bottom: 0; left: 0;
+            width: 100%; height: 3px;
             background: var(--primary-blue);
             border-radius: 2px;
         }
 
-        /* Container */
-        .container { 
-            padding: 15px; 
-            max-width: 500px; 
-            margin: auto; 
-        }
+        .container { padding: 15px; max-width: 500px; margin: auto; }
 
-        /* Summary Dashboard */
         .summary-grid {
             background: white;
             border-radius: 12px;
@@ -105,189 +81,51 @@
             box-shadow: 0 4px 12px rgba(0,0,0,0.05);
         }
 
-        .stat-item .label { 
-            font-size: 13px; 
-            font-weight: 600; 
-            margin-bottom: 8px; 
-            display: block; 
-        }
+        .stat-item .label { font-size: 13px; font-weight: 600; margin-bottom: 8px; display: block; }
         .stat-item.collected .label { color: var(--brand-teal); }
         .stat-item.paid .label { color: var(--brand-teal); }
         .stat-item.previous .label { color: var(--brand-orange); }
         .stat-item.pending .label { color: var(--brand-red); }
+        .stat-value { font-size: 18px; font-weight: 800; display: flex; align-items: center; gap: 8px; }
 
-        .stat-value { 
-            font-size: 18px; 
-            font-weight: 800; 
-            display: flex; 
-            align-items: center; 
-            gap: 8px; 
-        }
-        .icon {
-            width: 20px;
-            height: 20px;
-        }
-
-        /* Semester Pills */
-        .pill-box { 
-            display: flex; 
-            gap: 10px; 
-            margin-bottom: 20px; 
-            overflow-x: auto; 
-            padding-bottom: 5px;
-        }
+        .pill-box { display: flex; gap: 10px; margin-bottom: 20px; overflow-x: auto; padding-bottom: 5px; }
         .pill {
-            background: white;
-            border: 1px solid #ccc;
-            padding: 8px 18px;
-            border-radius: 20px;
-            font-size: 13px;
-            font-weight: 600;
-            white-space: nowrap;
-            cursor: pointer;
-            transition: all 0.2s;
+            background: white; border: 1px solid #ccc;
+            padding: 8px 18px; border-radius: 20px;
+            font-size: 13px; font-weight: 600; white-space: nowrap;
         }
-        .pill:hover:not(.active) {
-            border-color: #999;
-        }
-        .pill.active { 
-            background: #eef2f7; 
-            border-color: var(--primary-blue);
-            color: var(--primary-blue);
-        }
+        .pill.active { background: #eef2f7; border-color: var(--primary-blue); color: var(--primary-blue); }
 
-        /* Sections and Tables */
         .section-card {
-            background: white;
-            border-radius: 12px;
-            margin-bottom: 15px;
-            overflow: hidden;
+            background: white; border-radius: 12px;
+            margin-bottom: 15px; overflow: hidden;
             box-shadow: 0 4px 12px rgba(0,0,0,0.05);
         }
 
         .section-header {
-            padding: 15px;
-            font-weight: 700;
-            font-size: 14px;
-            display: flex;
-            justify-content: space-between;
-            color: var(--primary-blue);
-            cursor: pointer;
-        }
-        .arrow-icon {
-            transition: transform 0.2s;
-        }
-        .section-card.collapsed .arrow-icon {
-            transform: rotate(-180deg);
+            padding: 15px; font-weight: 700; font-size: 14px;
+            display: flex; justify-content: space-between; color: var(--primary-blue);
         }
 
-        .collapsible-content {
-            transition: max-height 0.2s ease-out;
-            max-height: 1000px; /* Adjust as needed */
-            overflow: hidden;
-        }
-        .section-card.collapsed .collapsible-content {
-            max-height: 0;
-        }
+        table { width: 100%; border-collapse: collapse; }
+        th { background: #1a1a1a; color: white; text-align: left; padding: 10px 15px; font-size: 11px; text-transform: uppercase; }
+        td { padding: 12px 15px; font-size: 13px; border-bottom: 1px solid #f0f0f0; }
+        .row-total { background: #f9f9f9; font-weight: 800; }
 
-        table { 
-            width: 100%; 
-            border-collapse: collapse; 
-        }
-        th { 
-            background: var(--primary-text); 
-            color: white; 
-            text-align: left; 
-            padding: 10px 15px; 
-            font-size: 12px; 
-            text-transform: uppercase;
-        }
-        td { 
-            padding: 12px 15px; 
-            font-size: 13px; 
-            border-bottom: 1px solid #f0f0f0; 
-        }
-        .row-total { 
-            background: #eee; 
-            font-weight: 800; 
-        }
-        .row-total td {
-            border-bottom: none;
-        }
+        .receipt-item { padding: 15px; border-bottom: 1px solid #f0f0f0; position: relative; }
+        .receipt-meta { display: flex; justify-content: space-between; margin-bottom: 8px; }
+        .receipt-date { font-size: 11px; color: var(--brand-teal); background: #f0fafa; padding: 2px 6px; border-radius: 4px; }
+        .receipt-id { font-size: 11px; color: var(--brand-orange); font-weight: 600; }
+        .receipt-amount { font-size: 16px; font-weight: 800; margin-bottom: 4px; }
+        .receipt-type { font-weight: 600; font-size: 13px; color: var(--primary-blue); text-align: right; }
+        .receipt-details { font-size: 11px; color: var(--muted-text); line-height: 1.4; }
 
-        /* Receipt Items */
-        .receipt-list {
-            padding: 0 15px;
-        }
-        .receipt-item {
-            padding: 15px 0;
-            border-bottom: 1px solid #f0f0f0;
-            position: relative;
-        }
-        .receipt-item:last-child {
-            border-bottom: none;
-        }
-        .receipt-meta {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 10px;
-        }
-        .receipt-date { 
-            font-size: 11px; 
-            color: var(--brand-teal); 
-            background: #f0fafa; 
-            padding: 2px 6px; 
-            border-radius: 4px; 
-            display: flex;
-            align-items: center;
-            gap: 4px;
-        }
-        .receipt-id { 
-            font-size: 11px; 
-            color: var(--brand-orange); 
-        }
-        .receipt-body {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-        }
-        .receipt-amount { 
-            font-size: 16px; 
-            font-weight: 800; 
-        }
-        .receipt-type { 
-            font-weight: 600; 
-            font-size: 14px; 
-            color: var(--primary-blue); 
-        }
-        .receipt-details { 
-            font-size: 11px; 
-            color: var(--muted-text); 
-            margin-top: 5px; 
-            line-height: 1.4; 
-        }
-
-        /* Empty State */
         .empty-state {
-            text-align: center;
-            padding: 40px 20px;
-            background: white;
-            border-radius: 12px;
+            text-align: center; padding: 60px 20px; background: white; border-radius: 12px;
             box-shadow: 0 4px 12px rgba(0,0,0,0.05);
         }
-        .empty-icon {
-            font-size: 48px;
-            color: #ccc;
-            margin-bottom: 15px;
-        }
-        .empty-text {
-            font-size: 14px;
-            color: var(--muted-text);
-            line-height: 1.6;
-        }
+        .empty-text { font-size: 14px; color: var(--muted-text); line-height: 1.6; font-weight: 500; }
 
-        /* Utilities */
         .hidden { display: none; }
     </style>
 </head>
@@ -299,10 +137,10 @@
 </header>
 
 <div class="tabs-nav">
-    <a href="javascript:void(0)" class="tab-link active" id="tab-academic" onclick="switchTab('academic')">Academic</a>
-    <a href="javascript:void(0)" class="tab-link" id="tab-hostel" onclick="switchTab('hostel')">Hostel</a>
-    <a href="javascript:void(0)" class="tab-link" id="tab-transport" onclick="switchTab('transport')">Transport</a>
-    <a href="javascript:void(0)" class="tab-link" id="tab-other" onclick="switchTab('other')">Other</a>
+    <div class="tab-link active" id="tab-academic" onclick="switchTab('academic')">Academic</div>
+    <div class="tab-link" id="tab-hostel" onclick="switchTab('hostel')">Hostel</div>
+    <div class="tab-link" id="tab-transport" onclick="switchTab('transport')">Transport</div>
+    <div class="tab-link" id="tab-other" onclick="switchTab('other')">Other</div>
 </div>
 
 <div class="container">
@@ -311,123 +149,116 @@
         <div class="summary-grid">
             <div class="stat-item collected">
                 <span class="label">To Be Collected</span>
-                <div class="stat-value">₹ 5,25,000 <img class="icon" src="https://img.icons8.com/color/20/activity.png" alt="activity"/></div>
+                <div class="stat-value">₹ 5,25,000 <img src="https://img.icons8.com/color/20/activity.png"/></div>
             </div>
             <div class="stat-item paid">
                 <span class="label">Paid</span>
-                <div class="stat-value">₹ 3,50,000 <img class="icon" src="https://img.icons8.com/color/20/checked-line.png" alt="checked"/></div>
+                <div class="stat-value">₹ 3,50,000 <img src="https://img.icons8.com/color/20/checked-line.png"/></div>
             </div>
             <div class="stat-item previous">
                 <span class="label">Previous Fee</span>
-                <div class="stat-value">₹ 0 <img class="icon" src="https://img.icons8.com/color/20/more.png" alt="more"/></div>
+                <div class="stat-value">₹ 0 <img src="https://img.icons8.com/color/20/more.png"/></div>
             </div>
             <div class="stat-item pending">
                 <span class="label">Pending</span>
-                <div class="stat-value">₹ 1,75,000 <img class="icon" src="https://img.icons8.com/color/20/error.png" alt="error"/></div>
+                <div class="stat-value">₹ 1,75,000 <img src="https://img.icons8.com/color/20/error.png"/></div>
             </div>
         </div>
 
         <div class="pill-box">
-            <div class="pill active">Semester 1</div>
+            <div class="pill">Semester 1</div>
             <div class="pill">Semester 2</div>
-            <div class="pill">Semester 3</div>
+            <div class="pill active">Semester 3</div>
         </div>
 
         <div class="section-card">
-            <div class="section-header" onclick="toggleSection(this)">Fee Collection <span class="arrow-icon">^</span></div>
-            <div class="collapsible-content">
-                <table>
-                    <thead>
-                        <tr><th>Fee Head</th><th>Fee Plan</th><th>To Be Collected</th></tr>
-                    </thead>
-                    <tbody>
-                        <tr><td>Tuition Fee</td><td>₹ 1,50,000</td><td>₹ 1,50,000</td></tr>
-                        <tr><td>University Examination Fees</td><td>₹ 25,000</td><td>₹ 25,000</td></tr>
-                        <tr class="row-total"><td>Total</td><td>₹ 1,75,000</td><td>₹ 1,75,000</td></tr>
-                    </tbody>
-                </table>
+            <div class="section-header">Fee Collection <span>^</span></div>
+            <table>
+                <thead>
+                    <tr><th>Fee Head</th><th>Fee Plan</th><th>To Be Collected</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>Tuition Fee</td><td>₹ 1,50,000</td><td>₹ 1,50,000</td></tr>
+                    <tr><td>University Examination Fees</td><td>₹ 25,000</td><td>₹ 25,000</td></tr>
+                    <tr class="row-total"><td>Total</td><td>₹ 1,75,000</td><td>₹ 1,75,000</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="section-card">
+            <div class="section-header">Fee Receipts <span>^</span></div>
+            <div class="receipt-item">
+                <div class="receipt-meta">
+                    <span class="receipt-date">📅 30-05-2025</span>
+                    <span class="receipt-id">23/25/45915</span>
+                </div>
+                <div style="display:flex; justify-content: space-between; align-items: flex-start;">
+                    <div>
+                        <div class="receipt-amount">₹ 12,500</div>
+                        <div class="receipt-details">Ref No: E2505300GV1JZK<br>Ref Date: 30-05-2025</div>
+                    </div>
+                    <div class="receipt-type">EaseBuzz Online Payment</div>
+                </div>
             </div>
-        </div>
-
-        <div class="section-card">
-            <div class="section-header" onclick="toggleSection(this)">Fee Receipts <span class="arrow-icon">^</span></div>
-            <div class="collapsible-content">
-                <div class="receipt-list">
-                    <div class="receipt-item">
-                        <div class="receipt-meta">
-                            <span class="receipt-date"><span>📅</span> 30-05-2025</span>
-                            <span class="receipt-id">23/25/45915</span>
-                        </div>
-                        <div class="receipt-body">
-                            <div>
-                                <div class="receipt-amount">₹ 12,500</div>
-                                <div class="receipt-details">Payment Details:<br>Reference No: E2505300GV1JZK<br>Reference Date: 30-05-2025</div>
-                            </div>
-                            <div class="receipt-type">EaseBuzz Online Payment</div>
-                        </div>
+            <div class="receipt-item">
+                <div class="receipt-meta">
+                    <span class="receipt-date">📅 30-05-2025</span>
+                    <span class="receipt-id">23/25/45914</span>
+                </div>
+                <div style="display:flex; justify-content: space-between; align-items: flex-start;">
+                    <div>
+                        <div class="receipt-amount">₹ 75,000</div>
+                        <div class="receipt-details">Ref No: E2505300GV1JZK<br>Ref Date: 30-05-2025</div>
                     </div>
-                    <div class="receipt-item">
-                        <div class="receipt-meta">
-                            <span class="receipt-date"><span>📅</span> 30-05-2025</span>
-                            <span class="receipt-id">23/25/45914</span>
-                        </div>
-                        <div class="receipt-body">
-                            <div>
-                                <div class="receipt-amount">₹ 75,000</div>
-                                <div class="receipt-details">Payment Details:<br>Reference No: E2505300GV1JZK<br>Reference Date: 30-05-2025</div>
-                            </div>
-                            <div class="receipt-type">EaseBuzz Online Payment</div>
-                        </div>
-                    </div>
-                    <div class="receipt-item">
-                        <div class="receipt-meta">
-                            <span class="receipt-date"><span>📅</span> 29-05-2025</span>
-                            <span class="receipt-id">23/25/43773</span>
-                        </div>
-                        <div class="receipt-body">
-                            <div>
-                                <div class="receipt-amount">₹ 12,500</div>
-                                <div class="receipt-details">Payment Details:<br>Reference No: E2505290GUC7E4<br>Reference Date: 29-05-2025</div>
-                            </div>
-                            <div class="receipt-type">EaseBuzz Online Payment</div>
-                        </div>
-                    </div>
-                    <div class="receipt-item">
-                        <div class="receipt-meta">
-                            <span class="receipt-date"><span>📅</span> 29-05-2025</span>
-                            <span class="receipt-id">23/25/43772</span>
-                        </div>
-                        <div class="receipt-body">
-                            <div>
-                                <div class="receipt-amount">₹ 75,000</div>
-                                <div class="receipt-details">Payment Details:<br>Reference No: E2505290GUC7E4<br>Reference Date: 29-05-2025</div>
-                            </div>
-                            <div class="receipt-type">EaseBuzz Online Payment</div>
-                        </div>
-                    </div>
+                    <div class="receipt-type">EaseBuzz Online Payment</div>
                 </div>
             </div>
         </div>
     </div>
 
     <div id="content-hostel" class="hidden">
-        <div class="empty-state">
-            <div class="empty-icon">🏢</div>
-            <div class="empty-text">Hostel details will be displayed here.</div>
+        <div class="summary-grid">
+            <div class="stat-item collected">
+                <span class="label">To Be Collected</span>
+                <div class="stat-value">₹ 3,73,500 <img src="https://img.icons8.com/color/20/activity.png"/></div>
+            </div>
+            <div class="stat-item paid">
+                <span class="label">Paid</span>
+                <div class="stat-value">₹ 3,08,500 <img src="https://img.icons8.com/color/20/checked-line.png"/></div>
+            </div>
+            <div class="stat-item previous">
+                <span class="label">Previous Fee</span>
+                <div class="stat-value">₹ 0 <img src="https://img.icons8.com/color/20/more.png"/></div>
+            </div>
+            <div class="stat-item pending">
+                <span class="label">Pending</span>
+                <div class="stat-value">₹ 65,000 <img src="https://img.icons8.com/color/20/error.png"/></div>
+            </div>
+        </div>
+
+        <div class="section-card">
+            <div class="section-header">Fee Collection <span>^</span></div>
+            <table>
+                <thead>
+                    <tr><th>Fee Head</th><th>Fee Plan</th><th>To Be Collected</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>HOSTEL DEPOSIT</td><td>₹ 5,500</td><td>₹ 5,500</td></tr>
+                    <tr><td>HOSTEL FEES</td><td>₹ 1,14,000</td><td>₹ 1,14,000</td></tr>
+                    <tr><td>HOSTEL FEES</td><td>₹ 1,23,500</td><td>₹ 1,23,500</td></tr>
+                    <tr><td>Late Fees</td><td>₹ 500</td><td>₹ 500</td></tr>
+                    <tr><td>HOSTEL FEES</td><td>₹ 1,30,000</td><td>₹ 1,30,000</td></tr>
+                    <tr class="row-total"><td>Total</td><td>₹ 3,73,500</td><td>₹ 3,73,500</td></tr>
+                </tbody>
+            </table>
         </div>
     </div>
 
-    <div id="content-transport" class="hidden">
+    <div id="content-empty" class="hidden">
         <div class="empty-state">
-            <div class="empty-icon">🚫</div>
-            <div class="empty-text">No payments found, contact fee section in administration block for any issue.</div>
-        </div>
-    </div>
-
-    <div id="content-other" class="hidden">
-        <div class="empty-state">
-            <div class="empty-icon">🚫</div>
-            <div class="empty-text">No payments found, contact fee section in administration block for any issue.</div>
+            <div class="empty-text">
+                No payments found, contact fee section in administration block for any issue.
+            </div>
         </div>
     </div>
 
@@ -435,23 +266,23 @@
 
 <script>
     function switchTab(type) {
-        // Reset Tabs
+        // Reset Links
         document.querySelectorAll('.tab-link').forEach(el => el.classList.remove('active'));
         document.getElementById('tab-' + type).classList.add('active');
 
-        // Hide all content
+        // Reset Content
         document.getElementById('content-academic').classList.add('hidden');
         document.getElementById('content-hostel').classList.add('hidden');
-        document.getElementById('content-transport').classList.add('hidden');
-        document.getElementById('content-other').classList.add('hidden');
+        document.getElementById('content-empty').classList.add('hidden');
 
-        // Show selected content
-        document.getElementById('content-' + type).classList.remove('hidden');
-    }
-
-    function toggleSection(header) {
-        const card = header.closest('.section-card');
-        card.classList.toggle('collapsed');
+        if(type === 'academic') {
+            document.getElementById('content-academic').classList.remove('hidden');
+        } else if (type === 'hostel') {
+            document.getElementById('content-hostel').classList.remove('hidden');
+        } else {
+            // Shows empty state for both Transport and Other
+            document.getElementById('content-empty').classList.remove('hidden');
+        }
     }
 </script>
 
