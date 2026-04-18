@@ -14,6 +14,7 @@
             --brand-red: #e74c3c;
             --bg-gray: #f5f6f8;
             --border-light: #eee;
+            --primary-blue: #2c3e50;
         }
 
         body {
@@ -22,6 +23,7 @@
             margin: 0;
             padding: 0;
             color: var(--primary-text);
+            -webkit-font-smoothing: antialiased;
         }
 
         /* Header Navigation */
@@ -31,10 +33,20 @@
             display: flex;
             align-items: center;
             border-bottom: 1px solid var(--border-light);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.02);
         }
 
-        .back-icon { font-size: 20px; margin-right: 20px; cursor: pointer; }
-        .page-title { font-size: 18px; font-weight: 700; }
+        .back-icon { 
+            font-size: 20px; 
+            margin-right: 20px; 
+            cursor: pointer; 
+            color: var(--primary-blue);
+        }
+        .page-title { 
+            font-size: 18px; 
+            font-weight: 700; 
+            color: var(--primary-blue);
+        }
 
         .tabs-nav {
             display: flex;
@@ -51,10 +63,16 @@
             font-size: 14px;
             padding-bottom: 8px;
             position: relative;
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+
+        .tab-link:hover {
+            color: var(--primary-blue);
         }
 
         .tab-link.active {
-            color: var(--primary-text);
+            color: var(--primary-blue);
         }
 
         .tab-link.active::after {
@@ -64,13 +82,18 @@
             left: 0;
             width: 100%;
             height: 3px;
-            background: #2c3e50;
+            background: var(--primary-blue);
             border-radius: 2px;
         }
 
-        /* Summary Dashboard */
-        .container { padding: 15px; max-width: 500px; margin: auto; }
+        /* Container */
+        .container { 
+            padding: 15px; 
+            max-width: 500px; 
+            margin: auto; 
+        }
 
+        /* Summary Dashboard */
         .summary-grid {
             background: white;
             border-radius: 12px;
@@ -79,19 +102,40 @@
             grid-template-columns: 1fr 1fr;
             gap: 20px;
             margin-bottom: 20px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
         }
 
-        .stat-item .label { font-size: 13px; font-weight: 600; margin-bottom: 8px; display: block; }
+        .stat-item .label { 
+            font-size: 13px; 
+            font-weight: 600; 
+            margin-bottom: 8px; 
+            display: block; 
+        }
         .stat-item.collected .label { color: var(--brand-teal); }
         .stat-item.paid .label { color: var(--brand-teal); }
         .stat-item.previous .label { color: var(--brand-orange); }
         .stat-item.pending .label { color: var(--brand-red); }
 
-        .stat-value { font-size: 18px; font-weight: 800; display: flex; align-items: center; gap: 8px; }
+        .stat-value { 
+            font-size: 18px; 
+            font-weight: 800; 
+            display: flex; 
+            align-items: center; 
+            gap: 8px; 
+        }
+        .icon {
+            width: 20px;
+            height: 20px;
+        }
 
         /* Semester Pills */
-        .pill-box { display: flex; gap: 10px; margin-bottom: 20px; overflow-x: auto; }
+        .pill-box { 
+            display: flex; 
+            gap: 10px; 
+            margin-bottom: 20px; 
+            overflow-x: auto; 
+            padding-bottom: 5px;
+        }
         .pill {
             background: white;
             border: 1px solid #ccc;
@@ -100,16 +144,25 @@
             font-size: 13px;
             font-weight: 600;
             white-space: nowrap;
+            cursor: pointer;
+            transition: all 0.2s;
         }
-        .pill.active { background: #eef2f7; border-color: #2c3e50; }
+        .pill:hover:not(.active) {
+            border-color: #999;
+        }
+        .pill.active { 
+            background: #eef2f7; 
+            border-color: var(--primary-blue);
+            color: var(--primary-blue);
+        }
 
-        /* Tables & Lists */
+        /* Sections and Tables */
         .section-card {
             background: white;
             border-radius: 12px;
             margin-bottom: 15px;
             overflow: hidden;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
         }
 
         .section-header {
@@ -118,26 +171,123 @@
             font-size: 14px;
             display: flex;
             justify-content: space-between;
-            color: #2c3e50;
+            color: var(--primary-blue);
+            cursor: pointer;
+        }
+        .arrow-icon {
+            transition: transform 0.2s;
+        }
+        .section-card.collapsed .arrow-icon {
+            transform: rotate(-180deg);
         }
 
-        table { width: 100%; border-collapse: collapse; }
-        th { background: #1a1a1a; color: white; text-align: left; padding: 10px 15px; font-size: 12px; }
-        td { padding: 12px 15px; font-size: 13px; border-bottom: 1px solid #f0f0f0; }
-        .row-total { background: #eee; font-weight: 800; }
+        .collapsible-content {
+            transition: max-height 0.2s ease-out;
+            max-height: 1000px; /* Adjust as needed */
+            overflow: hidden;
+        }
+        .section-card.collapsed .collapsible-content {
+            max-height: 0;
+        }
+
+        table { 
+            width: 100%; 
+            border-collapse: collapse; 
+        }
+        th { 
+            background: var(--primary-text); 
+            color: white; 
+            text-align: left; 
+            padding: 10px 15px; 
+            font-size: 12px; 
+            text-transform: uppercase;
+        }
+        td { 
+            padding: 12px 15px; 
+            font-size: 13px; 
+            border-bottom: 1px solid #f0f0f0; 
+        }
+        .row-total { 
+            background: #eee; 
+            font-weight: 800; 
+        }
+        .row-total td {
+            border-bottom: none;
+        }
 
         /* Receipt Items */
+        .receipt-list {
+            padding: 0 15px;
+        }
         .receipt-item {
-            padding: 15px;
+            padding: 15px 0;
             border-bottom: 1px solid #f0f0f0;
             position: relative;
         }
-        .receipt-date { font-size: 11px; color: var(--brand-teal); background: #f0fafa; padding: 2px 6px; border-radius: 4px; }
-        .receipt-id { position: absolute; right: 15px; top: 15px; font-size: 11px; color: var(--brand-orange); }
-        .receipt-amount { font-size: 16px; font-weight: 800; margin-top: 10px; }
-        .receipt-type { position: absolute; right: 15px; bottom: 15px; font-weight: 600; font-size: 14px; color: #2c3e50; }
-        .receipt-details { font-size: 11px; color: var(--muted-text); margin-top: 5px; line-height: 1.4; }
+        .receipt-item:last-child {
+            border-bottom: none;
+        }
+        .receipt-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        .receipt-date { 
+            font-size: 11px; 
+            color: var(--brand-teal); 
+            background: #f0fafa; 
+            padding: 2px 6px; 
+            border-radius: 4px; 
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+        .receipt-id { 
+            font-size: 11px; 
+            color: var(--brand-orange); 
+        }
+        .receipt-body {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+        }
+        .receipt-amount { 
+            font-size: 16px; 
+            font-weight: 800; 
+        }
+        .receipt-type { 
+            font-weight: 600; 
+            font-size: 14px; 
+            color: var(--primary-blue); 
+        }
+        .receipt-details { 
+            font-size: 11px; 
+            color: var(--muted-text); 
+            margin-top: 5px; 
+            line-height: 1.4; 
+        }
 
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 40px 20px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+        }
+        .empty-icon {
+            font-size: 48px;
+            color: #ccc;
+            margin-bottom: 15px;
+        }
+        .empty-text {
+            font-size: 14px;
+            color: var(--muted-text);
+            line-height: 1.6;
+        }
+
+        /* Utilities */
         .hidden { display: none; }
     </style>
 </head>
@@ -151,8 +301,8 @@
 <div class="tabs-nav">
     <a href="javascript:void(0)" class="tab-link active" id="tab-academic" onclick="switchTab('academic')">Academic</a>
     <a href="javascript:void(0)" class="tab-link" id="tab-hostel" onclick="switchTab('hostel')">Hostel</a>
-    <a href="javascript:void(0)" class="tab-link">Transport</a>
-    <a href="javascript:void(0)" class="tab-link">Other</a>
+    <a href="javascript:void(0)" class="tab-link" id="tab-transport" onclick="switchTab('transport')">Transport</a>
+    <a href="javascript:void(0)" class="tab-link" id="tab-other" onclick="switchTab('other')">Other</a>
 </div>
 
 <div class="container">
@@ -161,19 +311,19 @@
         <div class="summary-grid">
             <div class="stat-item collected">
                 <span class="label">To Be Collected</span>
-                <div class="stat-value">₹ 5,25,000 <img src="https://img.icons8.com/color/20/activity.png"/></div>
+                <div class="stat-value">₹ 5,25,000 <img class="icon" src="https://img.icons8.com/color/20/activity.png" alt="activity"/></div>
             </div>
             <div class="stat-item paid">
                 <span class="label">Paid</span>
-                <div class="stat-value">₹ 3,50,000 <img src="https://img.icons8.com/color/20/checked-line.png"/></div>
+                <div class="stat-value">₹ 3,50,000 <img class="icon" src="https://img.icons8.com/color/20/checked-line.png" alt="checked"/></div>
             </div>
             <div class="stat-item previous">
                 <span class="label">Previous Fee</span>
-                <div class="stat-value">₹ 0 <img src="https://img.icons8.com/color/20/more.png"/></div>
+                <div class="stat-value">₹ 0 <img class="icon" src="https://img.icons8.com/color/20/more.png" alt="more"/></div>
             </div>
             <div class="stat-item pending">
                 <span class="label">Pending</span>
-                <div class="stat-value">₹ 1,75,000 <img src="https://img.icons8.com/color/20/error.png"/></div>
+                <div class="stat-value">₹ 1,75,000 <img class="icon" src="https://img.icons8.com/color/20/error.png" alt="error"/></div>
             </div>
         </div>
 
@@ -184,98 +334,100 @@
         </div>
 
         <div class="section-card">
-            <div class="section-header">Fee Collection <span>^</span></div>
-            <table>
-                <thead>
-                    <tr><th>Fee Head</th><th>Fee Plan</th><th>To Be Collected</th></tr>
-                </thead>
-                <tbody>
-                    <tr><td>Tuition Fee</td><td>₹ 1,50,000</td><td>₹ 1,50,000</td></tr>
-                    <tr><td>University Examination Fees</td><td>₹ 25,000</td><td>₹ 25,000</td></tr>
-                    <tr class="row-total"><td>Total</td><td>₹ 1,75,000</td><td>₹ 1,75,000</td></tr>
-                </tbody>
-            </table>
+            <div class="section-header" onclick="toggleSection(this)">Fee Collection <span class="arrow-icon">^</span></div>
+            <div class="collapsible-content">
+                <table>
+                    <thead>
+                        <tr><th>Fee Head</th><th>Fee Plan</th><th>To Be Collected</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>Tuition Fee</td><td>₹ 1,50,000</td><td>₹ 1,50,000</td></tr>
+                        <tr><td>University Examination Fees</td><td>₹ 25,000</td><td>₹ 25,000</td></tr>
+                        <tr class="row-total"><td>Total</td><td>₹ 1,75,000</td><td>₹ 1,75,000</td></tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
 
         <div class="section-card">
-            <div class="section-header">Fee Receipts <span>^</span></div>
-            <div class="receipt-item">
-                <span class="receipt-date">📅 20-03-2025</span>
-                <span class="receipt-id">OF/23/24/16739</span>
-                <div class="receipt-amount">₹ 3,000</div>
-                <div class="receipt-type">EaseBuzz Online Payment</div>
-                <div class="receipt-details">Payment Details:<br>Reference No: E2503200E3XO2F<br>Reference Date: 20-03-2025</div>
-            </div>
-            <div class="receipt-item">
-                <span class="receipt-date">📅 25-07-2024</span>
-                <span class="receipt-id">22/24/115436</span>
-                <div class="receipt-amount">₹ 14,000</div>
-                <div class="receipt-type">Online Payment</div>
-                <div class="receipt-details">Payment Details:<br>Reference No: YESB42075095862<br>Reference Date: 25-07-2024</div>
+            <div class="section-header" onclick="toggleSection(this)">Fee Receipts <span class="arrow-icon">^</span></div>
+            <div class="collapsible-content">
+                <div class="receipt-list">
+                    <div class="receipt-item">
+                        <div class="receipt-meta">
+                            <span class="receipt-date"><span>📅</span> 30-05-2025</span>
+                            <span class="receipt-id">23/25/45915</span>
+                        </div>
+                        <div class="receipt-body">
+                            <div>
+                                <div class="receipt-amount">₹ 12,500</div>
+                                <div class="receipt-details">Payment Details:<br>Reference No: E2505300GV1JZK<br>Reference Date: 30-05-2025</div>
+                            </div>
+                            <div class="receipt-type">EaseBuzz Online Payment</div>
+                        </div>
+                    </div>
+                    <div class="receipt-item">
+                        <div class="receipt-meta">
+                            <span class="receipt-date"><span>📅</span> 30-05-2025</span>
+                            <span class="receipt-id">23/25/45914</span>
+                        </div>
+                        <div class="receipt-body">
+                            <div>
+                                <div class="receipt-amount">₹ 75,000</div>
+                                <div class="receipt-details">Payment Details:<br>Reference No: E2505300GV1JZK<br>Reference Date: 30-05-2025</div>
+                            </div>
+                            <div class="receipt-type">EaseBuzz Online Payment</div>
+                        </div>
+                    </div>
+                    <div class="receipt-item">
+                        <div class="receipt-meta">
+                            <span class="receipt-date"><span>📅</span> 29-05-2025</span>
+                            <span class="receipt-id">23/25/43773</span>
+                        </div>
+                        <div class="receipt-body">
+                            <div>
+                                <div class="receipt-amount">₹ 12,500</div>
+                                <div class="receipt-details">Payment Details:<br>Reference No: E2505290GUC7E4<br>Reference Date: 29-05-2025</div>
+                            </div>
+                            <div class="receipt-type">EaseBuzz Online Payment</div>
+                        </div>
+                    </div>
+                    <div class="receipt-item">
+                        <div class="receipt-meta">
+                            <span class="receipt-date"><span>📅</span> 29-05-2025</span>
+                            <span class="receipt-id">23/25/43772</span>
+                        </div>
+                        <div class="receipt-body">
+                            <div>
+                                <div class="receipt-amount">₹ 75,000</div>
+                                <div class="receipt-details">Payment Details:<br>Reference No: E2505290GUC7E4<br>Reference Date: 29-05-2025</div>
+                            </div>
+                            <div class="receipt-type">EaseBuzz Online Payment</div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 
     <div id="content-hostel" class="hidden">
-        <div class="summary-grid">
-            <div class="stat-item collected">
-                <span class="label">To Be Collected</span>
-                <div class="stat-value">₹ 3,73,500 <img src="https://img.icons8.com/color/20/activity.png"/></div>
-            </div>
-            <div class="stat-item paid">
-                <span class="label">Paid</span>
-                <div class="stat-value">₹ 3,08,500 <img src="https://img.icons8.com/color/20/checked-line.png"/></div>
-            </div>
-            <div class="stat-item previous">
-                <span class="label">Previous Fee</span>
-                <div class="stat-value">₹ 0 <img src="https://img.icons8.com/color/20/more.png"/></div>
-            </div>
-            <div class="stat-item pending">
-                <span class="label">Pending</span>
-                <div class="stat-value">₹ 65,000 <img src="https://img.icons8.com/color/20/error.png"/></div>
-            </div>
+        <div class="empty-state">
+            <div class="empty-icon">🏢</div>
+            <div class="empty-text">Hostel details will be displayed here.</div>
         </div>
+    </div>
 
-        <div class="section-card">
-            <div class="section-header">Fee Collection <span>^</span></div>
-            <table>
-                <thead>
-                    <tr><th>Fee Head</th><th>Fee Plan</th><th>To Be Collected</th></tr>
-                </thead>
-                <tbody>
-                    <tr><td>HOSTEL DEPOSIT</td><td>₹ 5,500</td><td>₹ 5,500</td></tr>
-                    <tr><td>HOSTEL FEES</td><td>₹ 1,14,000</td><td>₹ 1,14,000</td></tr>
-                    <tr><td>HOSTEL FEES</td><td>₹ 1,23,500</td><td>₹ 1,23,500</td></tr>
-                    <tr><td>Late Fees</td><td>₹ 500</td><td>₹ 500</td></tr>
-                    <tr><td>HOSTEL FEES</td><td>₹ 1,30,000</td><td>₹ 1,30,000</td></tr>
-                    <tr class="row-total"><td>Total</td><td>₹ 3,73,500</td><td>₹ 3,73,500</td></tr>
-                </tbody>
-            </table>
+    <div id="content-transport" class="hidden">
+        <div class="empty-state">
+            <div class="empty-icon">🚫</div>
+            <div class="empty-text">No payments found, contact fee section in administration block for any issue.</div>
         </div>
+    </div>
 
-        <div class="section-card">
-            <div class="section-header">Fee Receipts <span>^</span></div>
-            <div class="receipt-item">
-                <span class="receipt-date">📅 19-03-2026</span>
-                <span class="receipt-id">PIET-1/25/HF/50554</span>
-                <div class="receipt-amount">₹ 65,000</div>
-                <div class="receipt-type">EaseBuzz Online Payment</div>
-                <div class="receipt-details">Reference No: E2603190VKTMRL</div>
-            </div>
-            <div class="receipt-item">
-                <span class="receipt-date">📅 04-06-2025</span>
-                <span class="receipt-id">PIET-1/25/HF/10893</span>
-                <div class="receipt-amount">₹ 1,24,000</div>
-                <div class="receipt-type">EaseBuzz Online Payment</div>
-                <div class="receipt-details">Reference No: E2506040H4G1TN</div>
-            </div>
-            <div class="receipt-item">
-                <span class="receipt-date">📅 12-12-2024</span>
-                <span class="receipt-id">PIET-1/24/HF/59601</span>
-                <div class="receipt-amount">₹ 5,500</div>
-                <div class="receipt-type">Cheque</div>
-                <div class="receipt-details">Reference No: 188309 | Date: 09-12-2024</div>
-            </div>
+    <div id="content-other" class="hidden">
+        <div class="empty-state">
+            <div class="empty-icon">🚫</div>
+            <div class="empty-text">No payments found, contact fee section in administration block for any issue.</div>
         </div>
     </div>
 
@@ -287,14 +439,19 @@
         document.querySelectorAll('.tab-link').forEach(el => el.classList.remove('active'));
         document.getElementById('tab-' + type).classList.add('active');
 
-        // Toggle Content
-        if(type === 'academic') {
-            document.getElementById('content-academic').classList.remove('hidden');
-            document.getElementById('content-hostel').classList.add('hidden');
-        } else {
-            document.getElementById('content-academic').classList.add('hidden');
-            document.getElementById('content-hostel').classList.remove('hidden');
-        }
+        // Hide all content
+        document.getElementById('content-academic').classList.add('hidden');
+        document.getElementById('content-hostel').classList.add('hidden');
+        document.getElementById('content-transport').classList.add('hidden');
+        document.getElementById('content-other').classList.add('hidden');
+
+        // Show selected content
+        document.getElementById('content-' + type).classList.remove('hidden');
+    }
+
+    function toggleSection(header) {
+        const card = header.closest('.section-card');
+        card.classList.toggle('collapsed');
     }
 </script>
 
