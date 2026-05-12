@@ -8,91 +8,230 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
   <style>
     :root {
-      --brand: #4f46e5; --brand-light: #ede9fe; --dark: #0f172a; --bg: #f1f5f9;
-      --white: #ffffff; --success: #059669; --success-bg: #d1fae5;
-      --danger: #dc2626; --danger-bg: #fee2e2; --warning: #d97706;
-      --warning-bg: #fef3c7; --info-bg: #eff6ff; --info: #1d4ed8;
-      --border: #e2e8f0; --text: #1e293b; --muted: #64748b; --card-r: 16px;
+      --brand: #4f46e5;
+      --brand-light: #ede9fe;
+      --dark: #0f172a;
+      --bg: #f1f5f9;
+      --white: #ffffff;
+      --success: #059669;
+      --success-bg: #d1fae5;
+      --danger: #dc2626;
+      --danger-bg: #fee2e2;
+      --warning: #d97706;
+      --warning-bg: #fef3c7;
+      --info-bg: #eff6ff;
+      --info: #1d4ed8;
+      --border: #e2e8f0;
+      --text: #1e293b;
+      --muted: #64748b;
+      --card-r: 16px;
     }
     * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
-    body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--bg); color: var(--text); -webkit-font-smoothing: antialiased; max-width: 480px; margin: 0 auto; min-height: 100vh; }
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      -webkit-font-smoothing: antialiased;
+      max-width: 480px;
+      margin: 0 auto;
+      min-height: 100vh;
+    }
 
-    .topbar { background: var(--dark); height: 58px; padding: 0 18px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 200; }
+    /* TOPBAR */
+    .topbar {
+      background: var(--dark);
+      height: 58px;
+      padding: 0 18px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 200;
+    }
+    .tb-left { display: flex; flex-direction: column; }
     .tb-title { color: #fff; font-weight: 800; font-size: 0.9rem; letter-spacing: 1.5px; }
-    .tb-sub { color: #94a3b8; font-size: 0.62rem; }
+    .tb-sub { color: #94a3b8; font-size: 0.62rem; margin-top: 1px; }
 
-    .summary { background: linear-gradient(150deg, #1e293b 0%, #2d3f55 100%); padding: 18px; display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    /* SUMMARY */
+    .summary {
+      background: linear-gradient(150deg, #1e293b 0%, #2d3f55 100%);
+      padding: 18px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
     .sum-full { grid-column: 1 / -1; }
-    .scard { background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.07); border-radius: 12px; padding: 13px 14px; }
-    .scard .sc-lbl { font-size: 0.58rem; text-transform: uppercase; color: #94a3b8; display: block; margin-bottom: 5px; }
+    .scard {
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.07);
+      border-radius: 12px;
+      padding: 13px 14px;
+    }
+    .scard .sc-lbl { font-size: 0.58rem; text-transform: uppercase; letter-spacing: 1px; color: #94a3b8; display: block; margin-bottom: 5px; }
     .scard .sc-val { font-size: 1.25rem; font-weight: 800; }
-    .sc-val.amber { color: #fbbf24; } .sc-val.green { color: #34d399; } .sc-val.red { color: #f87171; }
+    .sc-val.amber { color: #fbbf24; }
+    .sc-val.green { color: #34d399; }
+    .sc-val.red   { color: #f87171; }
 
-    .refund-strip { margin: 12px 14px 0; background: #fffbeb; border: 1px solid #fcd34d; border-left: 4px solid var(--warning); border-radius: 10px; padding: 10px 13px; display: flex; align-items: center; gap: 10px; }
-    .rs-icon { color: var(--warning); font-size: 1.1rem; }
+    /* REFUND BANNER */
+    .refund-strip {
+      margin: 12px 14px 0;
+      background: #fffbeb;
+      border: 1px solid #fcd34d;
+      border-left: 4px solid var(--warning);
+      border-radius: 10px;
+      padding: 10px 13px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .rs-icon { color: var(--warning); font-size: 1.1rem; flex-shrink: 0; }
+    .rs-body { flex: 1; min-width: 0; }
     .rs-title { font-size: 0.73rem; font-weight: 700; color: #78350f; }
-    .rs-sub { font-size: 0.61rem; color: #92400e; }
-    .rs-badge { background: #fef3c7; border: 1px solid #fcd34d; color: #78350f; font-size: 0.58rem; font-weight: 800; padding: 3px 8px; border-radius: 20px; }
+    .rs-sub { font-size: 0.61rem; color: #92400e; margin-top: 2px; }
+    .rs-badge { background: #fef3c7; border: 1px solid #fcd34d; color: #78350f; font-size: 0.58rem; font-weight: 800; padding: 3px 8px; border-radius: 20px; white-space: nowrap; flex-shrink: 0; }
 
+    /* TABS */
     .tabs-wrap { padding: 14px 14px 0; }
     .tabs { background: #dde3ec; border-radius: 12px; padding: 4px; display: flex; gap: 5px; }
-    .tab-btn { flex: 1; padding: 10px 4px; border: none; background: transparent; font-family: inherit; font-size: 0.75rem; font-weight: 700; color: var(--muted); cursor: pointer; border-radius: 9px; display: flex; align-items: center; justify-content: center; gap: 5px; }
+    .tab-btn {
+      flex: 1; padding: 10px 4px; border: none; background: transparent;
+      font-family: inherit; font-size: 0.75rem; font-weight: 700;
+      color: var(--muted); cursor: pointer; border-radius: 9px; transition: 0.18s;
+      display: flex; align-items: center; justify-content: center; gap: 5px;
+    }
     .tab-btn.active { background: var(--white); color: var(--brand); box-shadow: 0 2px 8px rgba(0,0,0,0.09); }
+    .tab-btn i { font-size: 0.85rem; }
 
+    /* VIEWS */
     .view { display: none; padding: 14px; }
     .view.active { display: block; }
 
-    .yr-div { display: flex; align-items: center; gap: 8px; font-size: 0.6rem; font-weight: 800; color: var(--muted); text-transform: uppercase; letter-spacing: 1.2px; margin: 20px 0 11px; }
+    /* YEAR DIVIDER */
+    .yr-div {
+      display: flex; align-items: center; gap: 8px;
+      font-size: 0.6rem; font-weight: 800; color: var(--muted);
+      text-transform: uppercase; letter-spacing: 1.2px;
+      margin: 20px 0 11px;
+    }
     .yr-div::after { content: ""; flex: 1; height: 1px; background: var(--border); }
 
-    .fee-card { background: var(--white); border: 1px solid var(--border); border-radius: var(--card-r); margin-bottom: 10px; overflow: hidden; }
-    .fc-head { padding: 15px 16px 0; display: flex; justify-content: space-between; align-items: flex-start; }
+    /* FEE CARD */
+    .fee-card {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: var(--card-r);
+      margin-bottom: 10px;
+      overflow: hidden;
+    }
+    .fc-head {
+      padding: 15px 16px 0;
+      display: flex; justify-content: space-between; align-items: flex-start;
+    }
     .fc-title { font-size: 0.88rem; font-weight: 700; }
     .fc-meta { font-size: 0.61rem; color: var(--muted); margin-top: 3px; }
 
-    .badge { font-size: 0.58rem; font-weight: 800; padding: 4px 9px; border-radius: 20px; }
+    /* STATUS BADGE */
+    .badge { font-size: 0.58rem; font-weight: 800; padding: 4px 9px; border-radius: 20px; white-space: nowrap; }
     .b-paid { background: var(--success-bg); color: #065f46; }
-    .b-due { background: var(--danger-bg); color: #991b1b; }
-    .b-part { background: var(--info-bg); color: #1e40af; }
+    .b-due  { background: var(--danger-bg);  color: #991b1b; }
+    .b-part { background: var(--info-bg);    color: #1e40af; }
 
-    .fc-details { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 14px 16px 0; background: #f8fafc; border-radius: 10px; padding: 12px; }
+    /* FEE DETAILS GRID */
+    .fc-details {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 10px; margin: 14px 16px 0;
+      background: #f8fafc; border-radius: 10px; padding: 12px;
+    }
     .fd-item { display: flex; flex-direction: column; gap: 3px; }
-    .fd-lbl { font-size: 0.57rem; text-transform: uppercase; color: var(--muted); font-weight: 700; }
+    .fd-lbl { font-size: 0.57rem; text-transform: uppercase; color: var(--muted); font-weight: 700; letter-spacing: 0.4px; }
     .fd-val { font-size: 0.8rem; font-weight: 700; }
-    .fd-val.g { color: var(--success); } .fd-val.r { color: var(--danger); }
+    .fd-val.g { color: var(--success); }
+    .fd-val.r { color: var(--danger); }
 
+    /* PROGRESS */
     .fc-prog { padding: 12px 16px 0; }
     .prog-top { display: flex; justify-content: space-between; font-size: 0.61rem; color: var(--muted); margin-bottom: 5px; }
     .prog-bar { background: #e2e8f0; border-radius: 99px; height: 5px; overflow: hidden; }
     .prog-fill { height: 100%; border-radius: 99px; transition: width 0.5s ease; }
     .pf-full { background: linear-gradient(90deg, #059669, #34d399); }
+    .pf-part { background: linear-gradient(90deg, var(--brand), #818cf8); }
 
+    /* RECEIPTS TOGGLE */
     .rec-toggle-wrap { padding: 12px 16px; }
-    .rec-toggle { width: 100%; display: flex; align-items: center; gap: 7px; background: var(--brand-light); border: 1px solid #c4b5fd; border-radius: 9px; padding: 9px 13px; font-family: inherit; font-size: 0.72rem; font-weight: 700; color: var(--brand); cursor: pointer; }
+    .rec-toggle {
+      width: 100%; display: flex; align-items: center; gap: 7px;
+      background: var(--brand-light); border: 1px solid #c4b5fd;
+      border-radius: 9px; padding: 9px 13px;
+      font-family: inherit; font-size: 0.72rem; font-weight: 700;
+      color: var(--brand); cursor: pointer;
+    }
     .rec-toggle .chevron { margin-left: auto; transition: transform 0.25s; font-size: 0.75rem; }
     .rec-toggle.open .chevron { transform: rotate(180deg); }
 
+    /* RECEIPT LIST */
     .rec-list { display: none; padding: 0 16px 14px; }
     .rec-list.open { display: block; }
 
-    .txn { border: 1px solid var(--border); border-radius: 11px; padding: 12px 13px; margin-bottom: 8px; background: var(--white); position: relative; overflow: hidden; }
-    .txn::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 3px; background: var(--brand); }
+    /* TRANSACTION CARD */
+    .txn {
+      border: 1px solid var(--border);
+      border-radius: 11px;
+      padding: 12px 13px;
+      margin-bottom: 8px;
+      background: var(--white);
+      position: relative;
+      overflow: hidden;
+    }
+    .txn::before {
+      content: ""; position: absolute; left: 0; top: 0; bottom: 0;
+      width: 3px; background: var(--brand);
+    }
     .txn-row1 { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 9px; }
-    .txn-no { font-size: 0.7rem; font-weight: 700; }
+    .txn-no { font-size: 0.7rem; font-weight: 700; color: var(--text); }
     .txn-amt { font-size: 0.88rem; font-weight: 800; color: var(--success); }
-    .txn-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; background: #f8fafc; border-radius: 8px; padding: 9px 10px; }
-    .ti-lbl { font-size: 0.55rem; text-transform: uppercase; color: var(--muted); font-weight: 700; }
-    .ti-val { font-size: 0.7rem; font-weight: 600; }
-    .ti-val.mono { font-family: 'Courier New', monospace; color: var(--brand); font-size: 0.65rem; word-break: break-all; }
+    .txn-grid {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 8px; background: #f8fafc; border-radius: 8px; padding: 9px 10px;
+    }
+    .txn-item { display: flex; flex-direction: column; gap: 2px; }
+    .txn-item.full { grid-column: 1 / -1; }
+    .ti-lbl { font-size: 0.55rem; text-transform: uppercase; color: var(--muted); font-weight: 700; letter-spacing: 0.3px; }
+    .ti-val { font-size: 0.7rem; font-weight: 600; color: var(--text); }
+    .ti-val.mono { font-family: 'Courier New', monospace; color: var(--brand); font-size: 0.68rem; word-break: break-all; }
 
-    .yr-total { background: linear-gradient(135deg, #1e293b, #334155); border-radius: 11px; padding: 13px 16px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
-    .yt-lbl { font-size: 0.6rem; font-weight: 800; color: #94a3b8; text-transform: uppercase; }
+    /* NO TXN */
+    .no-txn {
+      margin: 12px 16px 16px;
+      background: #fef2f2; border: 1px solid #fecaca;
+      border-radius: 9px; padding: 9px 12px;
+      font-size: 0.68rem; color: #991b1b; font-weight: 600;
+      display: flex; align-items: center; gap: 7px;
+    }
+
+    /* YEAR TOTAL */
+    .yr-total {
+      background: linear-gradient(135deg, #1e293b, #334155);
+      border-radius: 11px; padding: 13px 16px;
+      display: flex; justify-content: space-between; align-items: center;
+      margin-bottom: 6px;
+    }
+    .yt-lbl { font-size: 0.6rem; font-weight: 800; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.8px; }
     .yt-val { font-size: 0.98rem; font-weight: 800; color: #fff; }
+    .yt-val.red { color: #f87171; }
 
-    .grand-total { background: var(--brand); border-radius: 12px; padding: 15px 17px; display: flex; justify-content: space-between; align-items: center; margin-top: 15px; }
-    .gt-title { font-size: 0.6rem; font-weight: 800; color: rgba(255,255,255,0.7); text-transform: uppercase; }
-    .gt-sub { font-size: 0.62rem; color: rgba(255,255,255,0.5); margin-top: 2px; }
-    .gt-val { font-size: 1.05rem; font-weight: 800; color: #fff; }
+    /* GRAND TOTAL */
+    .grand-total {
+      background: var(--brand); border-radius: 12px; padding: 15px 17px;
+      display: flex; justify-content: space-between; align-items: center;
+      margin-top: 8px;
+    }
+    .gt-left .gt-title { font-size: 0.6rem; font-weight: 800; color: rgba(255,255,255,0.65); text-transform: uppercase; letter-spacing: 0.8px; }
+    .gt-left .gt-sub { font-size: 0.62rem; color: rgba(255,255,255,0.5); margin-top: 3px; }
+    .gt-right { text-align: right; }
+    .gt-right .gt-lbl { font-size: 0.58rem; color: rgba(255,255,255,0.6); margin-bottom: 3px; }
+    .gt-right .gt-val { font-size: 1.05rem; font-weight: 800; color: #fff; }
 
     .spacer { height: 40px; }
   </style>
@@ -101,15 +240,16 @@
 
 <nav class="topbar">
   <div class="tb-left">
-    <span class="tb-title">FEE DASHBOARD</span><br>
+    <span class="tb-title">FEE DASHBOARD</span>
     <span class="tb-sub">PIET — Payments Section</span>
   </div>
   <i class="bi bi-mortarboard-fill" style="color:#818cf8;font-size:1.25rem;"></i>
 </nav>
 
+<!-- SUMMARY -->
 <section class="summary">
   <div class="scard sum-full">
-    <span class="sc-lbl">Total Fees Expected</span>
+    <span class="sc-lbl">Fees To Be Collected</span>
     <div class="sc-val amber">₹9,15,000</div>
   </div>
   <div class="scard">
@@ -122,15 +262,17 @@
   </div>
 </section>
 
+<!-- REFUND BANNER -->
 <div class="refund-strip">
   <i class="bi bi-arrow-counterclockwise rs-icon"></i>
   <div class="rs-body">
     <div class="rs-title">Refund Order #24/13242</div>
-    <div class="rs-sub">AY 2024-25 &nbsp;·&nbsp; ₹50,000</div>
+    <div class="rs-sub">AY 2024-25 &nbsp;·&nbsp; Ordered 02-12-2024 &nbsp;·&nbsp; ₹50,000</div>
   </div>
   <span class="rs-badge">PAID</span>
 </div>
 
+<!-- TABS -->
 <div class="tabs-wrap">
   <div class="tabs">
     <button class="tab-btn active" onclick="showTab('academic',this)">
@@ -142,161 +284,453 @@
   </div>
 </div>
 
+
+<!-- ═══════ ACADEMIC TAB ═══════ -->
 <div id="academic" class="view active">
 
-  <div class="yr-div">AY 2024-25</div>
+  <div class="yr-div">Academic Year 2024-25</div>
+
   <div class="fee-card">
     <div class="fc-head">
-      <div><div class="fc-title">1st YEAR</div><div class="fc-meta">B.Tech - CSE</div></div>
-      <span class="badge b-paid">Paid</span>
+      <div><div class="fc-title">1st YEAR</div><div class="fc-meta">AY 2024-25</div></div>
+      <span class="badge b-paid"><i class="bi bi-check-circle-fill"></i> Paid</span>
     </div>
     <div class="fc-details">
       <div class="fd-item"><span class="fd-lbl">To Collect</span><span class="fd-val">₹1,75,000</span></div>
       <div class="fd-item"><span class="fd-lbl">Paid</span><span class="fd-val g">₹1,75,000</span></div>
+      <div class="fd-item"><span class="fd-lbl">Refunded</span><span class="fd-val">₹50,000</span></div>
+      <div class="fd-item"><span class="fd-lbl">Outstanding</span><span class="fd-val g">₹0</span></div>
+    </div>
+    <div class="fc-prog">
+      <div class="prog-top"><span>Payment progress</span><span>100%</span></div>
+      <div class="prog-bar"><div class="prog-fill pf-full" style="width:100%"></div></div>
     </div>
     <div class="rec-toggle-wrap">
       <button class="rec-toggle" onclick="toggleRec('s1',this)">
-        <i class="bi bi-receipt"></i> Receipts — 4<i class="bi bi-chevron-down chevron"></i>
+        <i class="bi bi-receipt"></i> Transactions — 4 receipts
+        <i class="bi bi-chevron-down chevron"></i>
       </button>
     </div>
     <div id="s1" class="rec-list">
+
       <div class="txn">
-        <div class="txn-row1"><div class="txn-no">22/24/102176</div><div class="txn-amt">₹1,75,000</div></div>
+        <div class="txn-row1"><div class="txn-no">22/23/92628</div><div class="txn-amt">₹10,000</div></div>
         <div class="txn-grid">
-          <div class="txn-item"><span class="ti-lbl">Date</span><span class="ti-val">23-07-2024</span></div>
-          <div class="txn-item"><span class="ti-lbl">Ref No.</span><span class="ti-val mono">YESB42053831238</span></div>
+          <div class="txn-item"><span class="ti-lbl">Date</span><span class="ti-val">18-03-2024</span></div>
+          <div class="txn-item"><span class="ti-lbl">Semester</span><span class="ti-val">1</span></div>
+          <div class="txn-item"><span class="ti-lbl">Mode</span><span class="ti-val">Online Payment</span></div>
+          <div class="txn-item"><span class="ti-lbl">Ref. Date</span><span class="ti-val">18-03-2024</span></div>
+          <div class="txn-item full"><span class="ti-lbl">Ref. No.</span><span class="ti-val mono">0</span></div>
         </div>
       </div>
+
+      <div class="txn">
+        <div class="txn-row1"><div class="txn-no">22/24/102176</div><div class="txn-amt">₹1,76,000</div></div>
+        <div class="txn-grid">
+          <div class="txn-item"><span class="ti-lbl">Date</span><span class="ti-val">23-07-2024</span></div>
+          <div class="txn-item"><span class="ti-lbl">Semester</span><span class="ti-val">1</span></div>
+          <div class="txn-item"><span class="ti-lbl">Mode</span><span class="ti-val">Online Payment</span></div>
+          <div class="txn-item"><span class="ti-lbl">Ref. Date</span><span class="ti-val">23-07-2024</span></div>
+          <div class="txn-item full"><span class="ti-lbl">Ref. No.</span><span class="ti-val mono">YESB42053831238</span></div>
+        </div>
+      </div>
+
+      <div class="txn">
+        <div class="txn-row1"><div class="txn-no">22/24/102177</div><div class="txn-amt">₹25,000</div></div>
+        <div class="txn-grid">
+          <div class="txn-item"><span class="ti-lbl">Date</span><span class="ti-val">23-07-2024</span></div>
+          <div class="txn-item"><span class="ti-lbl">Semester</span><span class="ti-val">1</span></div>
+          <div class="txn-item"><span class="ti-lbl">Mode</span><span class="ti-val">Online Payment</span></div>
+          <div class="txn-item"><span class="ti-lbl">Ref. Date</span><span class="ti-val">23-07-2024</span></div>
+          <div class="txn-item full"><span class="ti-lbl">Ref. No.</span><span class="ti-val mono">YESB42053831238</span></div>
+        </div>
+      </div>
+
+      <div class="txn">
+        <div class="txn-row1"><div class="txn-no">22/24/115436</div><div class="txn-amt">₹14,000</div></div>
+        <div class="txn-grid">
+          <div class="txn-item"><span class="ti-lbl">Date</span><span class="ti-val">25-07-2024</span></div>
+          <div class="txn-item"><span class="ti-lbl">Semester</span><span class="ti-val">1</span></div>
+          <div class="txn-item"><span class="ti-lbl">Mode</span><span class="ti-val">Online Payment</span></div>
+          <div class="txn-item"><span class="ti-lbl">Ref. Date</span><span class="ti-val">25-07-2024</span></div>
+          <div class="txn-item full"><span class="ti-lbl">Ref. No.</span><span class="ti-val mono">YESB42075095862</span></div>
+        </div>
+      </div>
+
     </div>
   </div>
 
-  <div class="yr-div">AY 2025-26</div>
+  <div class="yr-total">
+    <span class="yt-lbl">Year Total (2024-25)</span>
+    <span class="yt-val">₹1,75,000</span>
+  </div>
+
+  <div class="yr-div">Academic Year 2025-26</div>
+
   <div class="fee-card">
     <div class="fc-head">
-      <div><div class="fc-title">2nd YEAR</div><div class="fc-meta">B.Tech - CSE</div></div>
-      <span class="badge b-paid">Paid</span>
+      <div><div class="fc-title">2nd YEAR</div><div class="fc-meta">AY 2025-26</div></div>
+      <span class="badge b-paid"><i class="bi bi-check-circle-fill"></i> Paid</span>
     </div>
     <div class="fc-details">
       <div class="fd-item"><span class="fd-lbl">To Collect</span><span class="fd-val">₹1,75,000</span></div>
       <div class="fd-item"><span class="fd-lbl">Paid</span><span class="fd-val g">₹1,75,000</span></div>
+      <div class="fd-item"><span class="fd-lbl">Refunded</span><span class="fd-val">₹0</span></div>
+      <div class="fd-item"><span class="fd-lbl">Outstanding</span><span class="fd-val g">₹0</span></div>
+    </div>
+    <div class="fc-prog">
+      <div class="prog-top"><span>Payment progress</span><span>100%</span></div>
+      <div class="prog-bar"><div class="prog-fill pf-full" style="width:100%"></div></div>
     </div>
     <div class="rec-toggle-wrap">
       <button class="rec-toggle" onclick="toggleRec('s2',this)">
-        <i class="bi bi-receipt"></i> Receipts — 5<i class="bi bi-chevron-down chevron"></i>
+        <i class="bi bi-receipt"></i> Transactions — 5 receipts
+        <i class="bi bi-chevron-down chevron"></i>
       </button>
     </div>
     <div id="s2" class="rec-list">
+
       <div class="txn">
-        <div class="txn-row1"><div class="txn-no">23/25/43772</div><div class="txn-amt">₹1,75,000</div></div>
+        <div class="txn-row1"><div class="txn-no">OF/23/24/16739</div><div class="txn-amt">₹3,000</div></div>
         <div class="txn-grid">
-          <div class="txn-item"><span class="ti-lbl">Date</span><span class="ti-val">29-05-2025</span></div>
-          <div class="txn-item"><span class="ti-lbl">Ref No.</span><span class="ti-val mono">E2505290GUC7E4</span></div>
+          <div class="txn-item"><span class="ti-lbl">Date</span><span class="ti-val">20-03-2025</span></div>
+          <div class="txn-item"><span class="ti-lbl">Semester</span><span class="ti-val">3</span></div>
+          <div class="txn-item"><span class="ti-lbl">Mode</span><span class="ti-val">EaseBuzz Online</span></div>
+          <div class="txn-item"><span class="ti-lbl">Ref. Date</span><span class="ti-val">20-03-2025</span></div>
+          <div class="txn-item full"><span class="ti-lbl">Ref. No.</span><span class="ti-val mono">E2503200E3XO2F</span></div>
         </div>
       </div>
+
+      <div class="txn">
+        <div class="txn-row1"><div class="txn-no">23/25/43772</div><div class="txn-amt">₹75,000</div></div>
+        <div class="txn-grid">
+          <div class="txn-item"><span class="ti-lbl">Date</span><span class="ti-val">29-05-2025</span></div>
+          <div class="txn-item"><span class="ti-lbl">Semester</span><span class="ti-val">3</span></div>
+          <div class="txn-item"><span class="ti-lbl">Mode</span><span class="ti-val">EaseBuzz Online</span></div>
+          <div class="txn-item"><span class="ti-lbl">Ref. Date</span><span class="ti-val">29-05-2025</span></div>
+          <div class="txn-item full"><span class="ti-lbl">Ref. No.</span><span class="ti-val mono">E2505290GUC7E4</span></div>
+        </div>
+      </div>
+
+      <div class="txn">
+        <div class="txn-row1"><div class="txn-no">23/25/43773</div><div class="txn-amt">₹12,500</div></div>
+        <div class="txn-grid">
+          <div class="txn-item"><span class="ti-lbl">Date</span><span class="ti-val">29-05-2025</span></div>
+          <div class="txn-item"><span class="ti-lbl">Semester</span><span class="ti-val">3</span></div>
+          <div class="txn-item"><span class="ti-lbl">Mode</span><span class="ti-val">EaseBuzz Online</span></div>
+          <div class="txn-item"><span class="ti-lbl">Ref. Date</span><span class="ti-val">29-05-2025</span></div>
+          <div class="txn-item full"><span class="ti-lbl">Ref. No.</span><span class="ti-val mono">E2505290GUC7E4</span></div>
+        </div>
+      </div>
+
+      <div class="txn">
+        <div class="txn-row1"><div class="txn-no">23/25/45914</div><div class="txn-amt">₹75,000</div></div>
+        <div class="txn-grid">
+          <div class="txn-item"><span class="ti-lbl">Date</span><span class="ti-val">30-05-2025</span></div>
+          <div class="txn-item"><span class="ti-lbl">Semester</span><span class="ti-val">3</span></div>
+          <div class="txn-item"><span class="ti-lbl">Mode</span><span class="ti-val">EaseBuzz Online</span></div>
+          <div class="txn-item"><span class="ti-lbl">Ref. Date</span><span class="ti-val">30-05-2025</span></div>
+          <div class="txn-item full"><span class="ti-lbl">Ref. No.</span><span class="ti-val mono">E2505300GV1JZK</span></div>
+        </div>
+      </div>
+
+      <div class="txn">
+        <div class="txn-row1"><div class="txn-no">23/25/45915</div><div class="txn-amt">₹12,500</div></div>
+        <div class="txn-grid">
+          <div class="txn-item"><span class="ti-lbl">Date</span><span class="ti-val">30-05-2025</span></div>
+          <div class="txn-item"><span class="ti-lbl">Semester</span><span class="ti-val">3</span></div>
+          <div class="txn-item"><span class="ti-lbl">Mode</span><span class="ti-val">EaseBuzz Online</span></div>
+          <div class="txn-item"><span class="ti-lbl">Ref. Date</span><span class="ti-val">30-05-2025</span></div>
+          <div class="txn-item full"><span class="ti-lbl">Ref. No.</span><span class="ti-val mono">E2505300GV1JZK</span></div>
+        </div>
+      </div>
+
     </div>
   </div>
 
-  <div class="yr-div">AY 2026-27</div>
+  <div class="yr-total">
+    <span class="yt-lbl">Year Total (2025-26)</span>
+    <span class="yt-val">₹1,75,000</span>
+  </div>
+
+  <!-- FIX 1: AY 2026-27 Academic — corrected badge (Due→Partial), removed duplicate fc-prog, fixed unique id (s3), fixed progress bar to show partial payment, fixed all closing tags -->
+  <div class="yr-div">Academic Year 2026-27</div>
+
   <div class="fee-card">
     <div class="fc-head">
-      <div><div class="fc-title">3rd YEAR</div><div class="fc-meta">B.Tech - CSE</div></div>
-      <span class="badge b-paid">Paid</span>
+      <div><div class="fc-title">3rd YEAR</div><div class="fc-meta">AY 2026-27 · Pay Now enabled</div></div>
+      <span class="badge b-part"><i class="bi bi-hourglass-split"></i> Paid</span>
     </div>
     <div class="fc-details">
       <div class="fd-item"><span class="fd-lbl">To Collect</span><span class="fd-val">₹1,75,000</span></div>
       <div class="fd-item"><span class="fd-lbl">Paid</span><span class="fd-val g">₹1,75,000</span></div>
+      <div class="fd-item"><span class="fd-lbl">Refunded</span><span class="fd-val">₹0</span></div>
+      <div class="fd-item"><span class="fd-lbl">Outstanding</span><span class="fd-val r">₹0</span></div>
+    </div>
+    <div class="fc-prog">
+      <div class="prog-top"><span>Payment progress</span><span>100%</span></div>
+      <div class="prog-bar"><div class="prog-fill pf-part" style="width:100%"></div></div>
     </div>
     <div class="rec-toggle-wrap">
       <button class="rec-toggle" onclick="toggleRec('s3',this)">
-        <i class="bi bi-receipt"></i> Receipts — 2<i class="bi bi-chevron-down chevron"></i>
+        <i class="bi bi-receipt"></i> Transactions — 2 receipts
+        <i class="bi bi-chevron-down chevron"></i>
       </button>
     </div>
     <div id="s3" class="rec-list">
+
       <div class="txn">
         <div class="txn-row1"><div class="txn-no">23/25/45915</div><div class="txn-amt">₹25,000</div></div>
         <div class="txn-grid">
           <div class="txn-item"><span class="ti-lbl">Date</span><span class="ti-val">12-05-2026</span></div>
-          <div class="txn-item"><span class="ti-lbl">Ref No.</span><span class="ti-val mono">E25053605228235</span></div>
+          <div class="txn-item"><span class="ti-lbl">Semester</span><span class="ti-val">5</span></div>
+          <div class="txn-item"><span class="ti-lbl">Mode</span><span class="ti-val">EaseBuzz Online</span></div>
+          <div class="txn-item"><span class="ti-lbl">Ref. Date</span><span class="ti-val">12-05-2026</span></div>
+          <div class="txn-item full"><span class="ti-lbl">Ref. No.</span><span class="ti-val mono">E25053605228235</span></div>
         </div>
       </div>
+
       <div class="txn">
-        <div class="txn-row1"><div class="txn-no">23/25/45916</div><div class="txn-amt">₹1,50,000</div></div>
+        <div class="txn-row1"><div class="txn-no">23/25/45915</div><div class="txn-amt">₹1,50,000</div></div>
         <div class="txn-grid">
           <div class="txn-item"><span class="ti-lbl">Date</span><span class="ti-val">12-05-2026</span></div>
-          <div class="txn-item"><span class="ti-lbl">Ref No.</span><span class="ti-val mono">E25302568920043</span></div>
+          <div class="txn-item"><span class="ti-lbl">Semester</span><span class="ti-val">5</span></div>
+          <div class="txn-item"><span class="ti-lbl">Mode</span><span class="ti-val">EaseBuzz Online</span></div>
+          <div class="txn-item"><span class="ti-lbl">Ref. Date</span><span class="ti-val">12-05-2026</span></div>
+          <div class="txn-item full"><span class="ti-lbl">Ref. No.</span><span class="ti-val mono">E25302568920043</span></div>
         </div>
       </div>
+
     </div>
   </div>
 
-  <div class="grand-total">
-    <div><div class="gt-title">Academic Paid</div><div class="gt-sub">All 3 Years</div></div>
-    <div class="gt-val">₹5,25,000</div>
+  <div class="yr-total">
+    <span class="yt-lbl">Year Total (2026-27)</span>
+    <span class="yt-val">₹1,75,000</span>
   </div>
+
+  <div class="grand-total">
+    <div class="gt-left">
+      <div class="gt-title">Academic Grand Total</div>
+      <div class="gt-sub">6 Semesters · Payable ₹5,25,000 · Refunded ₹50,000</div>
+    </div>
+    <div class="gt-right">
+      <div class="gt-lbl">Paid</div>
+      <div class="gt-val">₹5,25,000</div>
+    </div>
+  </div>
+
+  <div class="spacer"></div>
 </div>
 
+
+<!-- ═══════ HOSTEL TAB ═══════ -->
 <div id="hostel" class="view">
-  <div class="yr-div">AY 2024-25</div>
+
+  <div class="yr-div">Academic Year 2024-25</div>
+
   <div class="fee-card">
     <div class="fc-head">
-      <div><div class="fc-title">Tagore Bhawan — A</div><div class="fc-meta">Floor 3</div></div>
-      <span class="badge b-paid">Paid</span>
+      <div><div class="fc-title">Tagore Bhawan — A</div><div class="fc-meta">Non AC · Floor 3 · AY 2024-25</div></div>
+      <span class="badge b-paid"><i class="bi bi-check-circle-fill"></i> Paid</span>
     </div>
     <div class="fc-details">
       <div class="fd-item"><span class="fd-lbl">To Collect</span><span class="fd-val">₹1,20,000</span></div>
       <div class="fd-item"><span class="fd-lbl">Paid</span><span class="fd-val g">₹1,20,000</span></div>
+      <div class="fd-item"><span class="fd-lbl">Refunded</span><span class="fd-val">₹0</span></div>
+      <div class="fd-item"><span class="fd-lbl">Outstanding</span><span class="fd-val g">₹0</span></div>
+    </div>
+    <div class="fc-prog">
+      <div class="prog-top"><span>Payment progress</span><span>100%</span></div>
+      <div class="prog-bar"><div class="prog-fill pf-full" style="width:100%"></div></div>
     </div>
     <div class="rec-toggle-wrap">
-      <button class="rec-toggle" onclick="toggleRec('h1',this)"><i class="bi bi-receipt"></i> Receipts<i class="bi bi-chevron-down chevron"></i></button>
+      <button class="rec-toggle" onclick="toggleRec('h1',this)">
+        <i class="bi bi-receipt"></i> Transactions — 6 receipts
+        <i class="bi bi-chevron-down chevron"></i>
+      </button>
     </div>
     <div id="h1" class="rec-list">
+
       <div class="txn">
-        <div class="txn-row1"><div class="txn-no">PIET/24/HF/118</div><div class="txn-amt">₹1,20,000</div></div>
+        <div class="txn-row1"><div class="txn-no">PIET-1/24/HF/11886</div><div class="txn-amt">₹10,000</div></div>
         <div class="txn-grid">
           <div class="txn-item"><span class="ti-lbl">Date</span><span class="ti-val">15-05-2024</span></div>
-          <div class="txn-item"><span class="ti-lbl">Ref No.</span><span class="ti-val mono">413620336745</span></div>
+          <div class="txn-item"><span class="ti-lbl">Ref. Date</span><span class="ti-val">15-05-2024</span></div>
+          <div class="txn-item full"><span class="ti-lbl">Mode</span><span class="ti-val">Online Payment</span></div>
+          <div class="txn-item full"><span class="ti-lbl">Ref. No.</span><span class="ti-val mono">413620336745</span></div>
         </div>
       </div>
+
+      <div class="txn">
+        <div class="txn-row1"><div class="txn-no">PIET-1/24/HF/40486</div><div class="txn-amt">₹10,000</div></div>
+        <div class="txn-grid">
+          <div class="txn-item"><span class="ti-lbl">Date</span><span class="ti-val">24-07-2024</span></div>
+          <div class="txn-item"><span class="ti-lbl">Ref. Date</span><span class="ti-val">24-07-2024</span></div>
+          <div class="txn-item full"><span class="ti-lbl">Mode</span><span class="ti-val">Online Payment</span></div>
+          <div class="txn-item full"><span class="ti-lbl">Ref. No.</span><span class="ti-val mono">YESB42064516070</span></div>
+        </div>
+      </div>
+
+      <div class="txn">
+        <div class="txn-row1"><div class="txn-no">PIET-1/24/HF/46972</div><div class="txn-amt">₹39,000</div></div>
+        <div class="txn-grid">
+          <div class="txn-item"><span class="ti-lbl">Date</span><span class="ti-val">24-07-2024</span></div>
+          <div class="txn-item"><span class="ti-lbl">Ref. Date</span><span class="ti-val">24-07-2024</span></div>
+          <div class="txn-item full"><span class="ti-lbl">Mode</span><span class="ti-val">Online Payment</span></div>
+          <div class="txn-item full"><span class="ti-lbl">Ref. No.</span><span class="ti-val mono">YESB42064513965</span></div>
+        </div>
+      </div>
+
+      <div class="txn">
+        <div class="txn-row1"><div class="txn-no">PIET-1/24/HF/46966</div><div class="txn-amt">₹11,000</div></div>
+        <div class="txn-grid">
+          <div class="txn-item"><span class="ti-lbl">Date</span><span class="ti-val">25-07-2024</span></div>
+          <div class="txn-item"><span class="ti-lbl">Ref. Date</span><span class="ti-val">25-07-2024</span></div>
+          <div class="txn-item full"><span class="ti-lbl">Mode</span><span class="ti-val">Online Payment</span></div>
+          <div class="txn-item full"><span class="ti-lbl">Ref. No.</span><span class="ti-val mono">YESB42075095862</span></div>
+        </div>
+      </div>
+
+      <div class="txn">
+        <div class="txn-row1"><div class="txn-no">PIET-1/24/HF/59600</div><div class="txn-amt">₹44,500</div></div>
+        <div class="txn-grid">
+          <div class="txn-item"><span class="ti-lbl">Date</span><span class="ti-val">12-12-2024</span></div>
+          <div class="txn-item"><span class="ti-lbl">Ref. Date</span><span class="ti-val">09-12-2024</span></div>
+          <div class="txn-item"><span class="ti-lbl">Mode</span><span class="ti-val">Cheque</span></div>
+          <div class="txn-item"><span class="ti-lbl">Ref. No.</span><span class="ti-val mono">188309</span></div>
+          <div class="txn-item full"><span class="ti-lbl">Ref. Bank</span><span class="ti-val">Central Bank of India</span></div>
+        </div>
+      </div>
+
+      <div class="txn">
+        <div class="txn-row1"><div class="txn-no">SECURITY DEPOSIT</div><div class="txn-amt">₹5,500</div></div>
+        <div class="txn-grid">
+          <div class="txn-item"><span class="ti-lbl">Date</span><span class="ti-val">12-12-2024</span></div>
+          <div class="txn-item"><span class="ti-lbl">Ref. Date</span><span class="ti-val">09-12-2024</span></div>
+          <div class="txn-item"><span class="ti-lbl">Mode</span><span class="ti-val">Cheque</span></div>
+          <div class="txn-item"><span class="ti-lbl">Ref. No.</span><span class="ti-val mono">188309</span></div>
+          <div class="txn-item full"><span class="ti-lbl">Ref. Bank</span><span class="ti-val">Central Bank of India</span></div>
+        </div>
+      </div>
+
     </div>
   </div>
 
-  <div class="yr-div">AY 2025-26</div>
+  <div class="yr-total">
+    <span class="yt-lbl">Year Total (2024-25)</span>
+    <span class="yt-val">₹1,20,000</span>
+  </div>
+
+  <div class="yr-div">Academic Year 2025-26</div>
+
   <div class="fee-card">
     <div class="fc-head">
-      <div><div class="fc-title">Tagore Bhawan — C</div><div class="fc-meta">Floor 3</div></div>
-      <span class="badge b-paid">Paid</span>
+      <div><div class="fc-title">Tagore Bhawan — C</div><div class="fc-meta">Non AC · Floor 3 · AY 2025-26</div></div>
+      <span class="badge b-paid"><i class="bi bi-check-circle-fill"></i> Paid</span>
     </div>
     <div class="fc-details">
       <div class="fd-item"><span class="fd-lbl">To Collect</span><span class="fd-val">₹1,30,000</span></div>
       <div class="fd-item"><span class="fd-lbl">Paid</span><span class="fd-val g">₹1,30,000</span></div>
+      <div class="fd-item"><span class="fd-lbl">Refunded</span><span class="fd-val">₹0</span></div>
+      <div class="fd-item"><span class="fd-lbl">Outstanding</span><span class="fd-val g">₹0</span></div>
+    </div>
+    <div class="fc-prog">
+      <div class="prog-top"><span>Payment progress</span><span>100%</span></div>
+      <div class="prog-bar"><div class="prog-fill pf-full" style="width:100%"></div></div>
     </div>
     <div class="rec-toggle-wrap">
-      <button class="rec-toggle" onclick="toggleRec('h2',this)"><i class="bi bi-receipt"></i> Receipts<i class="bi bi-chevron-down chevron"></i></button>
+      <button class="rec-toggle" onclick="toggleRec('h2',this)">
+        <i class="bi bi-receipt"></i> Transactions — 1 receipt
+        <i class="bi bi-chevron-down chevron"></i>
+      </button>
     </div>
     <div id="h2" class="rec-list">
+
       <div class="txn">
-        <div class="txn-row1"><div class="txn-no">PIET/25/HF/108</div><div class="txn-amt">₹1,30,000</div></div>
+        <div class="txn-row1"><div class="txn-no">PIET-1/25/HF/10893</div><div class="txn-amt">₹1,30,000</div></div>
         <div class="txn-grid">
           <div class="txn-item"><span class="ti-lbl">Date</span><span class="ti-val">04-06-2025</span></div>
-          <div class="txn-item"><span class="ti-lbl">Ref No.</span><span class="ti-val mono">E2506040H4G1TN</span></div>
+          <div class="txn-item"><span class="ti-lbl">Ref. Date</span><span class="ti-val">04-06-2025</span></div>
+          <div class="txn-item full"><span class="ti-lbl">Mode</span><span class="ti-val">EaseBuzz Online Payment</span></div>
+          <div class="txn-item full"><span class="ti-lbl">Ref. No.</span><span class="ti-val mono">E2506040H4G1TN</span></div>
         </div>
       </div>
+
     </div>
   </div>
 
-  <div class="yr-div">AY 2026-27</div>
+  <div class="yr-total">
+    <span class="yt-lbl">Year Total (2025-26)</span>
+    <span class="yt-val">₹1,30,000</span>
+  </div>
+
+  <!-- FIX 2: AY 2026-27 Hostel — completed the truncated section with proper structure, unique id (h3), all closing tags, year total, grand total, spacer -->
+  <div class="yr-div">Academic Year 2026-27</div>
+
   <div class="fee-card">
     <div class="fc-head">
-      <div><div class="fc-title">Tagore Bhawan — C</div><div class="fc-meta">Floor 3</div></div>
-      <span class="badge b-part">Partial</span>
+      <div><div class="fc-title">Tagore Bhawan — C</div><div class="fc-meta">Non AC · Floor 3 · AY 2026-27</div></div>
+      <span class="badge b-part"><i class="bi bi-hourglass-split"></i> Paid</span>
     </div>
     <div class="fc-details">
       <div class="fd-item"><span class="fd-lbl">To Collect</span><span class="fd-val">₹1,40,000</span></div>
-      <div class="fd-item"><span class="fd-lbl">Paid</span><span class="fd-val r">₹0</span></div>
+      <div class="fd-item"><span class="fd-lbl">Paid</span><span class="fd-val g">₹1,40,000</span></div>
+      <div class="fd-item"><span class="fd-lbl">Refunded</span><span class="fd-val">₹300</span></div>
+      <div class="fd-item"><span class="fd-lbl">Outstanding</span><span class="fd-val r">₹0</span></div>
+    </div>
+    <div class="fc-prog">
+      <div class="prog-top"><span>Payment progress</span><span>100%</span></div>
+      <div class="prog-bar"><div class="prog-fill pf-part" style="width:100%"></div></div>
+    </div>
+    <div class="rec-toggle-wrap">
+      <button class="rec-toggle" onclick="toggleRec('h3',this)">
+        <i class="bi bi-receipt"></i> Transactions — 2 receipts
+        <i class="bi bi-chevron-down chevron"></i>
+      </button>
+    </div>
+    <div id="h3" class="rec-list">
+
+      <div class="txn">
+        <div class="txn-row1"><div class="txn-no">PIET-1/25/HF/10893</div><div class="txn-amt">₹69,700</div></div>
+        <div class="txn-grid">
+          <div class="txn-item"><span class="ti-lbl">Date</span><span class="ti-val">19-03-2026</span></div>
+          <div class="txn-item"><span class="ti-lbl">Ref. Date</span><span class="ti-val">19-03-2026</span></div>
+          <div class="txn-item full"><span class="ti-lbl">Mode</span><span class="ti-val">EaseBuzz Online Payment</span></div>
+          <div class="txn-item full"><span class="ti-lbl">Ref. No.</span><span class="ti-val mono">E2506040H4G1TN</span></div>
+        </div>
+      </div>
+
+      <div class="txn">
+        <div class="txn-row1"><div class="txn-no">PIET-1/25/HF/10893</div><div class="txn-amt">₹70,000</div></div>
+        <div class="txn-grid">
+          <div class="txn-item"><span class="ti-lbl">Date</span><span class="ti-val">12-05-2026</span></div>
+          <div class="txn-item"><span class="ti-lbl">Ref. Date</span><span class="ti-val">12-05-2026</span></div>
+          <div class="txn-item full"><span class="ti-lbl">Mode</span><span class="ti-val">EaseBuzz Online Payment</span></div>
+          <div class="txn-item full"><span class="ti-lbl">Ref. No.</span><span class="ti-val mono">E2501250036HTX</span></div>
+        </div>
+      </div>
+  </div>
+
+  <div class="yr-total">
+    <span class="yt-lbl">Year Total (2026-27)</span>
+    <span class="yt-val">₹1,40,000</span>
+  </div>
+
+  <div class="grand-total">
+    <div class="gt-left">
+      <div class="gt-title">Hostel Grand Total</div>
+      <div class="gt-sub">3 Years · Payable ₹3,90,000</div>
+    </div>
+    <div class="gt-right">
+      <div class="gt-lbl">Paid</div>
+      <div class="gt-val">₹3,90,000</div>
     </div>
   </div>
+
   <div class="spacer"></div>
 </div>
+
 
 <script>
   function showTab(id, btn) {
@@ -305,11 +739,13 @@
     document.getElementById(id).classList.add('active');
     btn.classList.add('active');
   }
+
   function toggleRec(id, btn) {
     const list = document.getElementById(id);
     list.classList.toggle('open');
     btn.classList.toggle('open');
   }
 </script>
+
 </body>
 </html>
