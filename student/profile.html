@@ -3,36 +3,35 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <title>Profile | STUDENT PROFILE</title>
+  <title>Profile | Elite Portal</title>
 
   <link rel="manifest" href="../manifest.json">
 
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
 
   <script>
     window.history.pushState({ noBackExitsApp: true }, '');
     window.addEventListener('popstate', function(event) {
-        window.location.replace('dashboard.html'); 
+        window.location.replace('dashboard.html');
     });
   </script>
 
   <style>
     :root {
       --primary: #6366f1;
-      --primary-glow: rgba(99, 102, 241, 0.25);
+      --primary-glow: rgba(99, 102, 241, 0.3);
       --glass: rgba(255, 255, 255, 0.75);
       --glass-border: rgba(255, 255, 255, 0.5);
       --text-main: #0f172a;
       --text-muted: #64748b;
-      --success: #10b981;
-      --bg-mesh: radial-gradient(at 0% 0%, rgba(99, 102, 241, 0.15) 0, transparent 50%), 
-                 radial-gradient(at 100% 0%, rgba(244, 63, 94, 0.1) 0, transparent 50%),
-                 radial-gradient(at 100% 100%, rgba(99, 102, 241, 0.1) 0, transparent 50%),
-                 radial-gradient(at 0% 100%, rgba(244, 63, 94, 0.05) 0, transparent 50%);
+      --bg-mesh: radial-gradient(at 0% 0%, rgba(99, 102, 241, 0.15) 0, transparent 50%),
+        radial-gradient(at 100% 100%, rgba(244, 63, 94, 0.1) 0, transparent 50%);
     }
 
-    * { box-sizing: border-box; margin: 0; padding: 0; }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     body {
       font-family: 'Plus Jakarta Sans', sans-serif;
@@ -40,105 +39,245 @@
       background-image: var(--bg-mesh);
       color: var(--text-main);
       min-height: 100vh;
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
       padding-bottom: 40px;
     }
 
-    /* --- NAVIGATION --- */
-    nav {
-      position: sticky; top: 0; z-index: 1000;
-      background: var(--glass); backdrop-filter: blur(15px);
-      border-bottom: 1px solid var(--glass-border);
-      padding: 0.75rem 5%; display: flex; align-items: center;
-      height: 70px; gap: 20px;
+    .erp-topbar {
+      background: linear-gradient(135deg, var(--primary) 0%, #4f46e5 100%);
+      padding: 20px 5% 40px;
+      border-bottom-left-radius: 30px;
+      border-bottom-right-radius: 30px;
+      box-shadow: 0 10px 30px rgba(99, 102, 241, 0.2);
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      color: white;
+      position: relative;
     }
 
-    .back-btn {
-      width: 40px; height: 40px; display: flex; align-items: center; justify-content: center;
-      border-radius: 12px; background: white; color: var(--text-main);
-      text-decoration: none; border: 1px solid var(--glass-border); transition: all 0.3s ease;
+    .erp-topbar::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4z' fill='%23fff' fill-opacity='0.1'/%3E%3C/svg%3E");
+      pointer-events: none;
     }
 
-    .back-btn:hover { background: var(--primary); color: white; transform: translateX(-3px); }
+    .erp-back {
+      color: white;
+      text-decoration: none;
+      font-size: 1.4rem;
+      background: rgba(255, 255, 255, 0.2);
+      width: 40px; height: 40px;
+      display: flex; align-items: center; justify-content: center;
+      border-radius: 12px; backdrop-filter: blur(10px);
+      z-index: 2; transition: all 0.3s ease;
+      flex-shrink: 0;
+    }
 
-    /* --- PROFILE HERO --- */
-    .profile-hero { text-align: center; padding: 40px 20px; animation: fadeInUp 0.6s ease forwards; }
-    .profile-pic-wrapper { position: relative; width: 120px; height: 120px; margin: 0 auto 20px; }
-    .profile-pic { width: 100%; height: 100%; border-radius: 40px; object-fit: cover; border: 4px solid white; box-shadow: 0 20px 40px rgba(0,0,0,0.1); }
-    .status-badge { position: absolute; bottom: -5px; right: -5px; background: var(--success); color: white; font-size: 0.7rem; font-weight: 800; padding: 4px 12px; border-radius: 10px; border: 3px solid white; text-transform: uppercase; }
-    .profile-hero h2 { font-size: 1.5rem; font-weight: 800; letter-spacing: -0.5px; margin-bottom: 5px; }
-    .profile-hero p { color: var(--text-muted); font-weight: 500; font-size: 0.9rem; }
+    .erp-back:hover { background: rgba(255, 255, 255, 0.3); transform: translateY(-2px); }
 
-    /* --- CONTENT GRID --- */
-    .container { max-width: 900px; margin: 0 auto; padding: 0 5%; display: grid; grid-template-columns: 1fr; gap: 20px; }
-    @media (min-width: 768px) { .container { grid-template-columns: repeat(2, 1fr); } .full-width { grid-column: span 2; } }
+    .erp-title-group { z-index: 2; display: flex; align-items: center; gap: 14px; }
 
-    .section-card { background: var(--glass); backdrop-filter: blur(10px); border: 1px solid var(--glass-border); border-radius: 28px; padding: 24px; box-shadow: 0 10px 30px rgba(0,0,0,0.02); animation: fadeInUp 0.6s ease forwards; opacity: 0; }
-    .section-card h3 { font-size: 0.9rem; font-weight: 800; color: var(--primary); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 20px; display: flex; align-items: center; gap: 10px; }
+    .profile-pic-topbar {
+      width: 56px; height: 56px; border-radius: 16px;
+      object-fit: cover; border: 3px solid rgba(255, 255, 255, 0.8);
+      box-shadow: 0 8px 15px rgba(0, 0, 0, 0.15);
+      flex-shrink: 0;
+    }
 
-    .info-item { margin-bottom: 15px; }
-    .info-item:last-child { margin-bottom: 0; }
-    .label { display: block; font-size: 0.65rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase; margin-bottom: 4px; }
-    .value { font-weight: 600; font-size: 0.95rem; line-height: 1.4; }
-    .email-link { color: var(--primary); text-decoration: none; word-break: break-all; }
+    .erp-title { font-size: 1.2rem; font-weight: 800; letter-spacing: 0.2px; line-height: 1.25; }
+    .erp-subtitle { font-size: 0.8rem; font-weight: 600; opacity: 0.75; margin-top: 2px; }
 
-    @keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-    .delay-1 { animation-delay: 0.1s; }
-    .delay-2 { animation-delay: 0.2s; }
-    .delay-3 { animation-delay: 0.3s; }
+    .profile-content { margin: -20px 5% 0; position: relative; z-index: 10; animation: fadeInUp 0.5s ease forwards; }
+
+    .info-section {
+      background: var(--glass); backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid var(--glass-border); border-radius: 24px;
+      box-shadow: 0 15px 40px rgba(0, 0, 0, 0.08);
+      padding: 24px 20px;
+      margin-bottom: 22px;
+      opacity: 0; animation: fadeInUp 0.6s ease forwards;
+    }
+
+    .section-heading {
+      display: flex; align-items: center; gap: 12px;
+      margin-bottom: 18px;
+    }
+
+    .section-icon-box {
+      width: 42px; height: 42px; border-radius: 14px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.2rem; flex-shrink: 0;
+    }
+
+    .section-heading h2 { font-size: 1.05rem; font-weight: 800; color: var(--text-main); }
+
+    .info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+
+    .info-item {
+      background: rgba(255, 255, 255, 0.7);
+      padding: 12px 15px; border-radius: 14px;
+      border: 1px solid rgba(255, 255, 255, 0.9);
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.02);
+    }
+
+    .info-item.full-width { grid-column: 1 / -1; }
+
+    .info-label {
+      font-size: 0.72rem; color: var(--text-muted); font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 5px;
+      display: flex; align-items: center; gap: 6px;
+    }
+
+    .info-label i { font-size: 0.85rem; }
+
+    .info-value { font-size: 0.92rem; font-weight: 800; color: var(--text-main); word-break: break-word; }
+    .info-value.empty { color: var(--text-muted); font-weight: 700; opacity: 0.6; }
+    .info-value a { color: var(--text-main); text-decoration: none; }
+
+    .c-cyan-icon   { background: rgba(6, 182, 212, 0.1); color: #06b6d4; }
+    .c-blue-icon   { background: rgba(59, 130, 246, 0.1); color: #3b82f6; }
+    .c-indigo-icon { background: rgba(99, 102, 241, 0.1); color: #6366f1; }
+    .c-orange-icon { background: rgba(245, 158, 11, 0.1); color: #f59e0b; }
+    .c-green-icon  { background: rgba(16, 185, 129, 0.1); color: #10b981; }
+    .c-teal-icon   { background: rgba(13, 148, 136, 0.1); color: #0d9488; }
+    .c-slate-icon  { background: rgba(71, 85, 105, 0.1); color: #475569; }
+
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .info-section:nth-child(1) { animation-delay: 0.05s; }
+    .info-section:nth-child(2) { animation-delay: 0.1s; }
+    .info-section:nth-child(3) { animation-delay: 0.15s; }
+    .info-section:nth-child(4) { animation-delay: 0.2s; }
+
+    @media (max-width: 480px) {
+      .info-grid { grid-template-columns: 1fr; }
+    }
   </style>
 </head>
+
 <body>
 
-  <nav>
-    <a href="dashboard.html" class="back-btn"><i class="bi bi-chevron-left"></i></a>
-    <span style="font-weight: 800; font-size: 1.1rem;">My Profile</span>
-  </nav>
-
-  <header class="profile-hero">
-    <div class="profile-pic-wrapper">
-      <img src="../assets/images/profile.jpg" class="profile-pic" alt="Profile">
-      <span class="status-badge">Active</span>
+  <div class="erp-topbar">
+    <a href="dashboard.html" class="erp-back">
+      <i class="bi bi-arrow-left"></i>
+    </a>
+    <img src="../assets/images/profile.jpg" alt="Student" class="profile-pic-topbar"
+      onerror="this.src='https://ui-avatars.com/api/?name=Sri+Krishna&background=6366f1&color=fff'">
+    <div class="erp-title-group">
+      <div class="erp-title">Valluri Sri Krishna Vardan</div>
+      <div class="erp-subtitle">Cyber Security</div>
     </div>
-    <h2>Sri Krishna Vardan</h2>
-    <p>Enrollment: 2403031260215</p>
-  </header>
+  </div>
 
-  <main class="container">
-    <section class="section-card delay-1">
-      <h3><i class="bi bi-mortarboard-fill"></i> Academic</h3>
-      <div class="info-item"><span class="label">Branch</span><span class="value">Cyber Security</span></div>
-      <div class="info-item"><span class="label">Division</span><span class="value">PIET-BTech-CSE-4CYBER3</span></div>
-      <div class="info-item"><span class="label">Semester | Roll No</span><span class="value">Sem 3 | #48</span></div>
-    </section>
+  <div class="profile-content">
 
-    <section class="section-card delay-2">
-      <h3><i class="bi bi-person-lines-fill"></i> Personal Contact</h3>
-      <div class="info-item"><span class="label">Mobile Number</span><span class="value">+91 62810 48554</span></div>
-      <div class="info-item"><span class="label">University Email</span><span class="value"><a href="mailto:2403031260215@paruluniversity.ac.in" class="email-link">2403031260215@paruluniversity.ac.in</a></span></div>
-      <div class="info-item"><span class="label">Personal Email</span><span class="value"><a href="mailto:krishnavardhan124@gmail.com" class="email-link">krishnavardhan124@gmail.com</a></span></div>
-    </section>
-
-    <section class="section-card full-width delay-3">
-      <h3><i class="bi bi-people-fill"></i> Emergency & Family</h3>
-      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px;">
-        <div class="info-item"><span class="label">Father's Contact</span><span class="value">+91 99519 96671</span></div>
-        <div class="info-item"><span class="label">Mother's Contact</span><span class="value">+91 63012 44329</span></div>
-        <div class="info-item"><span class="label">Father's Email</span><span class="value">vvknchowdary@gmail.com</span></div>
+    <div class="info-section">
+      <div class="section-heading">
+        <div class="section-icon-box c-indigo-icon"><i class="bi bi-mortarboard-fill"></i></div>
+        <h2>Education Details</h2>
       </div>
-    </section>
-  </main>
+      <div class="info-grid">
+        <div class="info-item">
+          <div class="info-label"><i class="bi bi-diagram-3"></i> Branch</div>
+          <div class="info-value">Cyber Security</div>
+        </div>
+        <div class="info-item">
+          <div class="info-label"><i class="bi bi-code-slash"></i> Enrollment No.</div>
+          <div class="info-value">2403031260215</div>
+        </div>
+        <div class="info-item">
+          <div class="info-label"><i class="bi bi-diagram-2"></i> Division</div>
+          <div class="info-value">5CYBER3_2026-27</div>
+        </div>
+        <div class="info-item">
+          <div class="info-label"><i class="bi bi-mortarboard"></i> Sem | Roll No.</div>
+          <div class="info-value">4 | 47</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="info-section">
+      <div class="section-heading">
+        <div class="section-icon-box c-blue-icon"><i class="bi bi-person-vcard-fill"></i></div>
+        <h2>Student Contact Details</h2>
+      </div>
+      <div class="info-grid">
+        <div class="info-item">
+          <div class="info-label"><i class="bi bi-telephone-fill"></i> Mobile No.</div>
+          <div class="info-value"><a href="tel:6281048554">6281048554</a></div>
+        </div>
+        <div class="info-item">
+          <div class="info-label"><i class="bi bi-telephone-fill"></i> Other Mobile No.</div>
+          <div class="info-value empty">--</div>
+        </div>
+        <div class="info-item full-width">
+          <div class="info-label"><i class="bi bi-envelope-fill"></i> Email</div>
+          <div class="info-value">
+            <a href="mailto:2403031260215@paruluniversity.ac.in">2403031260215@paruluniversity.ac.in</a><br>
+            <a href="mailto:krishnavardhan124@gmail.com">krishnavardhan124@gmail.com</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="info-section">
+      <div class="section-heading">
+        <div class="section-icon-box c-green-icon"><i class="bi bi-people-fill"></i></div>
+        <h2>Parents Contact Details</h2>
+      </div>
+      <div class="info-grid">
+        <div class="info-item">
+          <div class="info-label"><i class="bi bi-telephone-fill"></i> Father Phone</div>
+          <div class="info-value"><a href="tel:9951996671">9951996671</a></div>
+        </div>
+        <div class="info-item">
+          <div class="info-label"><i class="bi bi-telephone-fill"></i> Mother Phone</div>
+          <div class="info-value"><a href="tel:6301244329">6301244329</a></div>
+        </div>
+        <div class="info-item">
+          <div class="info-label"><i class="bi bi-envelope-fill"></i> Father Email</div>
+          <div class="info-value"><a href="mailto:vvknchowdary@gmail.com">vvknchowdary@gmail.com</a></div>
+        </div>
+        <div class="info-item">
+          <div class="info-label"><i class="bi bi-envelope-fill"></i> Mother Email</div>
+          <div class="info-value empty">--</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="info-section">
+      <div class="section-heading">
+        <div class="section-icon-box c-teal-icon"><i class="bi bi-people-fill"></i></div>
+        <h2>Guardian Contact Details</h2>
+      </div>
+      <div class="info-grid">
+        <div class="info-item">
+          <div class="info-label"><i class="bi bi-telephone-fill"></i> Guardian Mobile</div>
+          <div class="info-value empty">--</div>
+        </div>
+        <div class="info-item">
+          <div class="info-label"><i class="bi bi-envelope-fill"></i> Guardian Email</div>
+          <div class="info-value empty">--</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
 
   <script>
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => {
-        // Corrected: Step out to find sw.js in root and set scope to root
         navigator.serviceWorker.register('../sw.js', { scope: '../' })
-          .then((registration) => {
-            console.log('PWA Linked from Profile:', registration.scope);
-          })
-          .catch((err) => {
-            console.error('PWA Link Failed:', err);
-          });
+          .then((reg) => console.log('PWA linked successfully from profile page:', reg.scope))
+          .catch((err) => console.error('PWA link failed from profile page:', err));
       });
     }
   </script>
