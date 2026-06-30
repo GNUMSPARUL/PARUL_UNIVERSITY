@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <title> Semester 4 Detail | Elite Portal</title>
+
+  <link rel="manifest" href="manifest.json">
+
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+
+  <script src="https://cdn.jsdelivr.net/npm/pinch-zoom-js@2.3.4/dist/pinch-zoom.min.js"></script>
+
+  <script>
+    window.history.pushState({ noBackExitsApp: true }, '');
+    window.addEventListener('popstate', function(event) {
+        window.location.replace('dashboard.html'); 
+    });
+  </script>
+
+  <style>
+    :root {
+      --primary: #6366f1;
+      --success: #10b981;
+      --warning: #f59e0b;
+      --glass: rgba(255, 255, 255, 0.8);
+      --glass-border: rgba(255, 255, 255, 0.5);
+      --text-main: #0f172a;
+      --text-muted: #64748b;
+      --bg-mesh: radial-gradient(at 0% 0%, rgba(99, 102, 241, 0.1) 0, transparent 50%), 
+                 radial-gradient(at 100% 100%, rgba(16, 185, 129, 0.05) 0, transparent 50%);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background-color: #f8fafc;
+      background-image: var(--bg-mesh);
+      color: var(--text-main);
+      min-height: 100vh;
+      padding-bottom: 50px;
+    }
+
+    /* --- NAV --- */
+    nav {
+      position: sticky; top: 0; z-index: 1000;
+      background: var(--glass); backdrop-filter: blur(15px);
+      border-bottom: 1px solid var(--glass-border);
+      padding: 0 5%; display: flex; align-items: center; height: 70px; gap: 20px;
+    }
+
+    .back-btn {
+      width: 40px; height: 40px; display: flex; align-items: center; justify-content: center;
+      border-radius: 12px; background: white; color: var(--text-main);
+      text-decoration: none; border: 1px solid var(--glass-border); transition: 0.3s;
+    }
+    .back-btn:hover { background: var(--primary); color: white; transform: translateX(-3px); }
+
+    /* --- CONTAINER --- */
+    .container { max-width: 650px; margin: 20px auto; padding: 0 5%; }
+
+    .premium-card {
+      background: var(--glass); backdrop-filter: blur(10px);
+      border: 1px solid var(--glass-border); border-radius: 32px;
+      padding: 24px; box-shadow: 0 20px 40px rgba(0,0,0,0.03);
+      animation: fadeInUp 0.6s ease;
+    }
+
+    /* --- HEADER SECTION --- */
+    .result-header {
+      display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;
+    }
+
+    .view-doc-btn {
+      font-size: 0.7rem; font-weight: 800; color: var(--primary); background: rgba(99, 102, 241, 0.1);
+      padding: 8px 14px; border-radius: 12px; cursor: pointer; text-transform: uppercase;
+      border: 1px solid rgba(99, 102, 241, 0.2); transition: 0.2s; display: flex; align-items: center; gap: 6px;
+    }
+    .view-doc-btn:hover { background: var(--primary); color: white; }
+
+    /* --- SUMMARY GRID --- */
+    .summary-grid {
+      display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-bottom: 25px;
+    }
+
+    .summary-item {
+      background: white; padding: 16px; border-radius: 20px;
+      border: 1px solid rgba(0,0,0,0.03); text-align: center;
+    }
+
+    .summary-item label { 
+      display: block; font-size: 0.65rem; font-weight: 800; 
+      color: var(--text-muted); text-transform: uppercase; margin-bottom: 4px; 
+    }
+    .summary-item span { font-size: 1.2rem; font-weight: 800; color: var(--text-main); }
+    .summary-item.highlight span { color: var(--primary); }
+    .summary-item.success span { color: var(--success); }
+
+    /* --- SUBJECT TABLE --- */
+    .section-title {
+      font-size: 0.75rem; font-weight: 800; color: var(--text-muted);
+      text-transform: uppercase; letter-spacing: 1px; margin: 5px 0 10px 5px;
+    }
+
+    .subject-row {
+      background: white; border-radius: 18px; padding: 14px 18px;
+      margin-bottom: 10px; display: flex; justify-content: space-between;
+      align-items: center; border: 1px solid transparent; transition: 0.2s;
+    }
+    .subject-row:hover { border-color: var(--primary); transform: translateY(-2px); }
+
+    .sub-details { flex: 1; }
+    .sub-name { font-weight: 700; font-size: 0.9rem; display: block; margin-bottom: 2px; }
+    .sub-meta { font-size: 0.7rem; color: var(--text-muted); font-weight: 600; }
+
+    .grade-circle {
+      width: 38px; height: 38px; border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 800; font-size: 1rem; color: white;
+    }
+
+    .g-a { background: var(--success); }
+    .g-b { background: #3b82f6; }
+    .g-p { background: #94a3b8; }
+
+    /* --- VERDICT --- */
+    .verdict-box {
+      background: rgba(16, 185, 129, 0.1); border: 1.5px solid var(--success);
+      padding: 18px; border-radius: 22px; text-align: center; margin-top: 25px;
+    }
+    .verdict-box h4 { color: var(--success); font-weight: 800; font-size: 0.9rem; margin-bottom: 4px; }
+    .verdict-box p { font-size: 0.75rem; font-weight: 600; color: var(--text-main); opacity: 0.8; }
+
+    /* --- DOWNLOAD --- */
+    .dl-area { text-align: center; margin-top: 25px; }
+    .dl-btn {
+      background: var(--text-main); color: white; padding: 14px 24px;
+      border-radius: 16px; text-decoration: none; font-weight: 700; font-size: 0.85rem;
+      display: inline-flex; align-items: center; gap: 8px; transition: 0.3s;
+    }
+    .dl-btn:hover { background: var(--primary); transform: scale(1.05); }
+
+    /* --- MODAL (Finger Zoom Support) --- */
+    .modal-overlay {
+      position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(15, 23, 42, 0.98); display: none; z-index: 2000; overflow: hidden; 
+    }
+    .modal-content { width: 100%; height: 100%; display: flex; justify-content: center; align-items: center; position: relative; }
+    .modal-content img { max-width: 95%; max-height: 90vh; border-radius: 8px; box-shadow: 0 10px 40px rgba(0,0,0,0.5); }
+    .close-modal { position: fixed; top: 20px; right: 20px; color: white; font-size: 2.2rem; cursor: pointer; z-index: 2001; }
+
+    @keyframes fadeInUp { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
+
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a href="results.html" class="back-btn"><i class="bi bi-chevron-left"></i></a>
+    <span style="font-weight: 800; font-size: 1.1rem;">Result Transcript</span>
+  </nav>
+
+  <div class="container">
+    <div class="premium-card">
+      
+      <div class="result-header">
+        <div class="section-title">Summary</div>
+        <div class="view-doc-btn" onclick="openResult('../assets/images/3rd-sem-result.jpg')">
+            <i class="bi bi-file-earmark-image"></i> Results Image
+        </div>
+      </div>
+
+      <div class="summary-grid">
+        <div class="summary-item"><label>Seat Number</label><span>AF42926</span></div>
+        <div class="summary-item highlight"><label>SGPA</label><span>6.00</span></div>
+        <div class="summary-item highlight"><label>CGPA</label><span>6.04</span></div>
+        <div class="summary-item success"><label>Total Backlogs</label><span>0</span></div>
+      </div>
+
+      <div class="section-title">Detailed Subject Grades</div>
+
+      <div class="subject-row">
+        <div class="sub-details">
+          <span class="sub-name"> Operating Systems </span>
+          <span class="sub-meta">303105201 • Credits: 3.0</span>
+        </div>
+        <div class="grade-circle g-p">P</div>
+      </div>
+
+      <div class="subject-row">
+        <div class="sub-details">
+          <span class="sub-name">Software Engineering</span>
+          <span class="sub-meta">303105203 • Credits: 3.0</span>
+        </div>
+        <div class="grade-circle g-p">P</div>
+      </div>
+
+      <div class="subject-row">
+        <div class="sub-details">
+          <span class="sub-name">Python</span>
+          <span class="sub-meta">303105212 • Credits: 3.0</span>
+        </div>
+        <div class="grade-circle g-a">A</div>
+      </div>
+
+      <div class="subject-row">
+        <div class="sub-details">
+          <span class="sub-name">Networking</span>
+          <span class="sub-meta">303105205 • Credits: 3.0</span>
+        </div>
+        <div class="grade-circle g-b">B</div>
+      </div>
+
+      <div class="subject-row">
+        <div class="sub-details">
+          <span class="sub-name">Cryptography</span>
+          <span class="sub-meta">303191202 • Credits: 5.0</span>
+        </div>
+        <div class="grade-circle g-p">P</div>
+      </div>
+
+      <div class="subject-row">
+        <div class="sub-details">
+          <span class="sub-name">Professional Comm. Skills</span>
+          <span class="sub-meta">303193203 • Credits: 1.0</span>
+        </div>
+        <div class="grade-circle g-p">P</div>
+      </div>
+
+      <div class="verdict-box">
+        <h4>PASSED WITH CLEAR RECORD</h4>
+        <p>Permitted to register for Semester 5 (No active backlogs found)</p>
+      </div>
+
+      <div class="dl-area">
+        <a href="../assets/images/4th-sem-result.jpg" download class="dl-btn">
+          <i class="bi bi-cloud-arrow-down-fill"></i> Download Result Image
+        </a>
+      </div>
+
+    </div>
+  </div>
+
+  <div id="resultModal" class="modal-overlay">
+    <span class="close-modal" onclick="closeResult()">&times;</span>
+    <div id="zoomContainer" class="modal-content">
+      <img id="resultImg" src="" alt="Semester Result Photo">
+    </div>
+  </div>
+
+  <script>
+    let pzInstance = null;
+
+    function openResult(path) {
+      const modal = document.getElementById('resultModal');
+      const img = document.getElementById('resultImg');
+      const container = document.getElementById('zoomContainer');
+      
+      img.src = path;
+      modal.style.display = 'block';
+      document.body.style.overflow = 'hidden'; 
+
+      if (!pzInstance) {
+        pzInstance = new PinchZoom(container, {
+          draggable: true,
+          maxZoom: 4,
+          minZoom: 1,
+        });
+      } else {
+        pzInstance.setTransform(0, 0, 1);
+      }
+    }
+
+    function closeResult() {
+      const modal = document.getElementById('resultModal');
+      modal.style.display = 'none';
+      document.body.style.overflow = 'auto'; 
+      if (pzInstance) pzInstance.setTransform(0, 0, 1);
+    }
+
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('sw.js');
+      });
+    }
+  </script>
+
+</body>
+</html>
